@@ -262,7 +262,7 @@ export const recentTransactions = [
   },
   {
     name: "Mentorship Group",
-    amount: "+$500",
+    amount: "Pending",
     date: "06 September 2024",
     time: "4:40 AM",
   },
@@ -271,5 +271,33 @@ export const recentTransactions = [
     amount: "+$100",
     date: "05 September 2024",
     time: "8:40 AM",
+  },
+];
+
+export const plans = [
+  {
+    name: "Signal Monthly",
+    paymentModel: "Monthly Subscription",
+    amount: "$100",
+    action: "Edit",
+  },
+
+  {
+    name: "Signal Lifetime",
+    paymentModel: "One Time Payment",
+    amount: "$3000",
+    action: "Edit",
+  },
+  {
+    name: "Mentorship Group",
+    paymentModel: "One Time Payment",
+    amount: "$200",
+    action: "Edit",
+  },
+  {
+    name: "Mentorship Private",
+    paymentModel: "One Time Payment",
+    amount: "$500",
+    action: "Edit",
   },
 ];

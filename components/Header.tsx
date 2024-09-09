@@ -1,23 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { IoMdHome } from "react-icons/io";
 import { FaCircleUser } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
 import ViewSidebarRoundedIcon from "@mui/icons-material/ViewSidebarRounded";
 import { useAppContext } from "@/context";
 import { IoMdMenu } from "react-icons/io";
-
+import { usePathname } from "next/navigation";
 const Header = () => {
   const { showSidebar, setShowSidebar } = useAppContext();
-
+  const pathname = usePathname();
+  const splitPathname = pathname.split("/")[2];
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
+  console.log(splitPathname);
 
   return (
     <div className="p-4 md:p-8 flex w-full items-center justify-between top-0">
       <p className="flex gap-2 items-center text-white max-md:text-sm">
-        <IoMdHome className="text-white/50" /> / Dashboard
+        <IoMdHome className="text-white/50" /> /{" "}
+        <span className="capitalize">{splitPathname || "Dashboard"}</span>
       </p>
       <div className="flex gap-5 max-md:gap-4  justify-center items-center text-xl max-md:text-base">
         {showSidebar ? (

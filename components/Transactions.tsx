@@ -22,18 +22,22 @@ const Transactions = ({
       <p className="font-medium text-gray-400 text-xs uppercase">{name}</p>
       {filteredTransactions.map((transaction, idx) => {
         const payin = transaction.amount.includes("+");
-
+        const pending = transaction.amount.includes("Pending");
         return (
           <div key={idx} className="flex justify-between mt-5 items-center">
             <div className="flex items-center justify-center gap-4">
               <div
                 className={`rounded-full w-10 h-10 border flex items-center justify-center ${
-                  payin ? " border-[#01B574]" : "border-[#E31A1A]"
+                  pending
+                    ? "border-gray-400"
+                    : payin
+                    ? " border-[#01B574]"
+                    : "border-[#E31A1A]"
                 } `}
               >
                 <Image
-                  src={payin ? forward : backward}
-                  alt={payin ? "up" : "down"}
+                  src={pending ? priority : payin ? forward : backward}
+                  alt={pending ? "pending" : payin ? "up" : "down"}
                 />
               </div>
               <div>
@@ -47,7 +51,11 @@ const Transactions = ({
             </div>
             <p
               className={`font-medium ${
-                payin ? " text-[#01B574]" : "text-[#E31A1A]"
+                pending
+                  ? "text-gray-400"
+                  : payin
+                  ? " text-[#01B574]"
+                  : "text-[#E31A1A]"
               } `}
             >
               {transaction.amount}
