@@ -8,7 +8,7 @@ const HomePageStats = () => {
         return (
           <div
             key={index}
-            className="flex items-center gap-4 p-5 w-full  justify-between rounded-2xl"
+            className="flex items-center gap-4 p-5 w-full  justify-between rounded-3xl"
             style={{
               background:
                 "linear-gradient(127deg, rgba(6, 11, 38, 0.74) 28.26%, rgba(26, 31, 55, 0.50) 91.2%)",

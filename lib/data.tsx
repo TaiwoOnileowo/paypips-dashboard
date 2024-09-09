@@ -81,3 +81,195 @@ export const homePageStats = [
     icon: cart,
   },
 ];
+
+export const payments = [
+  {
+    amount: "$600",
+    email: "onileowo@gmail.com",
+    plan: "Signal Monthly",
+    method: "Flutterwave",
+    date: "06/12/2024",
+  },
+  {
+    amount: "$500",
+    email: "boluwatife@gmail.com",
+    plan: "Mentorship Group",
+    method: "Flutterwave",
+    date: "01/02/2024",
+  },
+  {
+    amount: "$1,000",
+    email: "dax@gmail.com",
+    plan: "Signal Monthly",
+    method: "BTC",
+    date: "07/02/2024",
+  },
+  {
+    amount: "$100",
+    email: "emma@gmail.com",
+    plan: "Mentorship Group",
+    method: "USDT",
+    date: "02/08/2024",
+  },
+  {
+    amount: "$100",
+    email: "eba@gmail.com",
+    plan: "Mentorship Private",
+    method: "USD",
+    date: "01/02/2024",
+  },
+];
+export const payouts = [
+  {
+    beneficiary: "33x234567",
+    currency: "USD",
+    amount: "$100",
+    date: "01/02/2024",
+    status: "Pending",
+    time: "12:00 AM",
+  },
+  {
+    beneficiary: "33x2343r67",
+    currency: "BTC",
+    amount: "$200",
+    date: "01/05/2024",
+    status: "Completed",
+    time: "12:40 AM",
+  },
+  {
+    beneficiary: "33x2343r67",
+    currency: "BTC",
+    amount: "$400",
+    date: "01/25/2024",
+    status: "Completed",
+    time: "12:40 AM",
+  },
+  {
+    beneficiary: "33x2343r67",
+    currency: "BTC",
+    amount: "$200",
+    date: "01/06/2024",
+    status: "Pending",
+    time: "12:40 AM",
+  },
+  {
+    beneficiary: "33x2343r67",
+    currency: "BTC",
+    amount: "$200",
+    date: "01/15/2024",
+    status: "Completed",
+    time: "12:40 AM",
+  },
+  {
+    beneficiary: "33x2343r67",
+    currency: "BTC",
+    amount: "$200",
+    date: "01/15/2024",
+    status: "Completed",
+    time: "12:40 AM",
+  },
+  {
+    beneficiary: "33x3e43r67",
+    currency: "USDT",
+    amount: "$200",
+    date: "01/05/2024",
+    status: "Completed",
+    time: "12:40 AM",
+  },
+];
+import mastercard from "@/assets/icons/mastercard.svg";
+import visa from "@/assets/icons/visa.svg";
+import btc from "@/assets/icons/btc.svg";
+import usdt from "@/assets/icons/usdt.svg";
+import eth from "@/assets/icons/eth.svg";
+import flutterwave from "@/assets/icons/flutterwave.png";
+export const payMethods = [
+  {
+    logo: mastercard,
+    account: "2345355XXXXXX",
+    name: "Mastercard",
+  },
+  {
+    logo: visa,
+    account: "234535848XXXXX",
+    name: "Visa",
+  },
+  {
+    logo: btc,
+    account: "2345333XXXXXX",
+    name: "BitCoin",
+  },
+  {
+    logo: usdt,
+    account: "2342222XXXXXX",
+    name: "USDT",
+  },
+  // {
+  //   logo: eth,
+  //   account: "234535223XXXXX",
+  //   name: "Ethereum",
+  // },
+  // {
+  //   logo: flutterwave,
+  //   account: "2323444XXXXXX",
+  //   name: "Flutterwave",
+  // },
+];
+
+export const accountBalances = [
+  {
+    name: "Flutterwave",
+    amount: "₦100,000",
+  },
+  {
+    name: "BTC",
+    amount: "0.005BTC",
+  },
+  {
+    name: "USDT",
+    amount: "$100",
+  },
+  {
+    name: "Ethereum",
+    amount: "0.0099ETH",
+  },
+];
+
+export const recentTransactions = [
+  {
+    name: "Payout to 33x234567",
+    amount: "-$100",
+    date: "07 September 2024",
+    time: "12:00 AM",
+  },
+  {
+    name: "Signal Monthly",
+    amount: "+$600",
+    date: "07 September 2024",
+    time: "2:00 AM",
+  },
+  {
+    name: "Paypips Monthly Subscription",
+    amount: "-$149",
+    date: "06 September 2024",
+    time: "12:00 AM",
+  },
+  {
+    name: "Paypips Transaction fees",
+    amount: "-$10",
+    date: "06 September 2024",
+    time: "4:00 AM",
+  },
+  {
+    name: "Mentorship Group",
+    amount: "+$500",
+    date: "06 September 2024",
+    time: "4:40 AM",
+  },
+  {
+    name: "Mentorship Private",
+    amount: "+$100",
+    date: "05 September 2024",
+    time: "8:40 AM",
+  },
+];

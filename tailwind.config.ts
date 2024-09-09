@@ -13,6 +13,7 @@ const config: Config = {
         foreground: "var(--foreground)",
         harshBlue: "#1A1F37",
         sharpBlue: "#0075FF",
+        lightGray: "rgba(226, 232, 240, 0.30)",
       },
       backgroundImage: {
         sidebar:
@@ -20,8 +21,11 @@ const config: Config = {
         smile: "url('/images/smile.jpg')",
         gradient1:
           "linear-gradient(127deg, #0F123B 100%, #090D2E 100%, #020515 100%)",
-        gradient2: "linear-gradient(112deg, #060B28BD 59.3%, #0A0E23B5 100%)",
-        gradient3: "linear-gradient(112deg, #060C29 59.3%, #040C3080 100%)",
+        gradient2: "linear-gradient(127deg, #060B26E3 100%, #1A1F3780 100%)",
+        gradient_bg: "url('/images/background.png')",
+        shadow: "url('/shadow.svg')",
+        ico_bg: "url('/ico-bg.svg')",
+        paymethod_bg: "url('/paymethod-bg.svg')",
       },
     },
   },

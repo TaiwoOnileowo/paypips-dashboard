@@ -8,3 +8,15 @@
   font-family: "Plus Jakarta Sans", sans-serif;
   font-optical-sizing: auto;
 }
+.gradient-blur {
+  backdrop-filter: blur(180px);
+}
+td,
+th {
+  padding: 16px;
+}
+th {
+  color: #A0AEC0;
+  font-size: 12px;
+  text-transform: uppercase;
+}

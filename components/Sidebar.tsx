@@ -6,6 +6,8 @@ import { sidebar } from "@/lib/data";
 import { usePathname } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
 import { useAppContext } from "@/context";
+import logo from "@/public/logo.svg";
+import Link from "next/link";
 const Sidebar = () => {
   const pathname = usePathname();
   const splitPathname = pathname.split("/")[2];
@@ -15,7 +17,7 @@ const Sidebar = () => {
   };
   return (
     <div
-      className={`col-span-2 px-6 items-center transiton-all duration-300 ease-linear flex flex-col max-xl:fixed ${
+      className={`col-span-2 px-6 relative  items-center transiton-all duration-300 ease-linear flex flex-col max-xl:fixed ${
         showSidebar ? "max-xl:left-0 " : "max-xl:-left-[100%]"
       } top-0 max-xl:w-[30%] max-md:w-[65%]  py-12 h-screen z-[10]`}
       style={{
@@ -24,28 +26,36 @@ const Sidebar = () => {
       }}
     >
       <IoMdClose
-        className="absolute text-white cursor-pointer top-6 right-6 text-xl"
+        className="absolute text-white cursor-pointer top-6 right-6 text-xl md:hidden"
         onClick={toggleSidebar}
       />
-      <h1 className="text-white font-plus mb-3  md:text-xl">PAYPIPS</h1>
-      <Image
-        src={hr}
-        alt="hr"
-        width={100}
-        height={10}
-        className="w-full  h-2"
-      />
+      <div className="flex items-center  justify-center gap-3 flex-col  h-[6%]">
+        <div className="flex items-center h-full gap-2 justify-center">
+          <Image src={logo} alt="logo" width={50} />
+
+          <h1 className="text-white font-plus mb-3  md:text-xl">PAYPIPS</h1>
+        </div>
+        <Image
+          src={hr}
+          alt="hr"
+          width={100}
+          height={10}
+          className="w-full  h-2"
+        />
+      </div>
       <div className="items-center flex flex-col gap-1 mt-6 w-full justify-center">
         {sidebar.map((item, index) => {
           const path = item.path.split("/")[2];
           const active = path === splitPathname;
-          console.log(path, active, splitPathname);
+
           return (
-            <div
+            <Link
               key={index}
-              className={`flex items-center max-xl:p-2 p-3   gap-4  w-full rounded-2xl cursor-pointer  ${
+              className={`flex items-center max-xl:p-2 p-3   gap-4  w-full rounded-3xl cursor-pointer  ${
                 active ? " bg-harshBlue" : ""
               }`}
+              href={item.path}
+              onClick={() => setShowSidebar(false)}
             >
               <div
                 className={`rounded-xl w-8 h-8 ${
@@ -62,7 +72,7 @@ const Sidebar = () => {
               <p className="text-white font-plus text-sm font-semibold">
                 {item.title}
               </p>
-            </div>
+            </Link>
           );
         })}
       </div>

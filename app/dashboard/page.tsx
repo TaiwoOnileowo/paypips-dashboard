@@ -28,21 +28,21 @@ const Page = () => {
     },
   ];
   return (
-    <div className="p-4">
+    <div className="p-6 ">
       <HomePageStats />
-      <div className="w-full lg:grid  lg:grid-cols-12 mt-10  xl:h-[340px] xl:gap-9 max-lg:px-0 px-4 gap-9 flex flex-col aspect-square basis-full">
-        <div className="col-span-12 max-h-full xl:col-span-5 rounded-2xl bg-cover shadow-md h-full bg-center bg-smile  p-6 xl:pt-14 relative basis-1/3">
-          {/* <div className="absolute w-full h-full bg-black/15 rounded-2xl top-0 left-0" /> */}
-
+      <div className="w-full lg:grid  lg:grid-cols-12 mt-10  xl:h-[340px] xl:gap-6 max-lg:px-0  gap-6 flex flex-col aspect-square basis-full">
+        <div className="col-span-12 max-h-full xl:col-span-5 rounded-3xl bg-cover shadow-md h-full bg-center bg-smile  p-6 xl:pt-14 relative basis-1/3">
           <p className="text-gray-300/80   my-1 md:text-lg">Welcome back,</p>
-          <h1 className="text-xl md:text-3xl font-bold text-white">Onileowo Taiwo</h1>
+          <h1 className="text-xl md:text-3xl font-bold text-white">
+            Onileowo Taiwo
+          </h1>
           <p className="text-gray-300/80 mt-5 md:text-lg">
             Glad to see you again!
           </p>
           <p className="text-gray-300/80  text-lg">How is it going?</p>
         </div>
         <div
-          className="col-span-6 xl:col-span-3 max-xl:max-h-[350px] h-full rounded-2xl p-6 text-white basis-1/3"
+          className="col-span-6 xl:col-span-3 max-xl:max-h-[350px] h-full rounded-3xl p-6 text-white basis-1/3"
           style={{
             background:
               "linear-gradient(127deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)",
@@ -55,7 +55,7 @@ const Page = () => {
               <Image src={smilyface} alt="smilyface" width={30} height={30} />
             </div>
             <div
-              className="flex w-full justify-center items-center rounded-2xl bg-black/30 p-4 text-xl font-bold text-white"
+              className="flex w-full justify-center items-center rounded-3xl bg-black/30 p-4 text-xl font-bold text-white"
               style={{
                 background:
                   "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(10, 14, 35, 0.71) 91.2%)",
@@ -67,7 +67,7 @@ const Page = () => {
           </div>
         </div>
         <div
-          className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-2xl basis-1/3"
+          className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-3xl basis-1/3"
           style={{
             background:
               "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(14, 21, 58, 0.71) 91.2%)",
