@@ -13,7 +13,7 @@ const PayMethods = () => {
     >
       <div className="flex justify-between w-full items-center">
         <h3 className="font-medium">Payment Methods</h3>
-        <button className="bg-[#0075FF] rounded-3xl p-3 py-2 text-sm font-medium">
+        <button className="bg-sharpBlue rounded-3xl p-3 py-2 text-sm font-medium">
           ADD A NEW CARD
         </button>
       </div>

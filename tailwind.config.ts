@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,6 +15,7 @@ const config: Config = {
         harshBlue: "#1A1F37",
         sharpBlue: "#0075FF",
         lightGray: "rgba(226, 232, 240, 0.30)",
+        harsh: "#A0AEC0",
       },
       backgroundImage: {
         sidebar:
@@ -27,8 +29,13 @@ const config: Config = {
         ico_bg: "url('/ico-bg.svg')",
         paymethod_bg: "url('/paymethod-bg.svg')",
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;
