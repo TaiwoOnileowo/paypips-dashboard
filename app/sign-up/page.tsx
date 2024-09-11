@@ -6,7 +6,7 @@ import Link from "next/link";
 const Page = () => {
   return (
     <div
-      className="w-full h-screen relative grid grid-cols-2 font-plus text-white"
+      className="w-full h-screen relative grid lg:grid-cols-2 font-plus text-white"
       style={{
         background:
           "linear-gradient(159deg, #0F123B 14.25%, #090D2E 56.45%, #020515 86.14%)",
@@ -18,7 +18,7 @@ const Page = () => {
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
-        className="flex items-center flex-col justify-center px-10"
+        className="flex  items-center flex-col justify-center px-10 max-lg:hidden"
       >
         {" "}
         <p className=" uppercase auth-helper-text">Paypips</p>
@@ -26,10 +26,10 @@ const Page = () => {
           Forex Group Management Like Never Before
         </h1>
       </div>
-      <div className="flex items-center px-32 ">
-        <div className="container max-w-xs">
-          <h1 className="font-plus text-3xl font-bold">Welcome!</h1>
-          <p className="text-harsh text-sm mt-2">
+      <div className="flex items-center max-lg:justify-center px-10 lg:px-32  ">
+        <div className="container lg:max-w-xs">
+          <h1 className="font-plus text-3xl  max-lg:text-center font-bold">Welcome!</h1>
+          <p className="text-harsh text-sm max-lg:break-words mt-2 max-lg:text-center ">
             Sign up to get started with Paypips dashboard
           </p>
           <div className="mt-4 space-y-2 ">
@@ -57,7 +57,7 @@ const Page = () => {
           </button>
           <p className="mt-4 text-harsh text-sm flex justify-center w-full ">
             Already have an account?{" "}
-            <Link href="/sign-in" className="text-white cursor-pointer">
+            <Link href="/sign-in" className="text-white cursor-pointer ml-1">
               Sign in
             </Link>
           </p>
