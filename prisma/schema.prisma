@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model access_codes {
+  id       Int      @id @default(autoincrement())
+  code     String   @unique @db.VarChar(64)
+  group_id String   @db.VarChar(64)
+  end_date DateTime @db.Timestamp(6)
+  used     Boolean? @default(false)
+}
+
+model alembic_version {
+  version_num String @id(map: "alembic_version_pkc") @db.VarChar(32)
+}
+
+model available_balance {
+  id       Int    @id @default(autoincrement())
+  owner_id String @db.VarChar(64)
+  balance  Float
+  currency String @db.VarChar(10)
+  address  String @db.VarChar(255)
+}
+
+model bots {
+  id        Int      @id @default(autoincrement())
+  token     String   @db.VarChar(128)
+  username  String   @db.VarChar(128)
+  owner_id  String?  @db.VarChar(64)
+  allocated Boolean?
+  name      String   @db.VarChar(128)
+}
+
+model group_offerings {
+  id                    Int                     @id @default(autoincrement())
+  payment_model         String                  @db.VarChar(64)
+  payment_interval      String?                 @db.VarChar(64)
+  payment_amount        Float
+  display_name          String?                 @db.VarChar(64)
+  groups_groupofferings groups_groupofferings[]
+}
+
+model groups {
+  id                    String                  @id @db.VarChar(64)
+  name                  String                  @unique @db.VarChar(64)
+  owner_id              String                  @db.VarChar(64)
+  payment_flutterwave   Boolean?
+  payment_crypto        Boolean?
+  type                  String?                 @db.VarChar(10)
+  groups_groupofferings groups_groupofferings[]
+  groups_users          groups_users[]
+}
+
+model groups_groupofferings {
+  id              Int              @id @default(autoincrement())
+  groupoffering   Int?
+  group           String?          @db.VarChar(64)
+  group_offerings group_offerings? @relation(fields: [groupoffering], references: [id], onDelete: Cascade, map: "fk_groups_groupofferings_group_offerings_groupoffering_id")
+  groups          groups?          @relation(fields: [group], references: [id], onDelete: Cascade, map: "fk_groups_groupofferings_groups_group_id")
+}
+
+model groups_users {
+  id     Int     @id @default(autoincrement())
+  user   String? @db.VarChar(64)
+  group  String? @db.VarChar(64)
+  groups groups? @relation(fields: [group], references: [id], onDelete: Cascade, map: "fk_groups_users_groups_group_id")
+  users  users?  @relation(fields: [user], references: [id], onDelete: Cascade, map: "fk_groups_users_users_user_id")
+}
+
+model job_metadata {
+  id            Int       @id @default(autoincrement())
+  job_name      String    @unique @db.VarChar(255)
+  last_run_time DateTime? @db.Timestamp(6)
+}
+
+model payments {
+  id             Int       @id @default(autoincrement())
+  userid         String    @db.VarChar(64)
+  groupid        String    @db.VarChar(64)
+  groupname      String    @db.VarChar(64)
+  email          String    @db.VarChar(128)
+  username       String?   @db.VarChar(64)
+  amount         Float
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+  payment_method String    @db.VarChar(64)
+}
+
+model subscriptions {
+  id         Int      @id @default(autoincrement())
+  user_id    String   @db.VarChar(64)
+  group_id   String   @db.VarChar(64)
+  start_date DateTime @db.Timestamp(6)
+  end_date   DateTime @db.Timestamp(6)
+}
+
+model transactions {
+  id              Int       @id @default(autoincrement())
+  received_amount Float
+  currency_type   String    @db.VarChar(20)
+  gateway_fee     Decimal   @db.Decimal(20, 8)
+  created_at      DateTime? @default(now()) @db.Timestamp(6)
+  owner_id        String?   @db.VarChar(64)
+  cp_id           String?   @db.VarChar(40)
+}
+
+model user_details {
+  owner_id          String  @id @db.VarChar(64)
+  percentage_charge Float?
+  flutterwave_acct  String? @db.VarChar(255)
+  trc_address       String? @db.VarChar(255)
+  btc_address       String? @db.VarChar(255)
+  ltct_address      String? @db.VarChar(255)
+  sol_address       String? @db.VarChar(255)
+  erc_address       String? @db.VarChar(255)
+  local_currency    String? @db.VarChar(20)
+  exchange_rate     Float?  @default(1.0)
+}
+
+model users {
+  id           String         @id @db.VarChar(64)
+  email        String         @unique @db.VarChar(128)
+  username     String?        @db.VarChar(64)
+  offering     Int?
+  groups_users groups_users[]
+}
+
+model waitlist {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique @db.VarChar(128)
+  group_id String? @db.VarChar(64)
+}
+
+model withdrawals {
+  id            Int       @id @default(autoincrement())
+  owner_id      String    @db.VarChar(64)
+  amount        Float
+  currency      String    @db.VarChar(10)
+  status        String    @db.VarChar(20)
+  initiated_at  DateTime? @default(now()) @db.Timestamp(6)
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+  address       String?   @db.VarChar(255)
+  withdrawal_id String?   @db.VarChar(64)
+  error         String?
+  tx_id         String?   @db.VarChar(1024)
+}
