@@ -119,6 +119,8 @@ model user_details {
   erc_address       String? @db.VarChar(255)
   local_currency    String? @db.VarChar(20)
   exchange_rate     Float?  @default(1.0)
+  email             String? @unique @db.VarChar(255)
+  password          String? @unique @db.VarChar(255)
 }
 
 model users {
