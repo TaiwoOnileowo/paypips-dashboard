@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 const Header = () => {
   const { showSidebar, setShowSidebar } = useAppContext();
   const pathname = usePathname();
-  const splitPathname = pathname.split("/")[2];
+  const splitPathname = pathname?.split("/")[2];
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };

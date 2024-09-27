@@ -12,7 +12,7 @@ export async function generateStaticParams() {
   const session = await auth();
   const stats = await getStats(session);
   console.log(stats);
-  return stats;
+  return [stats];
 }
 const Page = async () => {
   const session = await auth();

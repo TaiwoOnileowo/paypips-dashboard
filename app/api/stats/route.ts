@@ -133,7 +133,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         ? (((todayAmount - yesterdayAmount) / yesterdayAmount) * 100)
             .toFixed(2)
             .toString()
-        : "100";
+        : "-100";
 
     const totalAmountPercentageIncrease =
       totalAmount > 0
@@ -149,7 +149,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
               yesterdaySubscriptions.length) *
             100
           ).toFixed(2)
-        : "100";
+        : "-100";
 
     const activeSubscriptionPercentageIncrease =
       userSubscriptions.length > 0
@@ -167,7 +167,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         ? (((monthAmount - previousMonthAmount) / previousMonthAmount) * 100)
             .toFixed(2)
             .toString()
-        : "100";
+        : "-100";
 
     const monthSubscriptionPercentageIncrease =
       previousMonthSubscriptions.length > 0
@@ -179,8 +179,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
           )
             .toFixed(2)
             .toString()
-        : "100";
-    // console.log(convertedTransactions);
+        : "-100";
+    console.log(yesterdayTransactions);
     // Return stats
     const stats = {
       amountstats: {

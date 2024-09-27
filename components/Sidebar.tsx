@@ -10,7 +10,7 @@ import logo from "@/public/logo.svg";
 import Link from "next/link";
 const Sidebar = () => {
   const pathname = usePathname();
-  const splitPathname = pathname.split("/")[2];
+  const splitPathname = pathname?.split("/")[2];
   const { showSidebar, setShowSidebar } = useAppContext();
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
