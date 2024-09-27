@@ -180,7 +180,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
             .toFixed(2)
             .toString()
         : "-100";
-    console.log(yesterdayTransactions);
+    // console.log(yesterdayTransactions);
     // Return stats
     const stats = {
       amountstats: {
