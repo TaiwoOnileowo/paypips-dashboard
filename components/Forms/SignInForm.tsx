@@ -1,13 +1,14 @@
 "use client";
 import Input from "@/components/ui/Input";
 import Label from "@/components/ui/Label";
-import React from "react";
+import React, { useState } from "react";
 import { signInUser } from "@/lib/actions/user.actions";
 import { toast } from "react-toastify";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const SignInForm = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleSubmit = async (
     e:
@@ -15,6 +16,7 @@ const SignInForm = () => {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get("email");
     const password = formData.get("password");
@@ -30,17 +32,17 @@ const SignInForm = () => {
       toast.error("Invalid email");
       return;
     }
+    setLoading(true);
     try {
-      const response = await signInUser(email, password);
-      console.log(response);
-      if (response) {
-        toast.success("Sign in successful");
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 1000);
-      }
+      await signInUser(email, password);
+      setLoading(false);
+      toast.success("Sign in successful");
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     } catch (error: any) {
       console.log(error);
+      setLoading(false);
       toast.error("Something went wrong. Try again later.");
     }
   };
@@ -64,10 +66,13 @@ const SignInForm = () => {
         <Label htmlFor="remember-me" text="Remember Me" />
       </div>
       <button
-        className="w-full bg-sharpBlue rounded-2xl  mt-8 text-sm uppercase font-bold font-plus p-3"
+        className="w-full flex items-center justify-center gap-5 bg-sharpBlue rounded-2xl  mt-8 text-sm uppercase font-bold font-plus p-3"
         type="submit"
       >
-        Sign In
+        Sign In{" "}
+        {loading && (
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+        )}
       </button>
       <p className="mt-4 text-harsh text-sm flex justify-center w-full ">
         Don&apos;t have an account?{" "}

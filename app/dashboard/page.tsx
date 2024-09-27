@@ -4,7 +4,24 @@ import smilyface from "@/assets/icons/smilyface.svg";
 import Image from "next/image";
 import checkgreen from "@/assets/icons/check-green.svg";
 import cart from "@/assets/icons/cart-blue.svg";
-const Page = () => {
+import { auth } from "@/auth";
+import { getStats } from "@/lib/actions/homepage.actions";
+import { Stats } from "@/types";
+import { redirect } from "next/navigation";
+export async function generateStaticParams() {
+  const session = await auth();
+  const stats = await getStats(session);
+  console.log(stats);
+  return stats;
+}
+const Page = async () => {
+  const session = await auth();
+
+  const stats = await getStats(session);
+  console.log(stats, "stats");
+
+  if (!session?.user) redirect("/sign-in");
+  // console.log(session);
   const payments = [
     {
       amount: "$600",
@@ -29,7 +46,7 @@ const Page = () => {
   ];
   return (
     <div className="p-6 ">
-      <HomePageStats />
+      <HomePageStats stats={stats} />
       <div className="w-full lg:grid  lg:grid-cols-12 mt-10  xl:h-[340px] xl:gap-6 max-lg:px-0  gap-6 flex flex-col aspect-square basis-full">
         <div className="col-span-12 max-h-full xl:col-span-5 rounded-3xl bg-cover shadow-md h-full bg-center bg-smile  p-6 xl:pt-14 relative basis-1/3">
           <p className="text-gray-300/80   my-1 md:text-lg">Welcome back,</p>
@@ -62,7 +79,9 @@ const Page = () => {
                 backdropFilter: "blur(60px)",
               }}
             >
-              $80,000
+              {(stats?.amountstats?.monthAmount &&
+                `${stats?.amountstats?.monthAmount}%`) ||
+                "N/A"}
             </div>
           </div>
         </div>
@@ -76,7 +95,9 @@ const Page = () => {
           <h2 className="font-bold  text-lg">Payment&apos;s overview</h2>
           <p className="text-gray-300/80 mt-1 flex items-center gap-2">
             <Image src={checkgreen} alt="checkgreen" width={15} height={15} />
-            +30% this month
+            {(stats?.amountstats?.monthAmountPercentageIncrease &&
+              `${stats?.amountstats?.monthAmountPercentageIncrease}% this month`) ||
+              "N/A"}
           </p>
           <div className="mt-6 ">
             {payments.map((item, index) => {

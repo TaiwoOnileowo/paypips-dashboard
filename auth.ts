@@ -1,11 +1,26 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import { ZodError } from "zod";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "./lib/validations/signin";
 import { hashPassword } from "@/utils/password";
 import { getUserFromDb } from "./lib/actions/user.actions";
+import { JWT } from "next-auth/jwt";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      token: JWT;
+    };
+  }
+}
+
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
   providers: [
     Credentials({
       credentials: {
@@ -51,6 +66,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   debug: true,
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.user.id = token.id as string;
+
+      session.user.token = token;
+      return session;
+    },
+  },
   pages: {
     error: "/sign-in",
     signIn: "/sign-in",

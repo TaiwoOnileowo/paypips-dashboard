@@ -27,7 +27,7 @@ export const signInUser = async (
 ) => {
   const response: { ok: boolean; error?: string } = await signIn(
     "credentials",
-    { email, password }
+    { email, password, }
   );
   return response;
 };
