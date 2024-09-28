@@ -20,3 +20,11 @@ export interface Stats {
   amountstats: AmountStats;
   subscriptionstats: SubscriptionStats;
 }
+export interface Payment {
+  id: string;
+  amount: string;
+  plan: string;
+  method: string;
+  date: string;
+  email: string;
+}

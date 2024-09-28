@@ -1,16 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
+import jwt from "jsonwebtoken";
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-
-  if (!userId) {
-    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+  const authHeader = req.headers.get("Authorization");
+  const token = authHeader && authHeader.split(" ")[1];
+  const secret = process.env.JWT_SECRET;
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
+  }
+  if (!secret) {
+    return NextResponse.json(
+      { error: "Secret key is required" },
+      { status: 400 }
+    );
   }
 
+
   try {
+    const decoded = jwt.verify(token, secret);
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "User ID is required" },
+        { status: 400 }
+      );
+    }
     const userTransactions = await prisma.transactions.findMany({
       where: { owner_id: userId },
     });
@@ -59,10 +77,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
     // Convert transactions
     const convertedTransactions = userTransactions.map((transaction) => {
-      console.log(
-        convertCurrency(transaction.currency_type, transaction.received_amount)
-      );
-      console.log(transaction.currency_type, transaction.received_amount);
       return {
         ...transaction,
         received_amount: convertCurrency(
@@ -133,8 +147,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         ? (((todayAmount - yesterdayAmount) / yesterdayAmount) * 100)
             .toFixed(2)
             .toString()
-        : "-100";
-
+        : "100";
+    console.log(yesterdayAmount, todayAmount, yesterdayTransactions);
     const totalAmountPercentageIncrease =
       totalAmount > 0
         ? ((todayAmount / (totalAmount - todayAmount)) * 100)
@@ -149,7 +163,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
               yesterdaySubscriptions.length) *
             100
           ).toFixed(2)
-        : "-100";
+        : "100";
 
     const activeSubscriptionPercentageIncrease =
       userSubscriptions.length > 0
@@ -167,7 +181,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         ? (((monthAmount - previousMonthAmount) / previousMonthAmount) * 100)
             .toFixed(2)
             .toString()
-        : "-100";
+        : "100";
 
     const monthSubscriptionPercentageIncrease =
       previousMonthSubscriptions.length > 0
@@ -179,7 +193,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
           )
             .toFixed(2)
             .toString()
-        : "-100";
+        : "100";
     // console.log(yesterdayTransactions);
     // Return stats
     const stats = {

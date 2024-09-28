@@ -7,6 +7,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AppProvider } from "@/context/AppProvider";
+import QueryProvider from "./QueryProvider";
 
 export const metadata: Metadata = {
   title: "Dashboard | Paypips",
@@ -21,22 +22,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` antialiased`}>
-        <AppProvider>
-          {" "}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
-          {children}
-        </AppProvider>
+        <QueryProvider>
+          <AppProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+            {children}
+          </AppProvider>
+        </QueryProvider>
       </body>
     </html>
   );

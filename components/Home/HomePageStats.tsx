@@ -1,12 +1,14 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { homePageStats } from "@/lib/data";
-import { Stats } from "@/types";
-interface HomePageStatsProps {
-  stats: Stats | null;
-}
-const HomePageStats = async ({ stats }: HomePageStatsProps) => {
-  console.log(stats);
+
+import { Session } from "next-auth";
+import { useGetStats } from "@/hooks/reactQueryHooks";
+
+const HomePageStats = ({ session }: { session: Session }) => {
+  const { data: stats } = useGetStats(session);
+
   let updatedHomePageStats = homePageStats;
   if (stats) {
     updatedHomePageStats = homePageStats.map((stat) => {
@@ -52,6 +54,9 @@ const HomePageStats = async ({ stats }: HomePageStatsProps) => {
             typeof item.percent === "string" &&
             (item.percent as string).includes("-");
         }
+        const isSubscription =
+          item.sub === "Active subscription" ||
+          item.sub === "Today's subscription";
         return (
           <div
             key={index}
@@ -65,10 +70,13 @@ const HomePageStats = async ({ stats }: HomePageStatsProps) => {
               <p className="text-white font-plus text-xs mb-1 ">{item.sub}</p>
               <div className="flex items-center gap-2">
                 {item.percent == "" ? (
-                  <p className="text-[#E31A1A] font-plus text-xl font-bold">N/A</p>
+                  <p className="text-[#E31A1A] font-plus text-xl font-bold">
+                    N/A
+                  </p>
                 ) : (
                   <>
                     <p className="text-white font-plus text-xl font-bold">
+                      {!isSubscription ? "$" : ""}
                       {item.value}
                     </p>
 

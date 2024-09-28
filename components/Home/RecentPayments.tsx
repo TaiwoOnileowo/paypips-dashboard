@@ -1,0 +1,92 @@
+"use client";
+import React from "react";
+import { Session } from "next-auth";
+import { useGetRecentPayments, useGetStats } from "@/hooks/reactQueryHooks";
+import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
+import checkgreen from "@/assets/icons/check-green.svg";
+import cart from "@/assets/icons/cart-blue.svg";
+
+const RecentPayments = ({ session }: { session: Session }) => {
+  const { data: stats } = useGetStats(session);
+  const {
+    data: payments,
+    isLoading,
+    isError,
+    error,
+  } = useGetRecentPayments(session);
+
+  if (isLoading) {
+    // Display skeleton loaders while data is being fetched
+    return (
+      <div
+        className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-3xl basis-1/3"
+        style={{
+          background:
+            "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(14, 21, 58, 0.71) 91.2%)",
+        }}
+      >
+        <h2 className="font-bold text-lg">Payment&apos;s overview</h2>
+
+        {/* Skeleton for the stats */}
+        <div className="mt-2 flex items-center gap-2">
+          <Skeleton className="h-4 w-36" />
+        </div>
+
+        {/* Skeleton for the payments list */}
+        <div className="mt-7 space-y-5">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div className="flex items-start gap-5" key={index}>
+              <Skeleton className="h-8 w-10" />
+              <div className="space-y-2 w-full">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-3 w-24" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    console.log(error, "error");
+    return <div>Error</div>;
+  }
+
+  if (!payments) return <div>No payments</div>;
+
+  console.log(payments, "payments");
+  return (
+    <div
+      className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-3xl basis-1/3"
+      style={{
+        background:
+          "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(14, 21, 58, 0.71) 91.2%)",
+      }}
+    >
+      <h2 className="font-bold  text-lg">Payment&apos;s overview</h2>
+      <p className="text-gray-300/80 mt-1 flex items-center gap-2">
+        <Image src={checkgreen} alt="checkgreen" width={15} height={15} />
+        {(stats?.amountstats?.monthAmountPercentageIncrease &&
+          `${stats?.amountstats?.monthAmountPercentageIncrease}% this month`) ||
+          "N/A"}
+      </p>
+      <div className="mt-6 ">
+        {payments.map((item, index) => (
+          <div className="flex items-start gap-5 mt-4" key={index}>
+            <Image src={cart} alt="cart" width={20} height={20} />
+            <div>
+              <p>
+                ${item.amount}, {item.plan}
+              </p>
+              <p className="text-sm text-gray-300/80">{item.email}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default RecentPayments;

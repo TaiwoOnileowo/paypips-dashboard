@@ -13,8 +13,14 @@ declare module "next-auth" {
       token: JWT;
     };
   }
+  interface User {
+    id?: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    token?: JWT;
+  }
 }
-
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
@@ -34,24 +40,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           );
 
           // Fetch user from DB by email
-          const user = await getUserFromDb(email);
+          const user = await getUserFromDb(email, password);
 
           // If no user found, throw error
           if (!user) {
             throw new Error("User not found.");
           }
 
-          // Compare passwords
-          const passwordMatch = password === user.password;
-          // If passwords don't match, return null
-          if (!passwordMatch) {
-            throw new Error("Incorrect password.");
-          }
-
           // Return user if everything is valid
           return {
             id: user.id,
             email: user.email,
+            token: user.token as unknown as JWT,
           };
         } catch (error: any) {
           // Handle Zod validation error (Invalid input)
@@ -71,13 +71,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.token = user.token;
       }
       return token;
     },
     async session({ session, token, user }) {
       session.user.id = token.id as string;
 
-      session.user.token = token;
+      session.user.token = token.token as JWT;
       return session;
     },
   },
