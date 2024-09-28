@@ -1,7 +1,7 @@
 import React from "react";
 import SignInForm from "../Forms/SignInForm";
 
-const SignInRight = () => {
+const SignInRight = async () => {
   return (
     <div className="flex items-center max-lg:justify-center px-12 lg:px-24 xl:px-32">
       <div className="container md:max-w-xs lg:max-w-sm xl:max-w-xs">

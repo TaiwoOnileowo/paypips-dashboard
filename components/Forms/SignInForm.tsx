@@ -36,7 +36,9 @@ const SignInForm = () => {
     try {
       await signInUser(email, password);
       setLoading(false);
-      toast.success("Sign in successful");
+      toast.success("Sign in successful", {
+        autoClose: 1000,
+      });
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);

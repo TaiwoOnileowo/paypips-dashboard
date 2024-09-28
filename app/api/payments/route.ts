@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatDate } from "@/lib/utils";
+export const runtime = 'nodejs'
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
@@ -32,7 +33,11 @@ export const GET = async (req: NextRequest) => {
       where: { userid: userId },
     });
     const sortedReturnPayments = userPayments
-      .sort((a, b) => b.created_at.getTime() - a.created_at.getTime())
+      .sort(
+        (a, b) =>
+          (b.created_at ? b.created_at.getTime() : 0) -
+          (a.created_at ? a.created_at.getTime() : 0)
+      )
       .map((payment) => {
         return {
           id: payment.id,

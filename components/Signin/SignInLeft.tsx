@@ -1,6 +1,6 @@
 import React from "react";
 
-const SignInLeft = () => {
+const SignInLeft = async () => {
   return (
     <div
       style={{

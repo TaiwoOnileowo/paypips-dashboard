@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
 import jwt from "jsonwebtoken";
-
+export const runtime = 'nodejs'
 export const GET = async (req: NextRequest, res: NextResponse) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");

@@ -15,7 +15,7 @@ const Page = async () => {
   console.log(stats, "stats");
 
   if (!session?.user) redirect("/sign-in");
-  // console.log(session);
+  console.log(session);
   const payments = [
     {
       amount: "$600",

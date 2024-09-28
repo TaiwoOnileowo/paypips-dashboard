@@ -1,8 +1,8 @@
 "use server";
 import prisma from "@/prisma/prisma";
-import jwt from "jsonwebtoken";
 import { signIn } from "@/auth";
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"; // Store this securely in env variables
+import { SignJWT } from "jose";
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "");
 
 export const getUserFromDb = async (email: string, password: string) => {
   // Find user by unique field (email)
@@ -14,20 +14,17 @@ export const getUserFromDb = async (email: string, password: string) => {
   if (!user) {
     return null;
   }
+
   if (user.password !== password) {
     return null;
   }
 
   console.log(user, "user");
 
-  const token = jwt.sign(
-    {
-      id: user.owner_id,
-      email: user.email,
-    },
-    JWT_SECRET,
-    { expiresIn: "24h" }
-  );
+  const token = await new SignJWT({ id: user.owner_id, email: user.email })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("24h")
+    .sign(JWT_SECRET);
 
   return {
     id: user.owner_id,

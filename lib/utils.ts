@@ -18,7 +18,8 @@ export const convertCurrency = (currency: string, amount: number) => {
       return amount;
   }
 };
-export function formatDate(dateString: Date | string) {
+export function formatDate(dateString: Date | string | null) {
+  if (!dateString) return "";
   const date = new Date(dateString);
 
   // Extract day, month, and year
