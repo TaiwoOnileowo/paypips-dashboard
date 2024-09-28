@@ -28,3 +28,12 @@ export interface Payment {
   date: string;
   email: string;
 }
+
+export interface Payout {
+  beneficiary: string;
+  currency: string;
+  amount: string;
+  date: string;
+  status: string;
+  time: string;
+}

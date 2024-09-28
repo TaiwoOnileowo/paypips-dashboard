@@ -4,9 +4,10 @@ import { Session } from "next-auth";
 import { useGetRecentPayments, useGetStats } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
+import errorGif from "@/assets/icons/error.gif";
 import checkgreen from "@/assets/icons/check-green.svg";
 import cart from "@/assets/icons/cart-blue.svg";
-
+import dollar from "@/assets/icons/dollar1.gif";
 const RecentPayments = ({ session }: { session: Session }) => {
   const { data: stats } = useGetStats(session);
   const {
@@ -51,7 +52,23 @@ const RecentPayments = ({ session }: { session: Session }) => {
 
   if (isError) {
     console.log(error, "error");
-    return <div>Error</div>;
+    return (
+      <div
+        className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-3xl basis-1/3"
+        style={{
+          background:
+            "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(14, 21, 58, 0.71) 91.2%)",
+        }}
+      >
+        <h2 className="font-bold text-lg">Payment&apos;s overview</h2>
+        <div className="flex items-center h-full flex-col pt-14 ">
+          <Image src={errorGif} alt="error" width={100} height={100} />
+          <p className="text-center text-gray-300/80 mt-4">
+            An error occurred while fetching payments
+          </p>
+        </div>
+      </div>
+    );
   }
 
   if (!payments) return <div>No payments</div>;
@@ -72,19 +89,26 @@ const RecentPayments = ({ session }: { session: Session }) => {
           `${stats?.amountstats?.monthAmountPercentageIncrease}% this month`) ||
           "N/A"}
       </p>
-      <div className="mt-6 ">
-        {payments.map((item, index) => (
-          <div className="flex items-start gap-5 mt-4" key={index}>
-            <Image src={cart} alt="cart" width={20} height={20} />
-            <div>
-              <p>
-                ${item.amount}, {item.plan}
-              </p>
-              <p className="text-sm text-gray-300/80">{item.email}</p>
+      {payments.length > 0 ? (
+        <div className="mt-6 ">
+          {payments.map((item, index) => (
+            <div className="flex items-start gap-5 mt-4" key={index}>
+              <Image src={cart} alt="cart" width={20} height={20} />
+              <div>
+                <p>
+                  ${item.amount}, {item.plan}
+                </p>
+                <p className="text-sm text-gray-300/80">{item.email}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center pt-10 h-full flex-col">
+          <Image src={dollar} alt="dollar" width={100} height={100} />
+          No payments yet
+        </div>
+      )}
     </div>
   );
 };

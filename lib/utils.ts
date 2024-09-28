@@ -30,3 +30,14 @@ export function formatDate(dateString: Date | string | null) {
   // Return the formatted date
   return `${day}/${month}/${year}`;
 }
+export function formatTo12HourTime(date: Date | null) {
+  if (!date) return "";
+  // Format the time to 12-hour clock with AM/PM
+  const formattedTime = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  return formattedTime;
+}

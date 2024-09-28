@@ -7,6 +7,7 @@ import ViewSidebarRoundedIcon from "@mui/icons-material/ViewSidebarRounded";
 import { useAppContext } from "@/context";
 import { IoMdMenu } from "react-icons/io";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 const Header = () => {
   const { showSidebar, setShowSidebar } = useAppContext();
   const pathname = usePathname();
@@ -19,8 +20,11 @@ const Header = () => {
   return (
     <div className="p-4 md:p-8 flex w-full items-center justify-between top-0">
       <p className="flex gap-2 items-center text-white max-md:text-sm">
-        <IoMdHome className="text-white/50" /> /{" "}
-        <span className="capitalize">{splitPathname || "Dashboard"}</span>
+        <Link href={"/dashboard"}>
+      
+          <IoMdHome className="text-white/50 cursor-pointer" />
+        </Link>{" "}
+        / <span className="capitalize">{splitPathname || "Dashboard"}</span>
       </p>
       <div className="flex gap-5 max-md:gap-4  justify-center items-center text-xl max-md:text-base">
         {showSidebar ? (

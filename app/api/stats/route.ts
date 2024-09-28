@@ -2,13 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
 import jwt from "jsonwebtoken";
-export const runtime = 'nodejs'
+
+// Utility function to calculate percentage increases
+const calculatePercentageIncrease = (
+  currentValue: number,
+  previousValue: number
+) => {
+  if (previousValue === 0) {
+    return currentValue > 0 ? "100" : "0"; // If there's no previous data
+  }
+  return (((currentValue - previousValue) / previousValue) * 100)
+    .toFixed(2)
+    .toString();
+};
+
 export const GET = async (req: NextRequest, res: NextResponse) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
   const authHeader = req.headers.get("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
   const secret = process.env.JWT_SECRET;
+
   if (!token) {
     return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
   }
@@ -19,7 +33,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     );
   }
 
-
   try {
     const decoded = jwt.verify(token, secret);
 
@@ -29,6 +42,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         { status: 400 }
       );
     }
+
+    // Fetch user transactions and subscriptions
     const userTransactions = await prisma.transactions.findMany({
       where: { owner_id: userId },
     });
@@ -76,15 +91,13 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     );
 
     // Convert transactions
-    const convertedTransactions = userTransactions.map((transaction) => {
-      return {
-        ...transaction,
-        received_amount: convertCurrency(
-          transaction.currency_type,
-          transaction.received_amount
-        ),
-      };
-    });
+    const convertedTransactions = userTransactions.map((transaction) => ({
+      ...transaction,
+      received_amount: convertCurrency(
+        transaction.currency_type,
+        transaction.received_amount
+      ),
+    }));
 
     // Filter today's and yesterday's transactions
     const todayTransactions = convertedTransactions.filter((transaction) =>
@@ -141,60 +154,38 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       0
     );
 
-    // Calculate percentage increases
-    const todayAmountPercentageIncrease =
-      yesterdayAmount > 0
-        ? (((todayAmount - yesterdayAmount) / yesterdayAmount) * 100)
-            .toFixed(2)
-            .toString()
-        : "100";
-    console.log(yesterdayAmount, todayAmount, yesterdayTransactions);
+    const todayAmountPercentageIncrease = calculatePercentageIncrease(
+      todayAmount,
+      yesterdayAmount
+    );
+
     const totalAmountPercentageIncrease =
       totalAmount > 0
-        ? ((todayAmount / (totalAmount - todayAmount)) * 100)
-            .toFixed(2)
-            .toString()
+        ? ((todayAmount / totalAmount) * 100).toFixed(2).toString()
         : "0";
 
-    const todaySubscriptionPercentageIncrease =
-      yesterdaySubscriptions.length > 0
-        ? (
-            ((todaySubscriptions.length - yesterdaySubscriptions.length) /
-              yesterdaySubscriptions.length) *
-            100
-          ).toFixed(2)
-        : "100";
+    const todaySubscriptionPercentageIncrease = calculatePercentageIncrease(
+      todaySubscriptions.length,
+      yesterdaySubscriptions.length
+    );
 
     const activeSubscriptionPercentageIncrease =
       userSubscriptions.length > 0
-        ? (
-            (todaySubscriptions.length /
-              (userSubscriptions.length - todaySubscriptions.length)) *
-            100
-          )
+        ? ((todaySubscriptions.length / userSubscriptions.length) * 100)
             .toFixed(2)
             .toString()
         : "0";
 
-    const monthAmountPercentageIncrease =
-      previousMonthAmount > 0
-        ? (((monthAmount - previousMonthAmount) / previousMonthAmount) * 100)
-            .toFixed(2)
-            .toString()
-        : "100";
+    const monthAmountPercentageIncrease = calculatePercentageIncrease(
+      monthAmount,
+      previousMonthAmount
+    );
 
-    const monthSubscriptionPercentageIncrease =
-      previousMonthSubscriptions.length > 0
-        ? (
-            ((currentMonthSubscriptions.length -
-              previousMonthSubscriptions.length) /
-              previousMonthSubscriptions.length) *
-            100
-          )
-            .toFixed(2)
-            .toString()
-        : "100";
-    // console.log(yesterdayTransactions);
+    const monthSubscriptionPercentageIncrease = calculatePercentageIncrease(
+      currentMonthSubscriptions.length,
+      previousMonthSubscriptions.length
+    );
+
     // Return stats
     const stats = {
       amountstats: {

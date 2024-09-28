@@ -25,7 +25,7 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 3600,
   },
   providers: [
     Credentials({
@@ -35,10 +35,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       authorize: async (credentials, req) => {
         try {
-          const { email, password } = await signInSchema.parseAsync(
-            credentials
-          );
-
+          // const { email, password } = await signInSchema.parseAsync(
+          //   credentials
+          // );
+          const { email, password } = credentials;
           // Fetch user from DB by email
           const user = await getUserFromDb(email, password);
 

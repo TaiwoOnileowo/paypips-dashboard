@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import http from "@/lib/http";
+import { auth } from "@/auth";
 const SignInForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -20,25 +22,28 @@ const SignInForm = () => {
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get("email");
     const password = formData.get("password");
-    if (!email || !password) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-    if (password.toString().length < 8) {
-      toast.error("Password must be more than 8 characters");
-      return;
-    }
-    if (!email.toString().includes("@")) {
-      toast.error("Invalid email");
-      return;
-    }
+
+    // if (!email || !password) {
+    //   toast.error("Please fill in all fields.");
+    //   return;
+    // }
+    // if (password.toString().length < 8) {
+    //   toast.error("Password must be more than 8 characters");
+    //   return;
+    // }
+    // if (!email.toString().includes("@")) {
+    //   toast.error("Invalid email");
+    //   return;
+    // }
     setLoading(true);
     try {
       await signInUser(email, password);
+
       setLoading(false);
       toast.success("Sign in successful", {
         autoClose: 1000,
       });
+
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);

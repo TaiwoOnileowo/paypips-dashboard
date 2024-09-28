@@ -2,42 +2,25 @@ import HomePageStats from "@/components/Home/HomePageStats";
 import React from "react";
 
 import { auth } from "@/auth";
-import { getStats } from "@/lib/actions/stats.actions";
 
 import { redirect } from "next/navigation";
 import MonthlyRevenue from "@/components/Home/MonthlyRevenue";
 import RecentPayments from "@/components/Home/RecentPayments";
+import { verifyToken } from "@/lib/actions/user.actions";
 
 const Page = async () => {
   const session = await auth();
 
-  const stats = await getStats(session);
-  console.log(stats, "stats");
+  const token = session?.user.token;
+  if (typeof token !== "string" || !session) {
+    redirect("/sign-in");
+  }
 
-  if (!session?.user) redirect("/sign-in");
-  console.log(session);
-  const payments = [
-    {
-      amount: "$600",
-      email: "onileowo@gmail.com",
-      plan: "Signal Monthly",
-    },
-    {
-      amount: "$500",
-      email: "boluwatife@gmail.com",
-      plan: "Mentorship Group",
-    },
-    {
-      amount: "$1000",
-      email: "dax@gmail.com",
-      plan: "Mentorship Private",
-    },
-    {
-      amount: "$100",
-      email: "emma@gmail.com",
-      plan: "Mentorship Group",
-    },
-  ];
+  const isTokenValid = await verifyToken(token);
+  if (!isTokenValid) {
+    redirect("/sign-in");
+  }
+
   return (
     <div className="p-6 ">
       <HomePageStats session={session} />

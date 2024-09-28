@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { formatDate } from "@/lib/utils";
-import { redirect } from "next/navigation";
+import { formatDate, formatTo12HourTime } from "@/lib/utils";
 export const runtime = "nodejs";
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
@@ -30,31 +29,31 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
-    const userPayments = await prisma.payments.findMany({
-      where: { userid: userId },
+    const userPayouts = await prisma.withdrawals.findMany({
+      where: { owner_id: userId },
     });
-    const sortedReturnPayments = userPayments
+    const sortedReturnPayouts = userPayouts
       .sort(
         (a, b) =>
-          (b.created_at ? b.created_at.getTime() : 0) -
-          (a.created_at ? a.created_at.getTime() : 0)
+          (b.initiated_at ? b.initiated_at.getTime() : 0) -
+          (a.initiated_at ? a.initiated_at.getTime() : 0)
       )
       .map((payment) => {
         return {
           id: payment.id,
+          beneficiary: payment.address,
           amount: payment.amount.toFixed(2),
-          plan: payment.groupname,
-          method: payment.payment_method,
-          date: formatDate(payment.created_at),
-          email: payment.email,
+          currency: payment.currency,
+          status: payment.status,
+          date: formatDate(payment.initiated_at),
+          time: formatTo12HourTime(payment.initiated_at),
         };
       });
     return NextResponse.json({
-      payments: recent
-        ? sortedReturnPayments.slice(0, 4)
-        : sortedReturnPayments,
+      payouts: recent ? sortedReturnPayouts.slice(0, 4) : sortedReturnPayouts,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: `An error occurred: ${error}` },
       { status: 500 }
