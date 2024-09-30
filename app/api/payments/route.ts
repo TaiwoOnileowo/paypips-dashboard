@@ -30,9 +30,13 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+    const userGroups = await prisma.groups.findMany({
+      where: { owner_id: userId },
+    });
     const userPayments = await prisma.payments.findMany({
       where: { userid: userId },
     });
+    // BOLU-TODO: add owner_id to payments table
     const sortedReturnPayments = userPayments
       .sort(
         (a, b) =>

@@ -37,7 +37,7 @@ const CreditBalance = ({ session }: { session: Session }) => {
   };
   const newestTransaction = stats?.transactionstats.newest;
   const isPayout = newestTransaction?.isPayout;
-  console.log(hideAmount, hideAmountByDefault);
+
   return (
     <div
       className="col-span-1 p-6 rounded-3xl h-60 backdrop-blur-[60px]"

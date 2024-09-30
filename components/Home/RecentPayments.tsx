@@ -83,26 +83,29 @@ const RecentPayments = ({ session }: { session: Session }) => {
       }}
     >
       <h2 className="font-bold  text-lg">Payment&apos;s overview</h2>
-      <p className="text-gray-300/80 mt-1 flex items-center gap-2">
-        <Image src={checkgreen} alt="checkgreen" width={15} height={15} />
-        {(stats?.amountstats?.monthAmountPercentageIncrease &&
-          `${stats?.amountstats?.monthAmountPercentageIncrease}% this month`) ||
-          "N/A"}
-      </p>
       {payments.length > 0 ? (
-        <div className="mt-6 ">
-          {payments.map((item, index) => (
-            <div className="flex items-start gap-5 mt-4" key={index}>
-              <Image src={cart} alt="cart" width={20} height={20} />
-              <div>
-                <p>
-                  ${item.amount}, {item.plan}
-                </p>
-                <p className="text-sm text-gray-300/80">{item.email}</p>
+        <>
+          <p className="text-gray-300/80 mt-1 flex items-center gap-2">
+            <Image src={checkgreen} alt="checkgreen" width={15} height={15} />
+            {(stats?.amountstats?.monthAmountPercentageIncrease &&
+              `${stats?.amountstats?.monthAmountPercentageIncrease}% this month`) ||
+              "N/A"}
+          </p>
+
+          <div className="mt-6 ">
+            {payments.map((item, index) => (
+              <div className="flex items-start gap-5 mt-4" key={index}>
+                <Image src={cart} alt="cart" width={20} height={20} />
+                <div>
+                  <p>
+                    ${item.amount}, {item.plan}
+                  </p>
+                  <p className="text-sm text-gray-300/80">{item.email}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       ) : (
         <div className="flex items-center pt-10 h-full flex-col">
           <Image src={dollar} alt="dollar" width={100} height={100} />

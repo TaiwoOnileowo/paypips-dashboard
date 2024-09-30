@@ -8,6 +8,8 @@ import { IoMdClose } from "react-icons/io";
 import { useAppContext } from "@/context";
 import logo from "@/public/logo.svg";
 import Link from "next/link";
+import LogoutButton from "./LogoutButton";
+
 const Sidebar = () => {
   const pathname = usePathname();
   const splitPathname = pathname?.split("/")[2];
@@ -75,6 +77,9 @@ const Sidebar = () => {
             </Link>
           );
         })}
+        <div className="max-xl:px-2 px-3 w-full ">
+          <LogoutButton />
+        </div>
       </div>
     </div>
   );

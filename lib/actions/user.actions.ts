@@ -1,9 +1,9 @@
 "use server";
 import prisma from "@/prisma/prisma";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { SignJWT } from "jose";
 import { jwtVerify } from "jose";
-
+import { baseURL } from "../http";
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "");
 
 export const getUserFromDb = async (email: string, password: string) => {
@@ -42,6 +42,9 @@ export const signInUser = async (
 ) => {
   const response = await signIn("credentials", { email, password });
   return response;
+};
+export const signOutUser = async () => {
+  await signOut();
 };
 
 export const verifyToken = async (token: string) => {

@@ -9,7 +9,9 @@ import { useGetStats } from "@/hooks/reactQueryHooks";
 import { IoEyeOffOutline } from "react-icons/io5";
 
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+
 const HomePageStats = ({ session }: { session: Session }) => {
+  if (typeof window === "undefined") return null;
   const { data: stats } = useGetStats(session);
   const [hideAmount, setHideAmount] = useState(
     localStorage.getItem("hide-amount") === "true" || false
@@ -42,7 +44,7 @@ const HomePageStats = ({ session }: { session: Session }) => {
             percent:
               stats.subscriptionstats?.activeSubscriptionPercentageIncrease,
           };
-        case "Total sales":
+        case "Total revenue":
           return {
             ...stat,
             value: stats.amountstats?.totalAmount,
@@ -66,7 +68,7 @@ const HomePageStats = ({ session }: { session: Session }) => {
         const isSubscription =
           item.sub === "Active subscription" ||
           item.sub === "Today's subscription";
-        const isTotalSales = item.sub === "Total sales";
+        const isTotalSales = item.sub === "Total revenue";
         return (
           <div
             key={index}

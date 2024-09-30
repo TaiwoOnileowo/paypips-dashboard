@@ -29,10 +29,7 @@ const Page = async () => {
       title: "Full Name",
       value: session.user.name,
     },
-    {
-      title: "Mobile",
-      value: "09138281054",
-    },
+
     {
       title: "Email",
       value: session.user.email,
@@ -105,9 +102,17 @@ const Page = async () => {
             Lower transaction fees, access codes, priority onboarding, custom
             broadcast messages, access to beta features and more
           </p>
-
+          {/* BOLU-TODO */}
           <Image src={slash} alt="slash" className="my-6 w-full" />
-          <h1 className="text-lg font-bold">Profile Information</h1>
+        </div>
+        {/* <div
+          className="max-[1300px]:col-span-12 max-md:text-sm h-[370px] col-span-3 p-6 rounded-3xl text-[15px]"
+          style={{
+            background:
+              "linear-gradient(127deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)",
+          }}
+        >
+          <h1 className="text-lg font-bold mb-2">Profile Information</h1>
           {profileInfo.map((info, index) => (
             <p key={index} className="font-medium text-white mt-2">
               <span className="text-gray-400 mr-2 font-normal">
@@ -116,7 +121,7 @@ const Page = async () => {
               {info.value}
             </p>
           ))}
-          {/* <p className="font-medium text-white mt-2 flex gap-2 items-center">
+          <p className="font-medium text-white mt-2 flex gap-2 items-center">
             <span className="text-gray-400  ">Social:</span>
             <span className="flex gap-2">
               {social.map((icon, index) => (
@@ -125,8 +130,8 @@ const Page = async () => {
                 </Link>
               ))}
             </span>
-          </p> */}
-        </div>
+          </p>
+        </div> */}
       </div>
       {/* <div className="mt-6">
         <PlansTable />

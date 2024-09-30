@@ -4,8 +4,7 @@ import chartwhite from "@/assets/icons/chart-white.svg";
 import cardblue from "@/assets/icons/card-blue.svg";
 import homeblue from "@/assets/icons/home-blue.svg";
 import chartblue from "@/assets/icons/chart-blue.svg";
-import logoutwhite from "@/assets/icons/logout-white.svg";
-import logoutblue from "@/assets/icons/logout-blue.svg";
+
 import profilewhite from "@/assets/icons/profile-white.svg";
 import profileblue from "@/assets/icons/profile-blue.svg";
 export const sidebar = [
@@ -42,14 +41,14 @@ export const sidebar = [
     },
     path: "/dashboard/profile",
   },
-  {
-    title: "Logout",
-    icon: {
-      white: logoutwhite,
-      blue: logoutblue,
-    },
-    path: "/dashboard/logout",
-  },
+  // {
+  //   title: "Logout",
+  //   icon: {
+  //     white: logoutwhite,
+  //     blue: logoutblue,
+  //   },
+  //   path: "/dashboard/logout",
+  // },
 ];
 import doublecheck from "@/assets/icons/double-check.svg";
 import cards from "@/assets/icons/cards.svg";
@@ -81,7 +80,7 @@ export const homePageStats = [
     icon: doublecheck,
   },
   {
-    sub: "Total sales",
+    sub: "Total revenue",
     // value: "$100,000",
     value: "",
     // percent: "+5%",
