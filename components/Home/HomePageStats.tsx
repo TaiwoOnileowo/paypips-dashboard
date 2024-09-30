@@ -4,7 +4,10 @@ import Image from "next/image";
 import { homePageStats } from "@/lib/data";
 
 import { Session } from "next-auth";
-import { useGetStats } from "@/hooks/reactQueryHooks";
+import {
+  useGetRevenueStats,
+  useGetSubscriptionStats,
+} from "@/hooks/reactQueryHooks";
 
 import { IoEyeOffOutline } from "react-icons/io5";
 
@@ -12,7 +15,8 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const HomePageStats = ({ session }: { session: Session }) => {
   if (typeof window === "undefined") return null;
-  const { data: stats } = useGetStats(session);
+  const { data: revenueStats } = useGetRevenueStats(session);
+  const { data: subscriptionstats } = useGetSubscriptionStats(session);
   const [hideAmount, setHideAmount] = useState(
     localStorage.getItem("hide-amount") === "true" || false
   );
@@ -21,41 +25,39 @@ const HomePageStats = ({ session }: { session: Session }) => {
     setHideAmount(!hideAmount);
   };
   let updatedHomePageStats = homePageStats;
-  if (stats) {
+  if (revenueStats && subscriptionstats) {
     updatedHomePageStats = homePageStats.map((stat) => {
       switch (stat.sub) {
         case "Today's revenue":
           return {
             ...stat,
-            value: stats.amountstats?.todayAmount,
-            percent: stats.amountstats?.todayAmountPercentageIncrease,
+            value: revenueStats.todayRevenue,
+            percent: revenueStats.todayRevenuePercentageIncrease,
           };
         case "Today's subscription":
           return {
             ...stat,
-            value: stats.subscriptionstats?.todaySubscriptions,
-            percent:
-              stats.subscriptionstats?.todaySubscriptionPercentageIncrease,
+            value: subscriptionstats.todaySubscriptions,
+            percent: subscriptionstats?.todaySubscriptionPercentageIncrease,
           };
         case "Active subscription":
           return {
             ...stat,
-            value: stats.subscriptionstats?.activeSubscriptions,
-            percent:
-              stats.subscriptionstats?.activeSubscriptionPercentageIncrease,
+            value: subscriptionstats?.activeSubscriptions,
+            percent: subscriptionstats?.activeSubscriptionPercentageIncrease,
           };
         case "Total revenue":
           return {
             ...stat,
-            value: stats.amountstats?.totalAmount,
-            percent: stats.amountstats?.totalAmountPercentageIncrease,
+            value: revenueStats.totalRevenue,
+            percent: revenueStats.totalRevenuePercentageIncrease,
           };
         default:
           return stat;
       }
     });
   }
-  // console.log(updatedHomePageStats);
+
   return (
     <div className="w-full grid grid-cols-2 xl:grid-cols-4 max-md:flex-col max-md:flex gap-5 items-center  max-md:mt-6">
       {updatedHomePageStats.map((item, index) => {

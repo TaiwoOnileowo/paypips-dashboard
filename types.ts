@@ -2,28 +2,22 @@ export type AppContextType = {
   showSidebar: boolean;
   setShowSidebar: (showSidebar: boolean) => void;
 };
-interface AmountStats {
-  totalAmount: string;
-  todayAmount: string;
-  monthAmount: string;
-  todayAmountPercentageIncrease: string;
-  monthAmountPercentageIncrease: string;
-  totalAmountPercentageIncrease: string;
+export interface RevenueStats {
+  totalRevenue: string;
+  todayRevenue: string;
+  monthRevenue: string;
+  todayRevenuePercentageIncrease: string;
+  monthRevenuePercentageIncrease: string;
+  totalRevenuePercentageIncrease: string;
 }
-interface SubscriptionStats {
+export interface SubscriptionStats {
   activeSubscriptions: string;
   todaySubscriptions: string;
   todaySubscriptionPercentageIncrease: string;
   activeSubscriptionPercentageIncrease: string;
+  withdarawableBalance: string;
 }
-interface TransactionStats {
-  newest: Payment | Payout;
-}
-export interface Stats {
-  amountstats: AmountStats;
-  subscriptionstats: SubscriptionStats;
-  transactionstats: TransactionStats;
-}
+
 export interface Payment {
   id: string;
   amount: string;

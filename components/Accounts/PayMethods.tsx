@@ -9,6 +9,7 @@ import eth from "@/assets/icons/eth.svg";
 import dollar from "@/assets/icons/dollar1.gif";
 import { useGetAccountDetails } from "@/hooks/reactQueryHooks";
 import errorGif from "@/assets/icons/error.gif";
+import NotFound from "../NotFound";
 const PayMethods = ({ session }: { session: Session }) => {
   const {
     data: account,
@@ -108,10 +109,7 @@ const PayMethods = ({ session }: { session: Session }) => {
           ))}
         </div>
       ) : (
-        <div className="flex items-center pt-10 h-full flex-col w-full">
-          <Image src={dollar} alt="dollar" width={100} height={100} />
-          No payment address found
-        </div>
+        <NotFound message="No payment address found" />
       )}
     </div>
   );

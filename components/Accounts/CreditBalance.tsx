@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import graph from "@/assets/icons/graph.svg";
 import more from "@/assets/icons/more.svg";
-import domain from "@/assets/icons/domain.svg";
-import { useGetStats } from "@/hooks/reactQueryHooks";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { Session } from "next-auth";
 
 import { IoEyeOffOutline } from "react-icons/io5";
@@ -16,11 +14,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Payment, Payout } from "@/types";
-import { formatTimeAgo } from "@/lib/utils";
+import LatestTransaction from "../LatestTransaction";
+import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
 const CreditBalance = ({ session }: { session: Session }) => {
+  const { data: subscriptionstats } = useGetSubscriptionStats(session);
   if (typeof window === "undefined") return null;
-  const { data: stats, isLoading } = useGetStats(session);
+
   const [hideAmount, setHideAmount] = useState(
     localStorage.getItem("hide-amount") === "true" || false
   );
@@ -35,8 +34,6 @@ const CreditBalance = ({ session }: { session: Session }) => {
   const handleHideAmount = () => {
     setHideAmount(!hideAmount);
   };
-  const newestTransaction = stats?.transactionstats.newest;
-  const isPayout = newestTransaction?.isPayout;
 
   return (
     <div
@@ -55,7 +52,7 @@ const CreditBalance = ({ session }: { session: Session }) => {
       >
         <div className="px-4 ">
           <p className="text-sm font-medium mb-0.5 flex gap-2 items-center">
-            Total balance{" "}
+            Withdrawable balance{" "}
             {hideAmount ? (
               <IoEyeOffOutline onClick={handleHideAmount} />
             ) : (
@@ -65,7 +62,12 @@ const CreditBalance = ({ session }: { session: Session }) => {
           <h1 className="text-4xl font-bold">
             {hideAmount
               ? "XXXX"
-              : `${stats ? `$${stats?.amountstats?.totalAmount}` : "N/A"}`}
+              : `${
+                  subscriptionstats &&
+                  subscriptionstats.withdarawableBalance !== "0"
+                    ? `$${subscriptionstats.withdarawableBalance}`
+                    : "N/A"
+                }`}
           </h1>
         </div>
         <div className="h-full rounded-3xl relative p-3 py-2 flex justify-end bg-shadow bg-cover bg-no-repeat w-[140px]">
@@ -93,45 +95,7 @@ const CreditBalance = ({ session }: { session: Session }) => {
           />
         </div>
       </div>
-      <p className="text-xs mt-4 text-gray-400 font-medium ">NEWEST</p>
-
-      {isLoading ? (
-        <div className="flex items-center gap-5 mt-2">
-          <Skeleton className="h-8 w-14" />
-          <div className="space-y-2 w-full">
-            <Skeleton className="h-4 w-40" />
-            <Skeleton className="h-3 w-24" />
-          </div>
-          <Skeleton className="h-3 w-16" />
-        </div>
-      ) : (
-        <div className="flex justify-between gap-2 mt-2 items-center w-full ">
-          <div className="w-[15%]">
-            <div className="w-10 h-10 flex justify-center items-center rounded-full bg-ico_bg">
-              <Image src={domain} alt="domain" className="w-6 h-6" />
-            </div>
-          </div>
-          <div className="flex justify-between items-center w-[85%]">
-            <div>
-              {newestTransaction && (
-                <h3 className="text-sm font-medium">
-                  {isPayout
-                    ? `Payout to ${(newestTransaction as Payout).beneficiary}`
-                    : (newestTransaction as Payment).plan}
-                </h3>
-              )}
-
-              <p className="text-sm text-gray-400 mt-0.5">
-                {formatTimeAgo(newestTransaction?.created_at || "")},{" "}
-                {newestTransaction?.time}
-              </p>
-            </div>
-            <p className=" font-bold">
-              {isPayout ? "-" : "+"}${newestTransaction?.amount}
-            </p>
-          </div>
-        </div>
-      )}
+      <LatestTransaction session={session} />
     </div>
   );
 };

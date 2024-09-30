@@ -1,12 +1,12 @@
-"use client"
+"use client";
 import React from "react";
 import smilyface from "@/assets/icons/smilyface.svg";
 import Image from "next/image";
-import { useGetStats } from "@/hooks/reactQueryHooks";
+import { useGetRevenueStats } from "@/hooks/reactQueryHooks";
 
 import { Session } from "next-auth";
 const MonthlyRevenue = ({ session }: { session: Session }) => {
-  const { data: stats } = useGetStats(session);
+  const { data: revenueStats } = useGetRevenueStats(session);
   return (
     <div
       className="col-span-6 xl:col-span-3 max-xl:max-h-[350px] h-full rounded-3xl p-6 text-white basis-1/3"
@@ -29,9 +29,9 @@ const MonthlyRevenue = ({ session }: { session: Session }) => {
             backdropFilter: "blur(60px)",
           }}
         >
-          {(stats?.amountstats?.monthAmount &&
-            `$${stats?.amountstats?.monthAmount}`) ||
-            "N/A"}
+          {revenueStats && revenueStats.monthRevenue
+            ? `$${revenueStats.monthRevenue}`
+            : "N/A"}
         </div>
       </div>
     </div>

@@ -42,14 +42,7 @@ export const GET = async (req: NextRequest) => {
     const userData = await prisma.user_details.findUnique({
       where: { owner_id: userId },
     });
-    // const userAddresses = {
-    //   trc: returnAddress(userData?.trc_address),
-    //   btc: returnAddress(userData?.btc_address),
-    //   ltct: returnAddress(userData?.ltct_address),
-    //   sol: returnAddress(userData?.sol_address),
-    //   erc: returnAddress(userData?.erc_address),
-    //   localCurrency: userData?.local_currency || "",
-    // };
+
     const userAddresses = [
       {
         account: returnAddress(userData?.trc_address),

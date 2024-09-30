@@ -6,31 +6,57 @@ import {
 } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import http from "../lib/http";
-import { AccountDetail, Payment, Payout, Stats } from "@/types";
+import {
+  AccountDetail,
+  Payment,
+  Payout,
+  RevenueStats,
+  SubscriptionStats,
+} from "@/types";
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 // Queries
-export const useGetStats = (session: Session | null) => {
+export const useGetRevenueStats = (session: Session | null) => {
   console.log(session, "session");
-  return useQuery<Stats>({
-    queryKey: ["stats"],
+  return useQuery<RevenueStats>({
+    queryKey: ["revenue-stats"],
     queryFn: async () => {
       try {
         const userId = session?.user?.id;
         const token = session?.user?.token;
-        const response = await http.get(`${baseURL}/stats?userId=${userId}`, {
+        const response = await http.get(`${baseURL}/revenue?userId=${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response, "querydata");
-        return response.data.stats;
+        return response.data;
       } catch (error) {
         throw new Error(`An error occurred: ${error}`);
       }
     },
   });
 };
-
+export const useGetSubscriptionStats = (session: Session | null) => {
+  return useQuery<SubscriptionStats>({
+    queryKey: ["subscription-stats"],
+    queryFn: async () => {
+      try {
+        const userId = session?.user?.id;
+        const token = session?.user?.token;
+        const response = await http.get(
+          `${baseURL}/subscriptions?userId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return response.data;
+      } catch (error) {
+        throw new Error(`An error occurred: ${error}`);
+      }
+    },
+  });
+};
 export const useGetRecentPayments = (session: Session | null) => {
   return useQuery<Payment[]>({
     queryKey: ["payments"],
@@ -89,6 +115,29 @@ export const useGetAccountDetails = (session: Session | null) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        return response.data;
+      } catch (error) {
+        throw new Error(`An error occurred: ${error}`);
+      }
+    },
+  });
+};
+
+export const useGetTransactions = (session: Session | null) => {
+  return useQuery<Payment[] | Payout[]>({
+    queryKey: ["transactions"],
+    queryFn: async () => {
+      try {
+        const userId = session?.user?.id;
+        const token = session?.user?.token;
+        const response = await http.get(
+          `${baseURL}/transactions?userId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         return response.data;
       } catch (error) {
         throw new Error(`An error occurred: ${error}`);

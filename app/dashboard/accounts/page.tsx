@@ -30,7 +30,7 @@ const Page = async () => {
           <AccountBalances />
           <PayMethods session={session}/>
         </div>
-        <RecentTransactions />
+        <RecentTransactions session={session}/>
       </div>
     </div>
   );
