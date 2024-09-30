@@ -1,11 +1,11 @@
-import HomePageStats from "@/components/Home/HomePageStats";
+import HomePageStats from "@/components/(dashboard)/Home/HomePageStats";
 import React from "react";
 
 import { auth } from "@/auth";
 
 import { redirect } from "next/navigation";
-import MonthlyRevenue from "@/components/Home/MonthlyRevenue";
-import RecentPayments from "@/components/Home/RecentPayments";
+import MonthlyRevenue from "@/components/(dashboard)/Home/MonthlyRevenue";
+import RecentPayments from "@/components/(dashboard)/Home/RecentPayments";
 import { verifyToken } from "@/lib/actions/user.actions";
 
 const Page = async () => {

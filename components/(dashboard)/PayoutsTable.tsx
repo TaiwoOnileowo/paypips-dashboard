@@ -44,12 +44,12 @@ const PayoutsTable = ({ session }: { session: Session }) => {
           <table className="w-full table-auto">
             <thead>
               <tr className=" text-left max-md:text-sm">
-                <th className=" text-left">Beneficiary</th>
-                <th className=" text-left">Currency</th>
                 <th className=" text-left">Amount</th>
+                <th className=" text-left">Currency</th>
                 <th className=" text-left">Status</th>
                 <th className=" text-left">Date</th>
                 <th className=" text-left">Time</th>
+                <th className=" text-left">Beneficiary</th>
               </tr>
             </thead>
             <tbody>
@@ -111,12 +111,12 @@ const PayoutsTable = ({ session }: { session: Session }) => {
         <table className="w-full table-auto ">
           <thead className="">
             <tr className=" text-left max-md:text-sm">
-              <th className=" text-left">Beneficiary</th>
-              <th className=" text-left">Currency</th>
               <th className=" text-left">Amount</th>
+              <th className=" text-left">Currency</th>
               <th className=" text-left">Status</th>
               <th className=" text-left">Date</th>
               <th className=" text-left">Time</th>
+              <th className=" text-left">Beneficiary</th>
             </tr>
           </thead>
         </table>
@@ -139,7 +139,7 @@ const PayoutsTable = ({ session }: { session: Session }) => {
       }}
     >
       <div className="flex max-md:flex-col justify-between items-center">
-        <h2 className="text-white text-lg font-medium">Payouts Table</h2>
+        <h2 className="text-white text-lg font-medium">Withdrawals Table</h2>
         <div className="max-md:pt-3 flex gap-3 items-center text-white">
           <div className="flex items-center gap-2 rounded-xl border border-lightGray bg-[#0F1535] pl-2">
             <Image src={search} alt="search" width={20} height={20} />
@@ -157,12 +157,12 @@ const PayoutsTable = ({ session }: { session: Session }) => {
           <table className="w-full table-auto ">
             <thead className="">
               <tr className=" text-left max-md:text-sm">
-                <th className=" text-left">Beneficiary</th>
-                <th className=" text-left">Currency</th>
                 <th className=" text-left">Amount</th>
+                <th className=" text-left">Currency</th>
                 <th className=" text-left">Status</th>
                 <th className=" text-left">Date</th>
                 <th className=" text-left">Time</th>
+                <th className=" text-left">Beneficiary</th>
               </tr>
             </thead>
             <tbody>
@@ -172,15 +172,13 @@ const PayoutsTable = ({ session }: { session: Session }) => {
                     key={index}
                     className="font-medium border-t p-4 border-[#56577A]/50 "
                   >
-                    <td className=" text-left font-medium max-md:text-sm">
-                      {item.beneficiary}
+                    <td className=" text-left text-sm max-md:text-xs">
+                      ${item.amount}
                     </td>
                     <td className=" text-left text-sm font-medium max-md:text-xs">
                       {item.currency}
                     </td>
-                    <td className=" text-left text-sm max-md:text-xs">
-                      ${item.amount}
-                    </td>
+
                     <td className={`text-left text-xs `}>
                       <span
                         className={`w-[80px] p-1 capitalize rounded-md items-center flex justify-center ${
@@ -199,6 +197,9 @@ const PayoutsTable = ({ session }: { session: Session }) => {
                     </td>
                     <td className=" text-left text-sm max-md:text-xs">
                       {item.time}
+                    </td>
+                    <td className=" text-left font-medium max-md:text-sm">
+                      {item.beneficiary}
                     </td>
                   </tr>
                 );

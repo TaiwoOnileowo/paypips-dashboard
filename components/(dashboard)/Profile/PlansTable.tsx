@@ -1,5 +1,5 @@
 import React from "react";
-import { plans } from "@/lib/data";
+import { plans } from "@/lib/data/dashboarddata";
 import search from "@/assets/icons/search.svg";
 import Image from "next/image";
 

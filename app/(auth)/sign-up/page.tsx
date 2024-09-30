@@ -28,7 +28,9 @@ const Page = () => {
       </div>
       <div className="flex items-center max-lg:justify-center px-10 lg:px-32  ">
         <div className="container lg:max-w-xs">
-          <h1 className="font-plus text-3xl  max-lg:text-center font-bold">Welcome!</h1>
+          <h1 className="font-plus text-3xl  max-lg:text-center font-bold">
+            Welcome!
+          </h1>
           <p className="text-harsh text-sm max-lg:break-words mt-2 max-lg:text-center ">
             Sign up to get started with Paypips dashboard
           </p>

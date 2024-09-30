@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { recentTransactions } from "@/lib/data";
+import { recentTransactions } from "@/lib/data/dashboarddata";
 import forward from "@/assets/icons/forward.svg";
 import Image from "next/image";
 import priority from "@/assets/icons/priority.svg";

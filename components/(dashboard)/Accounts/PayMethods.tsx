@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { payMethods } from "@/lib/data";
+import { payMethods } from "@/lib/data/dashboarddata";
 import edit from "@/assets/icons/edit.svg";
 import Image from "next/image";
 import { Session } from "next-auth";

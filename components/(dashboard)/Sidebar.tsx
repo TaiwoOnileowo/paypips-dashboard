@@ -2,7 +2,7 @@
 import React from "react";
 import hr from "@/assets/icons/hr.svg";
 import Image from "next/image";
-import { sidebar } from "@/lib/data";
+import { sidebar } from "@/lib/data/dashboarddata";
 import { usePathname } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
 import { useAppContext } from "@/context";

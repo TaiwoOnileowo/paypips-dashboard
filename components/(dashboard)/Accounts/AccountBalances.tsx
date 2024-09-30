@@ -1,5 +1,5 @@
 import React from "react";
-import { accountBalances } from "@/lib/data";
+import { accountBalances } from "@/lib/data/dashboarddata";
 const AccountBalances = () => {
   return (
     <div

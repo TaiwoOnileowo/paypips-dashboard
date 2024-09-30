@@ -1,7 +1,7 @@
 import React from "react";
 
-import SignInLeft from "@/components/Signin/SignInLeft";
-import SignInRight from "@/components/Signin/SignInRight";
+import SignInLeft from "@/components/(dashboard)/Signin/SignInLeft";
+import SignInRight from "@/components/(dashboard)/Signin/SignInRight";
 const Page = async () => {
   return (
     <div

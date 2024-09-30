@@ -1,7 +1,11 @@
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/(dashboard)/Sidebar";
 import React from "react";
-import Header from "@/components/Header";
-
+import type { Metadata } from "next";
+import Header from "@/components/(dashboard)/Header";
+export const metadata: Metadata = {
+  title: "Dashboard | Paypips",
+  description: "The future of forex group management",
+};
 const Layout = ({ children }: React.PropsWithChildren) => {
   return (
     <div className="w-full max-h-screen  bg-gradient1 overflow-hidden xl:grid xl:grid-cols-12 ">

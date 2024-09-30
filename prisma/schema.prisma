@@ -89,6 +89,8 @@ model payments {
   amount         Float
   created_at     DateTime? @default(now()) @db.Timestamp(6)
   payment_method String    @db.VarChar(64)
+  owner_id       String?   @db.VarChar(64)
+  amount_usd     Float?
 }
 
 model subscriptions {
@@ -97,6 +99,7 @@ model subscriptions {
   group_id   String   @db.VarChar(64)
   start_date DateTime @db.Timestamp(6)
   end_date   DateTime @db.Timestamp(6)
+  owner_id   String?  @db.VarChar(64)
 }
 
 model transactions {
@@ -169,7 +172,7 @@ model webhook_logs {
 
 model sub_plan_owner {
   id                  Int       @id @default(autoincrement())
-  owner_id            String    @unique @db.VarChar(255)
+  owner_id            String    @db.VarChar(255)
   sub_plan_name       String?   @db.VarChar(255)
   sub_plan_price      Decimal?  @db.Decimal(10, 2)
   sub_plan_percentage Decimal?  @db.Decimal(5, 2)

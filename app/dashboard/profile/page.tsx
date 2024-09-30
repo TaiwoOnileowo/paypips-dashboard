@@ -7,7 +7,7 @@ import twitter from "@/assets/icons/twitter.svg";
 import slash from "@/assets/icons/slash1.svg";
 import Link from "next/link";
 import edit from "@/assets/icons/edit.svg";
-import PlansTable from "../../../components/Profile/PlansTable";
+import PlansTable from "../../../components/(dashboard)/Profile/PlansTable";
 import { verifyToken } from "@/lib/actions/user.actions";
 import { auth } from "@/auth";
 
