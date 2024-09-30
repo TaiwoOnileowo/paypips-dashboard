@@ -211,16 +211,6 @@ export const payMethods = [
     account: "2342222XXXXXX",
     name: "USDT",
   },
-  // {
-  //   logo: eth,
-  //   account: "234535223XXXXX",
-  //   name: "Ethereum",
-  // },
-  // {
-  //   logo: flutterwave,
-  //   account: "2323444XXXXXX",
-  //   name: "Flutterwave",
-  // },
 ];
 
 export const accountBalances = [

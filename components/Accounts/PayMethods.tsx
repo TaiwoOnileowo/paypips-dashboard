@@ -101,7 +101,7 @@ const PayMethods = ({ session }: { session: Session }) => {
             >
               <div className="flex gap-4 items-center justify-center">
                 <Image src={eth} alt={method.name} className="w-6 h-6" />
-                <p>{method.account}</p>
+                <p className="max-w-full truncate">{method.account}</p>
               </div>
               {/* <Image src={edit} alt="edit" className="w-4 h-4 cursor-pointer" /> */}
               {/* TO-BE-IMP */}

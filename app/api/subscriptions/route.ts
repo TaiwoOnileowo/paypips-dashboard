@@ -111,7 +111,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       todaySubscriptionPercentageIncrease,
       monthSubscriptionPercentageIncrease,
       activeSubscriptionPercentageIncrease,
-      withdarawableBalance: withdarawableBalance || "0",
+      withdarawableBalance: withdarawableBalance?.toFixed(2).toString() || "0",
     };
 
     return NextResponse.json(subscriptionstats);

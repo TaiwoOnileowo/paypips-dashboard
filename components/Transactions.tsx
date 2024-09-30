@@ -36,7 +36,7 @@ const Transactions = ({
                 />
               </div>
               <div>
-                <h3 className="text-sm font-medium my-0.5">
+                <h3 className="text-sm font-medium my-0.5 truncate max-w-[200px]">
                   {isPayout
                     ? `Payout to ${(transaction as Payout).beneficiary}`
                     : (transaction as Payment).plan}
