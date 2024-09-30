@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import http from "../lib/http";
-import { Payment, Payout, Stats } from "@/types";
+import { AccountDetail, Payment, Payout, Stats } from "@/types";
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 // Queries
 export const useGetStats = (session: Session | null) => {
@@ -70,6 +70,26 @@ export const useGetRecentPayouts = (session: Session | null) => {
           }
         );
         return response.data.payouts;
+      } catch (error) {
+        throw new Error(`An error occurred: ${error}`);
+      }
+    },
+  });
+};
+
+export const useGetAccountDetails = (session: Session | null) => {
+  return useQuery<AccountDetail>({
+    queryKey: ["account"],
+    queryFn: async () => {
+      try {
+        const userId = session?.user?.id;
+        const token = session?.user?.token;
+        const response = await http.get(`${baseURL}/account?userId=${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
       } catch (error) {
         throw new Error(`An error occurred: ${error}`);
       }

@@ -46,3 +46,10 @@ export interface Payout {
   isPayout?: boolean;
   created_at: string;
 }
+
+export interface AccountDetail {
+  addresses: {
+    account: string;
+    name: string;
+  }[];
+}
