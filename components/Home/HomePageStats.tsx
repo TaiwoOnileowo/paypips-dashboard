@@ -22,7 +22,7 @@ const HomePageStats = ({ session }: { session: Session }) => {
   if (stats) {
     updatedHomePageStats = homePageStats.map((stat) => {
       switch (stat.sub) {
-        case "Today's money":
+        case "Today's revenue":
           return {
             ...stat,
             value: stats.amountstats?.todayAmount,

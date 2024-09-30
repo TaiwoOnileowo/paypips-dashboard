@@ -19,14 +19,15 @@ import {
 import { Payment, Payout } from "@/types";
 import { formatTimeAgo } from "@/lib/utils";
 const CreditBalance = ({ session }: { session: Session }) => {
+  if (typeof window === "undefined") return null;
   const { data: stats, isLoading } = useGetStats(session);
-
   const [hideAmount, setHideAmount] = useState(
     localStorage.getItem("hide-amount") === "true" || false
   );
   const [hideAmountByDefault, setHideAmountByDefault] = useState(
     localStorage.getItem("hide-amount") === "true" || false
   );
+
   const handleHideAmountByDefault = () => {
     setHideAmountByDefault(!hideAmountByDefault);
     localStorage.setItem("hide-amount", JSON.stringify(!hideAmountByDefault));

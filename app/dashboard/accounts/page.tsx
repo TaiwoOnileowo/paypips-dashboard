@@ -1,9 +1,9 @@
 import React from "react";
 
-import PayMethods from "@/components/Billing/PayMethods";
-import CreditBalance from "@/components/Billing/CreditBalance";
-import AccountBalances from "@/components/Billing/AccountBalances";
-import RecentTransactions from "@/components/Billing/RecentTransactions";
+import PayMethods from "@/components/Accounts/PayMethods";
+import CreditBalance from "@/components/Accounts/CreditBalance";
+import AccountBalances from "@/components/Accounts/AccountBalances";
+import RecentTransactions from "@/components/Accounts/RecentTransactions";
 import { auth } from "@/auth";
 
 import { redirect } from "next/navigation";

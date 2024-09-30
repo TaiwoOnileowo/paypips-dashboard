@@ -1,5 +1,5 @@
 "use client";
-import React, { act } from "react";
+import React from "react";
 import hr from "@/assets/icons/hr.svg";
 import Image from "next/image";
 import { sidebar } from "@/lib/data";

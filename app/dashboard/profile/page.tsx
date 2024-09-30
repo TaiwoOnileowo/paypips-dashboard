@@ -128,9 +128,9 @@ const Page = async () => {
           </p> */}
         </div>
       </div>
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <PlansTable />
-      </div>
+      </div> */}
     </div>
   );
 };

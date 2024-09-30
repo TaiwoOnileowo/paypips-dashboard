@@ -27,12 +27,12 @@ export const sidebar = [
     path: "/dashboard/tables",
   },
   {
-    title: "Billing",
+    title: "Accounts",
     icon: {
       white: cardwhite,
       blue: cardblue,
     },
-    path: "/dashboard/billing",
+    path: "/dashboard/accounts",
   },
   {
     title: "Profile",
@@ -57,7 +57,7 @@ import globe from "@/assets/icons/globe.svg";
 import cart from "@/assets/icons/cart-white.svg";
 export const homePageStats = [
   {
-    sub: "Today's money",
+    sub: "Today's revenue",
     // value: "$10,000",
     value: "",
     percent: "",
