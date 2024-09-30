@@ -1,14 +1,23 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { homePageStats } from "@/lib/data";
 
 import { Session } from "next-auth";
 import { useGetStats } from "@/hooks/reactQueryHooks";
 
+import { IoEyeOffOutline } from "react-icons/io5";
+
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 const HomePageStats = ({ session }: { session: Session }) => {
   const { data: stats } = useGetStats(session);
+  const [hideAmount, setHideAmount] = useState(
+    localStorage.getItem("hide-amount") === "true" || false
+  );
 
+  const handleHideAmount = () => {
+    setHideAmount(!hideAmount);
+  };
   let updatedHomePageStats = homePageStats;
   if (stats) {
     updatedHomePageStats = homePageStats.map((stat) => {
@@ -57,6 +66,7 @@ const HomePageStats = ({ session }: { session: Session }) => {
         const isSubscription =
           item.sub === "Active subscription" ||
           item.sub === "Today's subscription";
+        const isTotalSales = item.sub === "Total sales";
         return (
           <div
             key={index}
@@ -67,17 +77,30 @@ const HomePageStats = ({ session }: { session: Session }) => {
             }}
           >
             <div>
-              <p className="text-white font-plus text-xs mb-1 ">{item.sub}</p>
+              <p className="text-white font-plus text-xs mb-1 flex items-center gap-2 ">
+                {item.sub}
+                {isTotalSales && (
+                  <span>
+                    {hideAmount ? (
+                      <IoEyeOffOutline onClick={handleHideAmount} />
+                    ) : (
+                      <MdOutlineRemoveRedEye onClick={handleHideAmount} />
+                    )}
+                  </span>
+                )}
+              </p>
               <div className="flex items-center gap-2">
                 {item.percent == "" ? (
-                  <p className="text-[#E31A1A] font-plus text-xl font-bold">
-                    N/A
-                  </p>
+                  <p className="text-white font-plus text-xl font-bold">N/A</p>
                 ) : (
                   <>
                     <p className="text-white font-plus text-xl font-bold">
-                      {!isSubscription ? "$" : ""}
-                      {item.value}
+                      {!isSubscription && !isTotalSales ? "$" : ""}
+                      {isTotalSales
+                        ? hideAmount
+                          ? "XXXX"
+                          : `$${item.value}`
+                        : item.value}
                     </p>
 
                     <p

@@ -6,12 +6,12 @@ import {
 } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import http from "../lib/http";
-import { Payment, Payout } from "@/types";
+import { Payment, Payout, Stats } from "@/types";
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 // Queries
 export const useGetStats = (session: Session | null) => {
   console.log(session, "session");
-  return useQuery({
+  return useQuery<Stats>({
     queryKey: ["stats"],
     queryFn: async () => {
       try {

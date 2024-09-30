@@ -38,15 +38,15 @@ export const GET = async (req: NextRequest) => {
           (b.initiated_at ? b.initiated_at.getTime() : 0) -
           (a.initiated_at ? a.initiated_at.getTime() : 0)
       )
-      .map((payment) => {
+      .map((payout) => {
         return {
-          id: payment.id,
-          beneficiary: payment.address,
-          amount: payment.amount.toFixed(2),
-          currency: payment.currency,
-          status: payment.status,
-          date: formatDate(payment.initiated_at),
-          time: formatTo12HourTime(payment.initiated_at),
+          id: payout.id,
+          beneficiary: payout.address,
+          amount: payout.amount.toFixed(2),
+          currency: payout.currency,
+          status: payout.status,
+          date: formatDate(payout.initiated_at),
+          time: formatTo12HourTime(payout.initiated_at),
         };
       });
     return NextResponse.json({

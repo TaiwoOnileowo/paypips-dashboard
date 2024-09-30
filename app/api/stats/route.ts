@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
 import jwt from "jsonwebtoken";
-
+import { formatTo12HourTime, formatDate } from "@/lib/utils";
 // Utility function to calculate percentage increases
 const calculatePercentageIncrease = (
   currentValue: number,
@@ -185,7 +185,45 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       currentMonthSubscriptions.length,
       previousMonthSubscriptions.length
     );
+    const userPayments = await prisma.payments.findMany({
+      where: { userid: userId },
+    });
+    const userPayouts = await prisma.withdrawals.findMany({
+      where: { owner_id: userId },
+    });
+    const convertedPayments = userPayments.map((payment) => ({
+      ...payment,
+      id: payment.id,
+      amount: payment.amount.toFixed(2),
+      plan: payment.groupname,
+      method: payment.payment_method,
+      date: formatDate(payment.created_at),
+      time: formatTo12HourTime(payment.created_at),
+      created_at: payment.created_at,
+      email: payment.email,
+      isPayout: false,
+    }));
 
+    const convertedPayouts = userPayouts.map((payout) => ({
+      id: payout.id,
+      beneficiary: payout.address,
+      amount: payout.amount.toFixed(2),
+      currency: payout.currency,
+      status: payout.status,
+      date: formatDate(payout.initiated_at),
+      time: formatTo12HourTime(payout.initiated_at),
+      created_at: payout.initiated_at,
+      isPayout: true,
+    }));
+    const concatenatedTransactions = [
+      ...convertedPayments,
+      ...convertedPayouts,
+    ];
+    const sortedConcatenatedTransactions = concatenatedTransactions.sort(
+      (a, b) =>
+        (b.created_at ? b.created_at.getTime() : 0) -
+        (a.created_at ? a.created_at.getTime() : 0)
+    );
     // Return stats
     const stats = {
       amountstats: {
@@ -202,6 +240,9 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         todaySubscriptionPercentageIncrease,
         monthSubscriptionPercentageIncrease,
         activeSubscriptionPercentageIncrease,
+      },
+      transactionstats: {
+        newest: sortedConcatenatedTransactions[0],
       },
     };
 

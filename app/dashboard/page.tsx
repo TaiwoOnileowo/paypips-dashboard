@@ -10,7 +10,7 @@ import { verifyToken } from "@/lib/actions/user.actions";
 
 const Page = async () => {
   const session = await auth();
-
+  console.log(session);
   const token = session?.user.token;
   if (typeof token !== "string" || !session) {
     redirect("/sign-in");
@@ -28,7 +28,7 @@ const Page = async () => {
         <div className="col-span-12 max-h-full xl:col-span-5 rounded-3xl bg-cover shadow-md h-full bg-center bg-smile  p-6 xl:pt-14 relative basis-1/3">
           <p className="text-gray-300/80   my-1 md:text-lg">Welcome back,</p>
           <h1 className="text-xl md:text-3xl font-bold text-white">
-            Onileowo Taiwo
+            {session.user.name || session.user.email}
           </h1>
           <p className="text-gray-300/80 mt-5 md:text-lg">
             Glad to see you again!

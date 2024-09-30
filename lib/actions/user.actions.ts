@@ -32,6 +32,7 @@ export const getUserFromDb = async (email: string, password: string) => {
     id: user.owner_id,
     email: user.email,
     token,
+    fullname: user.full_name,
   };
 };
 

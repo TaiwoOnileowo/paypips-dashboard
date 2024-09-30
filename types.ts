@@ -16,9 +16,13 @@ interface SubscriptionStats {
   todaySubscriptionPercentageIncrease: string;
   activeSubscriptionPercentageIncrease: string;
 }
+interface TransactionStats {
+  newest: Payment | Payout;
+}
 export interface Stats {
   amountstats: AmountStats;
   subscriptionstats: SubscriptionStats;
+  transactionstats: TransactionStats;
 }
 export interface Payment {
   id: string;
@@ -27,6 +31,9 @@ export interface Payment {
   method: string;
   date: string;
   email: string;
+  isPayout?: boolean;
+  time: string;
+  created_at: string;
 }
 
 export interface Payout {
@@ -36,4 +43,6 @@ export interface Payout {
   date: string;
   status: string;
   time: string;
+  isPayout?: boolean;
+  created_at: string;
 }

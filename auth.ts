@@ -9,8 +9,10 @@ import { JWT } from "next-auth/jwt";
 declare module "next-auth" {
   interface Session {
     user: {
+      name: string | null | undefined;
       id: string;
       token: JWT;
+      email: string;
     };
   }
   interface User {
@@ -35,10 +37,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       authorize: async (credentials, req) => {
         try {
-          // const { email, password } = await signInSchema.parseAsync(
-          //   credentials
-          // );
-          const { email, password } = credentials;
+          const { email, password } = await signInSchema.parseAsync(
+            credentials
+          );
+          // const { email, password } = credentials;
           // Fetch user from DB by email
           const user = await getUserFromDb(email, password);
 
@@ -52,6 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             id: user.id,
             email: user.email,
             token: user.token as unknown as JWT,
+            name: user.fullname,
           };
         } catch (error: any) {
           // Handle Zod validation error (Invalid input)
@@ -72,12 +75,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.id = user.id;
         token.token = user.token;
+        token.fullname = user.name;
       }
       return token;
     },
     async session({ session, token, user }) {
       session.user.id = token.id as string;
-
+      session.user.name = token.name;
       session.user.token = token.token as JWT;
       return session;
     },

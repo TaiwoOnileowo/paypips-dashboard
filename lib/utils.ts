@@ -41,3 +41,43 @@ export function formatTo12HourTime(date: Date | null) {
 
   return formattedTime;
 }
+export function formatTimeAgo(dateString: string) {
+  const date = new Date(dateString);
+  const now = new Date();
+
+  const msPerMinute = 60 * 1000;
+  const msPerHour = msPerMinute * 60;
+  const msPerDay = msPerHour * 24;
+  const msPerWeek = msPerDay * 7;
+  const msPerMonth = msPerDay * 30.44; // Approximate average month
+  const msPerYear = msPerDay * 365.25; // Account for leap years
+
+  const elapsed = now.getTime() - date.getTime();
+
+  if (elapsed < msPerMinute) {
+    return "just now";
+  } else if (elapsed < msPerHour) {
+    const minutes = Math.round(elapsed / msPerMinute);
+    return minutes === 1 ? "a minute ago" : `${minutes} minutes ago`;
+  } else if (elapsed < msPerDay) {
+    const hours = Math.round(elapsed / msPerHour);
+    return hours === 1 ? "an hour ago" : `${hours} hours ago`;
+  } else if (elapsed < msPerWeek) {
+    const days = Math.round(elapsed / msPerDay);
+    if (days === 1) return "yesterday";
+    if (days < 7) return `${days} days ago`;
+    return "a week ago";
+  } else if (elapsed < msPerMonth) {
+    const weeks = Math.round(elapsed / msPerWeek);
+    if (weeks === 1) return "a week ago";
+    return `${weeks} weeks ago`;
+  } else if (elapsed < msPerYear) {
+    const months = Math.round(elapsed / msPerMonth);
+    if (months === 1) return "a month ago";
+    return `${months} months ago`;
+  } else {
+    const years = Math.round(elapsed / msPerYear);
+    if (years === 1) return "a year ago";
+    return `${years} years ago`;
+  }
+}

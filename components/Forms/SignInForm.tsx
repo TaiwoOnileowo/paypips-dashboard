@@ -23,18 +23,18 @@ const SignInForm = () => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    // if (!email || !password) {
-    //   toast.error("Please fill in all fields.");
-    //   return;
-    // }
-    // if (password.toString().length < 8) {
-    //   toast.error("Password must be more than 8 characters");
-    //   return;
-    // }
-    // if (!email.toString().includes("@")) {
-    //   toast.error("Invalid email");
-    //   return;
-    // }
+    if (!email || !password) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    if (password.toString().length < 8) {
+      toast.error("Password must be more than 8 characters");
+      return;
+    }
+    if (!email.toString().includes("@")) {
+      toast.error("Invalid email");
+      return;
+    }
     setLoading(true);
     try {
       await signInUser(email, password);
