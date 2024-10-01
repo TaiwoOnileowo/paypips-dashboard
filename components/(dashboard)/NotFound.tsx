@@ -1,5 +1,5 @@
 import React from "react";
-import dollar from "@/assets/icons/dollar1.gif";
+import dollar from "@/assets/icons/dollar2.gif";
 import Image from "next/image";
 const NotFound = ({ message }: { message: string }) => {
   return (
