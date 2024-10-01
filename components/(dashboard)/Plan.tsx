@@ -51,7 +51,7 @@ const Plan = ({ session }: { session: Session }) => {
         Lower transaction fees, access codes, priority onboarding, custom
         broadcast messages, access to beta features and more
       </p>
-      {/* BOLU-TODO */}
+   
       <Image src={slash} alt="slash" className="my-6 w-full" />
     </div>
   );

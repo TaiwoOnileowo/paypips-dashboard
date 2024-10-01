@@ -35,7 +35,7 @@ export const GET = corsMiddleware(async (req: NextRequest) => {
     const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },
     });
-    // BOLU-TODO: add owner_id to payments table
+
     const sortedReturnPayments = userPayments
       .sort(
         (a, b) =>
