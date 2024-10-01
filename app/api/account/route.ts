@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { convertCurrencyToName } from "@/lib/utils";
-import { corsMiddleware } from "@/lib/corsmiddleware";
+import corsMiddleware from "@/lib/corsmiddleware";
 
 export const runtime = "nodejs";
 const returnAddress = (address: string | null | undefined) => {

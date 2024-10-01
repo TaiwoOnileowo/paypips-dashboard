@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatDate } from "@/lib/utils";
-import { redirect } from "next/navigation";
-import { corsMiddleware } from "@/lib/corsmiddleware";
+import corsMiddleware from "@/lib/corsmiddleware";
 export const runtime = "nodejs";
 export const GET = corsMiddleware(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);

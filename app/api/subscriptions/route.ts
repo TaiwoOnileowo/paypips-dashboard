@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
 import jwt from "jsonwebtoken";
-import { corsMiddleware } from "@/lib/corsmiddleware";
+import corsMiddleware from "@/lib/corsmiddleware";
 
 // Utility function to calculate percentage increases
 const calculatePercentageIncrease = (

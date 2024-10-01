@@ -1,79 +1,42 @@
-import Cors from "cors";
+import { NextRequest, NextResponse } from "next/server";
 
-const cors = Cors({
-  origin: ["https://paypips-dash.vercel.app", "https://www.paypipsbot.com"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Extension-ID",
-    "Access-Control-Allow-Origin",
-  ],
-  credentials: true,
-});
-
-function runMiddleware(
-  req: { method: string; headers: { origin: any } },
-  res: {
-    setHeader: (arg0: string, arg1: string) => void;
-    status: (arg0: number) => {
-      (): any;
-      new (): any;
-      end: { (): void; new (): any };
-    };
-  },
-  fn: (arg0: any, arg1: any, arg2: (result: any) => void) => void
+export default function corsMiddleware(
+  handler: (req: NextRequest, res: NextResponse) => Promise<NextResponse>
 ) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-      return resolve(result);
-    });
-  });
-}
-
-export default function corsMiddleware(handler: (arg0: any, arg1: any) => any) {
-  return async (
-    req: { method: string; headers: { origin: any } },
-    res: {
-      setHeader: (arg0: string, arg1: string) => void;
-      status: (arg0: number) => {
-        (): any;
-        new (): any;
-        end: { (): void; new (): any };
-      };
-    }
-  ) => {
+  return async (req: NextRequest) => {
+    // Handle OPTIONS request for CORS
     if (req.method === "OPTIONS") {
       const allowedOrigins = [
         "https://paypips-dash.vercel.app",
         "https://www.paypipsbot.com",
       ];
 
-      const origin = req.headers.origin;
+      const origin = req.headers.get("origin");
 
-      if (allowedOrigins.includes(origin)) {
-        res.setHeader("Access-Control-Allow-Origin", origin);
+      const response = new NextResponse(null, { status: 204 });
+
+      if (allowedOrigins.includes(origin || "")) {
+        response.headers.set("Access-Control-Allow-Origin", origin!);
       } else {
-        res.setHeader("Access-Control-Allow-Origin", "*"); // For testing purposes
+        response.headers.set("Access-Control-Allow-Origin", "*"); // For testing
       }
 
-      res.setHeader(
+      response.headers.set(
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, OPTIONS"
       );
-      res.setHeader(
+      response.headers.set(
         "Access-Control-Allow-Headers",
         "Content-Type, Authorization, X-Extension-ID"
       );
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.status(204).end();
-      return;
+      response.headers.set("Access-Control-Allow-Credentials", "true");
+
+      return response;
     }
 
-    await runMiddleware(req, res, cors);
-    return handler(req, res);
+    // Continue with the request if not OPTIONS
+    const res = await handler(req, NextResponse.next());
+    res.headers.set("Access-Control-Allow-Origin", "*");
+    return res;
   };
 }

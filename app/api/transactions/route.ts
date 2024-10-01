@@ -2,22 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatTo12HourTime, formatDate } from "@/lib/utils";
-import { corsMiddleware } from "@/lib/corsmiddleware";
+import corsMiddleware from "@/lib/corsmiddleware";
+
 export const runtime = "nodejs";
-const returnAddress = (address: string | null | undefined) => {
-  if (!address) {
-    return "";
-  }
-  if (address === "NOT YET SET") {
-    return "";
-  } else {
-    return address;
-  }
-};
+
 export const GET = corsMiddleware(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-
+  
   const authHeader = req.headers.get("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
   const secret = process.env.JWT_SECRET;
