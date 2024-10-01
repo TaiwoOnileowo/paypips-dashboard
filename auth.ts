@@ -42,7 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           );
           // const { email, password } = credentials;
           // Fetch user from DB by email
-          const user = await getUserFromDb(email, password);
+          const user = await getUserFromDb(email.toLowerCase(), password);
 
           // If no user found, throw error
           if (!user) {
