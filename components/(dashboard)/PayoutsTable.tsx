@@ -9,6 +9,8 @@ import { useGetRecentPayouts } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import dollar from "@/assets/icons/dollar1.gif";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
+import Error from "./Error";
+import NotFound from "./NotFound";
 const PayoutsTable = ({ session }: { session: Session }) => {
   const {
     data: payouts,
@@ -120,12 +122,7 @@ const PayoutsTable = ({ session }: { session: Session }) => {
             </tr>
           </thead>
         </table>
-        <div className="flex items-center h-full flex-col pt-10 ">
-          <Image src={errorGif} alt="error" width={100} height={100} />
-          <p className="text-center text-gray-300/80 mt-4">
-            An error occurred while fetching payouts
-          </p>
-        </div>
+        <Error message="An error occurred while fetching payouts" />
       </div>
     );
   }
@@ -207,7 +204,7 @@ const PayoutsTable = ({ session }: { session: Session }) => {
             </tbody>
           </table>
         ) : (
-          <>
+          <div>
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left max-md:text-sm">
@@ -219,11 +216,8 @@ const PayoutsTable = ({ session }: { session: Session }) => {
                 </tr>
               </thead>
             </table>
-            <div className="flex items-center pt-10 h-full flex-col w-full">
-              <Image src={dollar} alt="dollar" width={100} height={100} />
-              No payouts yet
-            </div>
-          </>
+            <NotFound message="No payouts yet" />
+          </div>
         )}
       </div>
     </div>

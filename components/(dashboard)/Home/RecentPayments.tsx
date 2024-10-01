@@ -11,6 +11,7 @@ import errorGif from "@/assets/icons/error.gif";
 import checkgreen from "@/assets/icons/check-green.svg";
 import cart from "@/assets/icons/cart-blue.svg";
 import dollar from "@/assets/icons/dollar1.gif";
+import Error from "../Error";
 const RecentPayments = ({ session }: { session: Session }) => {
   const { data: revenueStats } = useGetRevenueStats(session);
   const {
@@ -64,12 +65,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
         }}
       >
         <h2 className="font-bold text-lg">Payment&apos;s overview</h2>
-        <div className="flex items-center h-full flex-col pt-14 ">
-          <Image src={errorGif} alt="error" width={100} height={100} />
-          <p className="text-center text-gray-300/80 mt-4">
-            An error occurred while fetching payments
-          </p>
-        </div>
+        <Error message="An error occurred while fetching payments" />
       </div>
     );
   }
