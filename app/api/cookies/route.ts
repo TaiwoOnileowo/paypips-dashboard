@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { corsMiddleware } from "@/lib/corsmiddleware";
 
 // POST Method (Set Cookie)
-export const POST =corsMiddleware( async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   const { token } = await req.json();
 
   const response = NextResponse.json({
@@ -32,4 +32,3 @@ export const DELETE = async (req: NextRequest) => {
   response.cookies.delete("paypips_token");
   return response;
 };
-)
