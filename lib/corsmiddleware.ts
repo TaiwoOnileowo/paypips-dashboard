@@ -36,7 +36,8 @@ export default function corsMiddleware(
     // }
 
     // Continue with the request if not OPTIONS
-    const response = await handler(req, NextResponse.next());
+    // const response = await handler(req, NextResponse.next());
+    const response = new NextResponse(null, { status: 204 });
 
     const origin =req.headers.get("origin") || req.headers.get("referer") || "*"
     response.headers.set("Access-Control-Allow-Origin", origin!);
