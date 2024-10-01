@@ -81,13 +81,13 @@ const SignInForm = () => {
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
         )}
       </button>
-      <p className="mt-4 text-harsh text-sm flex justify-center w-full ">
+      {/* <p className="mt-4 text-harsh text-sm flex justify-center w-full ">
         Don&apos;t have an account?{" "}
         <Link href={"/sign-up"} className="text-white cursor-pointer ml-1">
           {" "}
           Sign up
         </Link>
-      </p>
+      </p> */}
     </form>
   );
 };

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatTo12HourTime, formatDate } from "@/lib/utils";
+import { corsMiddleware } from "@/lib/corsmiddleware";
 export const runtime = "nodejs";
 const returnAddress = (address: string | null | undefined) => {
   if (!address) {
@@ -13,7 +14,7 @@ const returnAddress = (address: string | null | undefined) => {
     return address;
   }
 };
-export const GET = async (req: NextRequest) => {
+export const GET = corsMiddleware(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
 
@@ -86,4 +87,4 @@ export const GET = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-};
+});

@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatDate } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { corsMiddleware } from "@/lib/corsmiddleware";
 export const runtime = "nodejs";
-export const GET = async (req: NextRequest) => {
+export const GET = corsMiddleware(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
   const recent = searchParams.get("recent");
@@ -62,4 +63,4 @@ export const GET = async (req: NextRequest) => {
       { status: 500 }
     );
   }
-};
+});

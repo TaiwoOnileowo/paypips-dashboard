@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
 import jwt from "jsonwebtoken";
+import { corsMiddleware } from "@/lib/corsmiddleware";
 
 // Utility function to calculate percentage increases
 const calculatePercentageIncrease = (
@@ -16,115 +17,119 @@ const calculatePercentageIncrease = (
     .toString();
 };
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
-  const { searchParams } = new URL(req.url);
-  const userId = searchParams.get("userId");
-  const authHeader = req.headers.get("Authorization");
-  const token = authHeader && authHeader.split(" ")[1];
-  const secret = process.env.JWT_SECRET;
+export const GET = corsMiddleware(
+  async (req: NextRequest, res: NextResponse) => {
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+    const authHeader = req.headers.get("Authorization");
+    const token = authHeader && authHeader.split(" ")[1];
+    const secret = process.env.JWT_SECRET;
 
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
-  }
-  if (!secret) {
-    return NextResponse.json(
-      { error: "Secret key is required" },
-      { status: 400 }
-    );
-  }
-
-  try {
-    const decoded = jwt.verify(token, secret);
-
-    if (!userId) {
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
+    }
+    if (!secret) {
       return NextResponse.json(
-        { error: "User ID is required" },
+        { error: "Secret key is required" },
         { status: 400 }
       );
     }
 
-    const userSubscriptions = await prisma.subscriptions.findMany({
-      where: { owner_id: userId },
-    });
-    const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
-      where: { owner_id: userId },
-    });
-    const withdarawableBalance = userSubscriptionPlan?.available_balance;
-    const plan = {
-      name: userSubscriptionPlan?.sub_plan_name,
-      status: userSubscriptionPlan?.status,
-    };
-    // Calculate today, yesterday, current month, and previous month
-    const today = new Date().toDateString();
-    const yesterday = new Date(
-      new Date().setDate(new Date().getDate() - 1)
-    ).toDateString();
+    try {
+      const decoded = jwt.verify(token, secret);
 
-    const currentMonth = new Date().getMonth();
-    const previousMonth = new Date(
-      new Date().setMonth(new Date().getMonth() - 1)
-    ).getMonth();
+      if (!userId) {
+        return NextResponse.json(
+          { error: "User ID is required" },
+          { status: 400 }
+        );
+      }
 
-    // Filter today's and yesterday's subscriptions
-    const todaySubscriptions = userSubscriptions.filter((subscription) =>
-      subscription.start_date
-        ? new Date(subscription.start_date).toDateString() === today
-        : false
-    );
+      const userSubscriptions = await prisma.subscriptions.findMany({
+        where: { owner_id: userId },
+      });
+      const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
+        where: { owner_id: userId },
+      });
+      const withdarawableBalance = userSubscriptionPlan?.available_balance;
+      const plan = {
+        name: userSubscriptionPlan?.sub_plan_name,
+        status: userSubscriptionPlan?.status,
+      };
+      // Calculate today, yesterday, current month, and previous month
+      const today = new Date().toDateString();
+      const yesterday = new Date(
+        new Date().setDate(new Date().getDate() - 1)
+      ).toDateString();
 
-    const yesterdaySubscriptions = userSubscriptions.filter((subscription) =>
-      subscription.start_date
-        ? new Date(subscription.start_date).toDateString() === yesterday
-        : false
-    );
+      const currentMonth = new Date().getMonth();
+      const previousMonth = new Date(
+        new Date().setMonth(new Date().getMonth() - 1)
+      ).getMonth();
 
-    // Filter current and previous month's subscriptions
-    const currentMonthSubscriptions = userSubscriptions.filter((subscription) =>
-      subscription.start_date
-        ? new Date(subscription.start_date).getMonth() === currentMonth
-        : false
-    );
-
-    const previousMonthSubscriptions = userSubscriptions.filter(
-      (subscription) =>
+      // Filter today's and yesterday's subscriptions
+      const todaySubscriptions = userSubscriptions.filter((subscription) =>
         subscription.start_date
-          ? new Date(subscription.start_date).getMonth() === previousMonth
+          ? new Date(subscription.start_date).toDateString() === today
           : false
-    );
+      );
 
-    const todaySubscriptionPercentageIncrease = calculatePercentageIncrease(
-      todaySubscriptions.length,
-      yesterdaySubscriptions.length
-    );
+      const yesterdaySubscriptions = userSubscriptions.filter((subscription) =>
+        subscription.start_date
+          ? new Date(subscription.start_date).toDateString() === yesterday
+          : false
+      );
 
-    const activeSubscriptionPercentageIncrease =
-      userSubscriptions.length > 0
-        ? ((todaySubscriptions.length / userSubscriptions.length) * 100)
-            .toFixed(2)
-            .toString()
-        : "0";
+      // Filter current and previous month's subscriptions
+      const currentMonthSubscriptions = userSubscriptions.filter(
+        (subscription) =>
+          subscription.start_date
+            ? new Date(subscription.start_date).getMonth() === currentMonth
+            : false
+      );
 
-    const monthSubscriptionPercentageIncrease = calculatePercentageIncrease(
-      currentMonthSubscriptions.length,
-      previousMonthSubscriptions.length
-    );
+      const previousMonthSubscriptions = userSubscriptions.filter(
+        (subscription) =>
+          subscription.start_date
+            ? new Date(subscription.start_date).getMonth() === previousMonth
+            : false
+      );
 
-    const subscriptionstats = {
-      activeSubscriptions: userSubscriptions.length.toString(),
-      todaySubscriptions: todaySubscriptions.length.toString(),
-      todaySubscriptionPercentageIncrease,
-      monthSubscriptionPercentageIncrease,
-      activeSubscriptionPercentageIncrease,
-      withdarawableBalance: withdarawableBalance?.toFixed(2).toString() || "0",
-      subscriptionPlan: plan,
-    };
+      const todaySubscriptionPercentageIncrease = calculatePercentageIncrease(
+        todaySubscriptions.length,
+        yesterdaySubscriptions.length
+      );
 
-    return NextResponse.json(subscriptionstats);
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: `An error occurred: ${error}` },
-      { status: 500 }
-    );
+      const activeSubscriptionPercentageIncrease =
+        userSubscriptions.length > 0
+          ? ((todaySubscriptions.length / userSubscriptions.length) * 100)
+              .toFixed(2)
+              .toString()
+          : "0";
+
+      const monthSubscriptionPercentageIncrease = calculatePercentageIncrease(
+        currentMonthSubscriptions.length,
+        previousMonthSubscriptions.length
+      );
+
+      const subscriptionstats = {
+        activeSubscriptions: userSubscriptions.length.toString(),
+        todaySubscriptions: todaySubscriptions.length.toString(),
+        todaySubscriptionPercentageIncrease,
+        monthSubscriptionPercentageIncrease,
+        activeSubscriptionPercentageIncrease,
+        withdarawableBalance:
+          withdarawableBalance?.toFixed(2).toString() || "0",
+        subscriptionPlan: plan,
+      };
+
+      return NextResponse.json(subscriptionstats);
+    } catch (error) {
+      console.log(error);
+      return NextResponse.json(
+        { error: `An error occurred: ${error}` },
+        { status: 500 }
+      );
+    }
   }
-};
+);
