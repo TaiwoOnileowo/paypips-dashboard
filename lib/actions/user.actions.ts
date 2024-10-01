@@ -8,26 +8,29 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "");
 
 export const getUserFromDb = async (email: string, password: string) => {
   // Find user by unique field (email)
+
   const user = await prisma.user_details.findUnique({
-    where: { email },
+    where: { email: email.toLowerCase() },
   });
+
+  console.log(user, "useraction", email);
 
   // If user is not found, return null
   if (!user) {
+    console.log("nouser");
     return null;
   }
 
   if (user.password !== password) {
+    console.log()
     return null;
   }
-
-  console.log(user, "user");
 
   const token = await new SignJWT({ id: user.owner_id, email: user.email })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("24h")
     .sign(JWT_SECRET);
-
+  console.log(token, "token user");
   return {
     id: user.owner_id,
     email: user.email,
