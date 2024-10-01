@@ -44,12 +44,16 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     }
 
     const userSubscriptions = await prisma.subscriptions.findMany({
-      where: { user_id: userId },
+      where: { owner_id: userId },
     });
     const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
       where: { owner_id: userId },
     });
     const withdarawableBalance = userSubscriptionPlan?.available_balance;
+    const plan = {
+      name: userSubscriptionPlan?.sub_plan_name,
+      status: userSubscriptionPlan?.status,
+    };
     // Calculate today, yesterday, current month, and previous month
     const today = new Date().toDateString();
     const yesterday = new Date(
@@ -112,6 +116,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       monthSubscriptionPercentageIncrease,
       activeSubscriptionPercentageIncrease,
       withdarawableBalance: withdarawableBalance?.toFixed(2).toString() || "0",
+      subscriptionPlan: plan,
     };
 
     return NextResponse.json(subscriptionstats);

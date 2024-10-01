@@ -52,7 +52,7 @@ const CreditBalance = ({ session }: { session: Session }) => {
       >
         <div className="px-4 ">
           <p className="text-sm font-medium mb-0.5 flex gap-2 items-center">
-            Withdrawable balance{" "}
+            Balance{" "}
             {hideAmount ? (
               <IoEyeOffOutline onClick={handleHideAmount} />
             ) : (

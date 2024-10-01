@@ -10,7 +10,7 @@ import { verifyToken } from "@/lib/actions/user.actions";
 
 const Page = async () => {
   const session = await auth();
-  console.log(session);
+
   const token = session?.user.token;
   if (typeof token !== "string" || !session) {
     redirect("/sign-in");

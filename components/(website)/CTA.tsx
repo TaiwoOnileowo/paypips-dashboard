@@ -1,13 +1,11 @@
+"use client"
 import React from "react";
 import Button from "./Button";
-
 const CTA = () => {
   return (
     <section
       id="cta"
-      className={`${
-        window.innerWidth > 1020 ? "cta-border" : null
-      } relative bg-light-gray flex items-center px-12 py-16 msm:py-32 msm:pb-52 justify-center w-full`}
+      className={`lg:rounded-[0px,0px,30px,30px] relative bg-light-gray flex items-center px-12 py-16 msm:py-32 msm:pb-52 justify-center w-full`}
     >
       {" "}
       <div className="blur absolute z-[0] w-[60%]  h-[60%] left-[-50%] top-[-30%] rounded-[50%] opacity-40 bg-shining-gradient" />

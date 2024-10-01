@@ -138,7 +138,7 @@ const PaymentsTable = ({ session }: { session: Session }) => {
     >
       <div className="flex max-md:flex-col justify-between items-center">
         <h2 className="text-white text-lg font-medium">Payments Table</h2>
-        <div className="flex gap-3 items-center text-white max-md:pt-3">
+        {/* <div className="flex gap-3 items-center text-white max-md:pt-3">
           <div className="flex items-center gap-2 rounded-xl border border-lightGray bg-[#0F1535] pl-2">
             <Image src={search} alt="search" width={20} height={20} />
             <input
@@ -148,7 +148,8 @@ const PaymentsTable = ({ session }: { session: Session }) => {
             />
           </div>
           <FilterListRoundedIcon className="cursor-pointer text-white" />
-        </div>
+        </div> */}
+        {/* TO-BE-IMP */}
       </div>
       <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">
         {payments.length > 0 ? (

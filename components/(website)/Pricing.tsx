@@ -1,40 +1,26 @@
-"use client";
-import { useState, useRef, useEffect } from "react";
 import Heading from "./Heading";
 import { FaCheck } from "react-icons/fa6";
-import { FaInfoCircle } from "react-icons/fa";
+
 import { pricing } from "@/lib/data/websitedata";
-
-const Pricing = ({ index, setIndex }: { index: number }) => {
-  const screenWidth = window.innerWidth;
-
-  const sectionRefs = useRef([]);
-
-  useEffect(() => {
-    const handleIntersection = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const activeIndex = sectionRefs.current.indexOf(entry.target);
-          setIndex(activeIndex);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.5,
-    });
-
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      sectionRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
-      });
-    };
-  }, [setIndex]);
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+const Pricing = () => {
   return (
     <section
       id="pricing"
@@ -46,28 +32,24 @@ const Pricing = ({ index, setIndex }: { index: number }) => {
         {pricing.map((price, i) => (
           <div
             key={price.id}
-            className={`flex ${
-              index === i ? "active-card-class" : ""
-            } flex-col text-medium-gray p-2 xs:p-4 py-6 md:p-6 hover:scale-[1.02] w-[300px] min-h-[440px] md:w-[400px] md:h-[500px] transition-all ease col-span-1 cursor-default rounded-[15px] gap-2 light-blue-gradient ${
-              i === index
-                ? "border-blue-accent border-2 shadow-2xl"
-                : "border-none shadow-xl"
-            }`}
-            ref={(el) => (sectionRefs.current[i] = el)}
-            onClick={() => {
-              setIndex(i);
-            }}
+            // className={`flex ${
+            //   index === i ? "active-card-class" : ""
+            // } flex-col text-medium-gray p-2 xs:p-4 py-6 md:p-6 hover:scale-[1.02] w-[300px] min-h-[440px] md:w-[400px] md:h-[500px] transition-all ease col-span-1 cursor-default rounded-[15px] gap-2 light-blue-gradient ${
+            //   i === index
+            //     ? "border-blue-accent border-2 shadow-2xl"
+            //     : "border-none shadow-xl"
+            // }`}
           >
             <div className="flex justify-between">
               <h1 className="">
                 {price.name} {i === 2 && "(Most Popular)"}
               </h1>
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                  i === index ? "bg-blue-accent" : "bg-white"
-                }`}
+                // className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                //   i === index ? "bg-blue-accent" : "bg-white"
+                // }`}
               >
-                {i === index && <FaCheck className="text-xs text-white" />}
+                {/* {i === index && <FaCheck className="text-xs text-white" />} */}
               </div>
             </div>
             {i === 0 ? (

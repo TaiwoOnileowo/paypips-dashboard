@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
+import { convertCurrencyToName } from "@/lib/utils";
 
 export const runtime = "nodejs";
 const returnAddress = (address: string | null | undefined) => {
@@ -42,7 +43,9 @@ export const GET = async (req: NextRequest) => {
     const userData = await prisma.user_details.findUnique({
       where: { owner_id: userId },
     });
-
+    const userBalances = await prisma.available_balance.findMany({
+      where: { owner_id: userId },
+    });
     const userAddresses = [
       {
         account: returnAddress(userData?.trc_address),
@@ -65,8 +68,15 @@ export const GET = async (req: NextRequest) => {
         name: "ERC",
       },
     ];
+    const accountBalances = userBalances.map((balance) => {
+      return {
+        name: convertCurrencyToName(balance.currency),
+        amount: `${balance.balance.toFixed(2)}${balance.currency}`,
+      };
+    });
     return NextResponse.json({
       addresses: userAddresses,
+      balances: accountBalances,
     });
   } catch (error) {
     return NextResponse.json(

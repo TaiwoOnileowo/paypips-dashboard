@@ -100,7 +100,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
               <div className="flex items-start gap-5 mt-4" key={index}>
                 <Image src={cart} alt="cart" width={20} height={20} />
                 <div>
-                  <p>
+                  <p className="truncate max-w-[400px]">
                     ${item.amount}, {item.plan}
                   </p>
                   <p className="text-sm text-gray-300/80">{item.email}</p>

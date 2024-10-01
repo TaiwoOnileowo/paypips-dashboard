@@ -68,10 +68,10 @@ const SignInForm = () => {
           className="placeholder:text-harsh/20"
         />
       </div>
-      <div className="flex items-center space-x-2 mt-4">
+      {/* <div className="flex items-center space-x-2 mt-4">
         <Switch id="remember-me" defaultChecked={true} />
         <Label htmlFor="remember-me" text="Remember Me" />
-      </div>
+      </div> */}
       <button
         className="w-full flex items-center justify-center gap-5 bg-sharpBlue rounded-2xl  mt-8 text-sm uppercase font-bold font-plus p-3"
         type="submit"

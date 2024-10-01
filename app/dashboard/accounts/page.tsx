@@ -27,10 +27,10 @@ const Page = async () => {
       <div className=" lg:grid text-white grid-cols-12 gap-4  flex flex-col ">
         <div className="col-span-8 lg:grid grid-cols-2 gap-4 flex flex-col ">
           <CreditBalance session={session} />
-          <AccountBalances />
-          <PayMethods session={session}/>
+          <AccountBalances session={session} />
+          <PayMethods session={session} />
         </div>
-        <RecentTransactions session={session}/>
+        <RecentTransactions session={session} />
       </div>
     </div>
   );

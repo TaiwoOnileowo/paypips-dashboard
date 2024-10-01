@@ -30,10 +30,10 @@ const DashboardAnimation = () => {
           </h1>
         </div>
         <div className="w-full h-full flex items-end gap-4 justify-center">
-          <div className="bar" style={{ "--bar-height": "20%" }} />
-          <div className="bar" style={{ "--bar-height": "40%" }} />
-          <div className="bar" style={{ "--bar-height": "60%" }} />
-          <div className="bar" style={{ "--bar-height": "90%" }} />
+          <div className="bar" style={{ "--bar-height": "20%" } as React.CSSProperties} />
+          <div className="bar" style={{ "--bar-height": "40%" } as React.CSSProperties} />
+          <div className="bar" style={{ "--bar-height": "60%" } as React.CSSProperties} />
+          <div className="bar" style={{ "--bar-height": "90%" } as React.CSSProperties} />
         </div>
       </div>
       <div

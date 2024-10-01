@@ -18,6 +18,26 @@ export const convertCurrency = (currency: string, amount: number) => {
       return amount;
   }
 };
+export const convertCurrencyToName = (currency: string) => {
+  switch (currency) {
+    case "LTCT":
+      return "LiteCoin";
+    case "USDT.TRC20":
+      return "USDT.TRC20";
+    case "BTC":
+      return "Bitcoin";
+    case "NGN":
+      return "Naira";
+    case "SOL":
+      return "Solana";
+    case "UGX":
+      return "UGX";
+    case "USDT.ERC20":
+      return "USDT.ERC20";
+    default:
+      return currency;
+  }
+};
 export function formatDate(dateString: Date | string | null) {
   if (!dateString) return "";
   const date = new Date(dateString);

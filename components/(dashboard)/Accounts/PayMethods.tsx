@@ -5,11 +5,18 @@ import edit from "@/assets/icons/edit.svg";
 import Image from "next/image";
 import { Session } from "next-auth";
 import { Skeleton } from "@/components/ui/skeleton";
+import litecoin from "@/assets/icons/litecoin.svg";
+import trc from "@/assets/icons/trc.svg";
+
+import solana from "@/assets/icons/solana.svg";
+import btc from "@/assets/icons/btc.svg";
+import usdt from "@/assets/icons/usdt.svg";
 import eth from "@/assets/icons/eth.svg";
-import dollar from "@/assets/icons/dollar1.gif";
+import flutterwave from "@/assets/icons/flutterwave.png";
 import { useGetAccountDetails } from "@/hooks/reactQueryHooks";
-import errorGif from "@/assets/icons/error.gif";
+
 import NotFound from "../NotFound";
+import Error from "../Error";
 const PayMethods = ({ session }: { session: Session }) => {
   const {
     data: account,
@@ -61,18 +68,29 @@ const PayMethods = ({ session }: { session: Session }) => {
         <div className="flex justify-between w-full items-center">
           <h3 className="font-medium">Payment Addresses</h3>
         </div>
-        <div className="flex items-center h-full flex-col pt-10 ">
-          <Image src={errorGif} alt="error" width={100} height={100} />
-          <p className="text-center text-gray-300/80 mt-4">
-            An error occurred while fetching payment addresses
-          </p>
-        </div>
+        <Error message="An error occurred while fetching payment addresses" />
       </div>
     );
   }
   const filledUserAddresses = userAddresses?.filter(
     (address) => address.account !== ""
   );
+  const getImage = (name: string) => {
+    switch (name) {
+      case "LTCT":
+        return litecoin;
+      case "TRC":
+        return trc;
+      case "BTC":
+        return btc;
+      case "SOL":
+        return solana;
+      case "ERC":
+        return eth;
+      default:
+        return btc;
+    }
+  };
   return (
     <div
       className="col-span-2 text-white p-6  rounded-3xl backdrop-blur-[60px] bg-cover bg-no-repeat bg-center bg-paymethod_bg"
@@ -99,9 +117,15 @@ const PayMethods = ({ session }: { session: Session }) => {
                   "linear-gradient(117deg, rgba(255, 255, 255, 0.00) -3.91%, rgba(255, 255, 255, 0.04) 75.27%)",
               }}
             >
-              <div className="flex gap-4 items-center justify-center">
-                <Image src={eth} alt={method.name} className="w-6 h-6" />
-                <p className="max-w-full truncate">{method.account}</p>
+              <div className="flex gap-2 items-center justify-center">
+                <Image
+                  src={getImage(method.name)}
+                  alt={method.name}
+                  className="w-6 h-6"
+                />
+                <p className="max-w-full truncate max-xl:max-w-[240px]">
+                  {method.account}
+                </p>
               </div>
               {/* <Image src={edit} alt="edit" className="w-4 h-4 cursor-pointer" /> */}
               {/* TO-BE-IMP */}

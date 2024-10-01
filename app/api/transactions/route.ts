@@ -40,7 +40,7 @@ export const GET = async (req: NextRequest) => {
       );
     }
     const userPayments = await prisma.payments.findMany({
-      where: { userid: userId },
+      where: { owner_id: userId },
     });
     const userPayouts = await prisma.withdrawals.findMany({
       where: { owner_id: userId },
@@ -48,7 +48,7 @@ export const GET = async (req: NextRequest) => {
     const convertedPayments = userPayments.map((payment) => ({
       ...payment,
       id: payment.id,
-      amount: payment.amount.toFixed(2),
+      amount: payment.amount.toFixed(0),
       plan: payment.groupname,
       method: payment.payment_method,
       date: formatDate(payment.created_at),
@@ -61,7 +61,7 @@ export const GET = async (req: NextRequest) => {
     const convertedPayouts = userPayouts.map((payout) => ({
       id: payout.id,
       beneficiary: payout.address,
-      amount: payout.amount.toFixed(2),
+      amount: payout.amount.toFixed(0),
       currency: payout.currency,
       status: payout.status,
       date: formatDate(payout.initiated_at),

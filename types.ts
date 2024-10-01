@@ -16,6 +16,10 @@ export interface SubscriptionStats {
   todaySubscriptionPercentageIncrease: string;
   activeSubscriptionPercentageIncrease: string;
   withdarawableBalance: string;
+  subscriptionPlan: {
+    name: string;
+    status: string;
+  };
 }
 
 export interface Payment {
@@ -46,4 +50,10 @@ export interface AccountDetail {
     account: string;
     name: string;
   }[];
+  balances: Balance[];
+}
+
+export interface Balance {
+  amount: string;
+  name: string;
 }

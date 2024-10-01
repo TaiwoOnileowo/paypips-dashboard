@@ -43,8 +43,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       );
     }
 
-    // Fetch user transactions and subscriptions
-    const userTransactions = await prisma.transactions.findMany({
+    // Fetch user Payments and subscriptions
+    const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },
     });
 
@@ -59,67 +59,54 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       new Date().setMonth(new Date().getMonth() - 1)
     ).getMonth();
 
-    // Convert transactions
-    const convertedTransactions = userTransactions.map((transaction) => ({
-      ...transaction,
-      received_amount: convertCurrency(
-        transaction.currency_type,
-        transaction.received_amount
-      ),
-    }));
+    // Filter today's and yesterday's Payments
+    const todayPayments = userPayments.filter((payment) =>
+      payment.created_at ? payment.created_at.toDateString() === today : false
+    );
 
-    // Filter today's and yesterday's transactions
-    const todayTransactions = convertedTransactions.filter((transaction) =>
-      transaction.created_at
-        ? new Date(transaction.created_at).toDateString() === today
+    const yesterdayPayments = userPayments.filter((payment) =>
+      payment.created_at
+        ? payment.created_at.toDateString() === yesterday
         : false
     );
 
-    const yesterdayTransactions = convertedTransactions.filter((transaction) =>
-      transaction.created_at
-        ? new Date(transaction.created_at).toDateString() === yesterday
+    // Filter current and previous month's Payments
+    const currentMonthPayments = userPayments.filter((payment) =>
+      payment.created_at
+        ? payment.created_at.getMonth() === currentMonth
         : false
     );
 
-    // Filter current and previous month's transactions
-    const currentMonthTransactions = convertedTransactions.filter(
-      (transaction) =>
-        transaction.created_at
-          ? new Date(transaction.created_at).getMonth() === currentMonth
-          : false
-    );
-
-    const previousMonthTransactions = convertedTransactions.filter(
-      (transaction) =>
-        transaction.created_at
-          ? new Date(transaction.created_at).getMonth() === previousMonth
-          : false
+    const previousMonthPayments = userPayments.filter((payment) =>
+      payment.created_at
+        ? payment.created_at.getMonth() === previousMonth
+        : false
     );
 
     // Calculate total and today's amounts
-    const todayRevenue = todayTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+    const todayRevenue = todayPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
       0
     );
 
-    const yesterdayRevenue = yesterdayTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+    const yesterdayRevenue = yesterdayPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
       0
     );
 
-    const totalRevenue = convertedTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+    const totalRevenue = userPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
       0
     );
-
     // Monthly Revenues
-    const monthRevenue = currentMonthTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+    const monthRevenue = currentMonthPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
       0
     );
+    
 
-    const previousMonthRevenue = previousMonthTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+    const previousMonthRevenue = previousMonthPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
       0
     );
 
@@ -130,7 +117,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
     const totalRevenuePercentageIncrease =
       totalRevenue > 0
-        ? ((todayRevenue / totalRevenue) * 100).toFixed(2).toString()
+        ? ((todayRevenue / totalRevenue) * 100).toFixed(0).toString()
         : "0";
 
     const monthRevenuePercentageIncrease = calculatePercentageIncrease(
@@ -140,9 +127,9 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
     // const withdrawableRevenue
     const revenueStats = {
-      totalRevenue: totalRevenue.toFixed(2).toString(),
-      todayRevenue: todayRevenue.toFixed(2).toString(),
-      monthRevenue: monthRevenue.toFixed(2).toString(),
+      totalRevenue: totalRevenue.toFixed(0).toString(),
+      todayRevenue: todayRevenue.toFixed(0).toString(),
+      monthRevenue: monthRevenue.toFixed(0).toString(),
       todayRevenuePercentageIncrease,
       monthRevenuePercentageIncrease,
       totalRevenuePercentageIncrease,

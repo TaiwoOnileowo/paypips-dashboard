@@ -3,7 +3,7 @@ import HeroAnimation from "./HeroAnimation";
 import Button from "./Button";
 const Hero = () => {
   return (
-    <section className="relative flex xsm:flex-row flex-col bg-dark-bg px-8 msm:px-16 text-white xsm:pt-0 pt-32 md:h-[120%]  xsm:h-[70vh] items-center justify-center gap-12 xsm:gap-8 msm:gap-10 md:gap-16">
+    <section className="relative flex h-screen max-md:h-fit  max-md:flex-col max-md:p-6 max-md:pt-24 p-24  bg-dark-bg  text-white items-center justify-center gap-12 ">
       <div className="blur absolute z-[0] w-[40%] animate-pulse h-[30%] top-[40%] -left-[3%]  rounded-[50%] opacity-80 bg-shining-gradient" />
       <div className="flex flex-col justify-center z-[1]">
         <h3 className="uppercase text-blue-accent text-sm md:text-base py-2">

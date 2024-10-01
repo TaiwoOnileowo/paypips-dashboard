@@ -42,7 +42,7 @@ export const GET = async (req: NextRequest) => {
         return {
           id: payout.id,
           beneficiary: payout.address,
-          amount: payout.amount.toFixed(2),
+          amount: payout.amount.toFixed(0),
           currency: payout.currency,
           status: payout.status,
           date: formatDate(payout.initiated_at),

@@ -4,6 +4,7 @@ import { BsCreditCard2BackFill } from "react-icons/bs";
 import { FaDollarSign } from "react-icons/fa";
 import { FaBitcoinSign } from "react-icons/fa6";
 import paystack from "@/assets/images/paystack.svg";
+import Image from "next/image";
 // import { FaMoneyBills } from "react-icons/fa6";
 
 const PaymentsAnimation = () => {
@@ -90,7 +91,7 @@ const PaymentsAnimation = () => {
             scale.third && "scale-forex-div"
           }`}
         >
-          <img
+          <Image
             src={paystack}
             alt=""
             className="md:w-14 md:h-14 w-6 h-[20px]  xs:w-10 xs:h-10"

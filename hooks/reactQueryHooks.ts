@@ -8,6 +8,7 @@ import { Session } from "next-auth";
 import http from "../lib/http";
 import {
   AccountDetail,
+  Balance,
   Payment,
   Payout,
   RevenueStats,

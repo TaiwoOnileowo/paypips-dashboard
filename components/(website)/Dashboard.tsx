@@ -6,7 +6,7 @@ import DashboardAnimation from "./DashboardAnimation";
 import Button from "./Button";
 const Dashboard = () => {
   return (
-    <section className="bg-dark-bg xsm:mt-24 xsm:rounded-[30px] xsm:mx-16 flex-col items-center pb-16 xsm:pb-32 px-4 xs:px-12 justify-center pt-12 flex">
+    <section className="bg-dark-bg xsm:my-24 xsm:mb-48 xsm:rounded-[30px] xsm:mx-16 flex-col items-center pb-16 xsm:pb-32 px-4 xs:px-12 justify-center pt-12 flex">
       <Heading text="Paypips Dashboard" />
       <div className="flex flex-col xsm:flex-row-reverse xsm:mt-24 gap-12 w-full md:gap-0 text-white items-center justify-center">
         <div className="xsm:w-[50%] flex justify-center flex-col ">

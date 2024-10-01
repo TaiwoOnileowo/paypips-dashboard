@@ -24,9 +24,9 @@ const Transactions = ({
 
         return (
           <div key={idx} className="flex justify-between mt-5 items-center">
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center  gap-2">
               <div
-                className={`rounded-full w-10 h-10 border flex items-center justify-center ${
+                className={`rounded-full w-8 h-8 border flex items-center justify-center ${
                   !isPayout ? " border-[#01B574]" : "border-[#E31A1A]"
                 } `}
               >
@@ -36,7 +36,7 @@ const Transactions = ({
                 />
               </div>
               <div>
-                <h3 className="text-sm font-medium my-0.5 truncate max-w-[200px]">
+                <h3 className="text-sm font-medium my-0.5 truncate max-w-[250px] max-md:max-w-[220px]">
                   {isPayout
                     ? `Payout to ${(transaction as Payout).beneficiary}`
                     : (transaction as Payment).plan}

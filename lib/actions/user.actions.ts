@@ -25,7 +25,7 @@ export const getUserFromDb = async (email: string, password: string) => {
 
   const token = await new SignJWT({ id: user.owner_id, email: user.email })
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("1h")
+    .setExpirationTime("24h")
     .sign(JWT_SECRET);
 
   return {

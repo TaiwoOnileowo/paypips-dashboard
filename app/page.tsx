@@ -1,6 +1,3 @@
-"use client"
-import { useState } from "react";
-// import Header
 import Pricing from "@/components/(website)/Pricing";
 import Dashboard from "@/components/(website)/Dashboard";
 import Payments from "@/components/(website)/Payments";
@@ -13,17 +10,16 @@ import About from "@/components/(website)/About";
 import CTA from "@/components/(website)/CTA";
 import Hero from "@/components/(website)/Hero";
 import FeatureStroll from "@/components/(website)/FeatureStroll";
-// import PricingCTA from "@/components/(website)/PricingCTA";
-import Modal from "@/components/(website)/Modal";
 
 import "./index.css";
 import { Header } from "@/components/(website)/Header";
+import { FloatingNav } from "@/components/ui/FloatingNavbar";
+import { navLinks } from "@/lib/data/websitedata";
 const Page = () => {
-  const [pricingIndex, setPricingIndex] = useState(2);
-
   return (
-    <div className="bg-white relative overflow-x-hidden h-screen">
-      <Header />
+    <div className="bg-white relative overflow-x-hidden ">
+      {/* <Header /> */}
+      <FloatingNav navItems={navLinks} />
       <Hero />
 
       <About />
@@ -33,9 +29,7 @@ const Page = () => {
       <WhyChooseUs />
       <Payments />
       <Dashboard />
-      <Pricing index={pricingIndex} setIndex={setPricingIndex} />
-
-      <Modal />
+      <Pricing />
 
       <FeatureStroll />
 

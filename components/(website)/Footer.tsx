@@ -10,9 +10,7 @@ const Footer = () => {
   return (
     <section
       id="footer"
-      className={`${
-        window.innerWidth > 1020 ? "footer-border" : null
-      } relative shadow_footer_yellow bg-primary-gradient  text-white w-full overflow-y-hidden py-8 flex pt-24 flex-col items-center gap-12 xsm:gap-24 justify-between`}
+      className={`lg:rounded-[30px,30px,0,0px] relative shadow_footer_yellow bg-primary-gradient  text-white w-full overflow-y-hidden py-8 flex pt-24 flex-col items-center gap-12 xsm:gap-24 justify-between`}
     >
       <div className="blur absolute z-[0] w-[60%]  h-[60%]  top-[80%] rounded-[50%] opacity-40 bg-shining-gradient" />
 

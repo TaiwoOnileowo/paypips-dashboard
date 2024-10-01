@@ -1,7 +1,7 @@
+"use client"
 import React, { useState } from "react";
 import Heading from "./Heading";
 import { faqs } from "@/lib/data/websitedata";
-
 const Faqs = () => {
   const [index, setIndex] = useState(0);
   return (
@@ -19,7 +19,7 @@ const Faqs = () => {
               className={`accordion cursor-pointer w-full ${
                 index === id && "show"
               }`}
-              id={id}
+              id={id.toString()}
               onClick={() => {
                 if (index === id) {
                   setIndex(0);

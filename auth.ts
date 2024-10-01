@@ -27,7 +27,7 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 3600,
+    maxAge: 3600 * 12,
   },
   providers: [
     Credentials({

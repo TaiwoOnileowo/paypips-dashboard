@@ -1,8 +1,10 @@
-"use client  ";
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import { FaCheckCircle, FaChartLine, FaUsers } from "react-icons/fa";
 import logo from "@/assets/images/logo_purple.png";
 import Heading from "./Heading";
+import Image from "next/image";
 
 const HowItWorks = () => {
   const [chatAnimation, setChatAnimation] = useState({
@@ -18,8 +20,8 @@ const HowItWorks = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    const handleIntersection = (entries) => {
-      entries.forEach((entry) => {
+    const handleIntersection = (entries: any[]) => {
+      entries.forEach((entry: { isIntersecting: any }) => {
         if (entry.isIntersecting) {
           setVisible(true);
 
@@ -90,20 +92,10 @@ const HowItWorks = () => {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative bg-white flex flex-col items-center justify-center py-16 px-8 md:pb-48  md:px-16 text-light-text"
+      className="relative bg-white flex flex-col items-center justify-center  p-8 md:pb-48  md:px-16 text-light-text"
     >
-      <svg
-        viewBox="0 0 1440 137"
-        className=" absolute hidden md:block -top-[15%] rotateX"
-      >
-        <path
-          d="M0 137H1440V114.609H346.775C331.995 114.609 318.039 107.799 308.943 96.1501L248.278 18.4586C239.181 6.8092 225.225 0 210.445 0H0V137Z"
-          fill="#fff"
-        ></path>
-      </svg>
-
       <Heading text="How It Works" color="black" />
-      <div className="grid xsm:grid-cols-3  gap-10 items-center justify-center mt-16">
+      <div className="grid md:grid-cols-3 md:gap-10  gap-5 items-center justify-center mt-10">
         <div
           onMouseEnter={initiateChatAnimation}
           className={`light-blue-gradient p-6 ${visible && "jump-in"}
@@ -204,7 +196,7 @@ const HowItWorks = () => {
               />
             ))}
             <hr className="border-dark-bg w-[200px] mx-4" />
-            <img
+            <Image
               src={logo}
               alt="Paypips Logo"
               className="md:w-12 md:h-12 w-10 h-10 object-contain"

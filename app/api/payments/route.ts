@@ -30,11 +30,9 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
-    const userGroups = await prisma.groups.findMany({
-      where: { owner_id: userId },
-    });
+
     const userPayments = await prisma.payments.findMany({
-      where: { userid: userId },
+      where: { owner_id: userId },
     });
     // BOLU-TODO: add owner_id to payments table
     const sortedReturnPayments = userPayments
@@ -46,7 +44,7 @@ export const GET = async (req: NextRequest) => {
       .map((payment) => {
         return {
           id: payment.id,
-          amount: payment.amount.toFixed(2),
+          amount: payment.amount_usd!.toFixed(0),
           plan: payment.groupname,
           method: payment.payment_method,
           date: formatDate(payment.created_at),

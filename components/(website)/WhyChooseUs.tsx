@@ -9,7 +9,7 @@ const WhyChooseUs = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    const handleIntersection = (entries) => {
+    const handleIntersection = (entries: any[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setVisible(true);

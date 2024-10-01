@@ -5,20 +5,20 @@ import { FaCogs } from "react-icons/fa";
 export const navLinks = [
   {
     name: "About",
-    href: "about",
+    href: "#about",
   },
 
   {
     name: "How It Works",
-    href: "how-it-works",
+    href: "#how-it-works",
   },
   {
     name: "Features",
-    href: "features",
+    href: "#features",
   },
   {
     name: "Pricing",
-    href: "pricing",
+    href: "#pricing",
   },
 ];
 

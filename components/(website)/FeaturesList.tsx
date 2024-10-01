@@ -1,5 +1,7 @@
+// @ts-nocheck
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+
+import React, { useRef, useEffect } from "react";
 import { features } from "@/lib/data/websitedata";
 
 const FeaturesList = ({ setVisible, visible }) => {
@@ -32,7 +34,7 @@ const FeaturesList = ({ setVisible, visible }) => {
   }, []);
   return (
     <div
-      className="md:w-[60%] grid xsm:grid-cols-2 gap-8 p-4 xs:p-6"
+      className="md:w-[60%] grid md:grid-cols-2 gap-8 p-4 xs:p-6"
       ref={sectionRef}
     >
       {features.map((feature, index) => (
@@ -47,7 +49,7 @@ const FeaturesList = ({ setVisible, visible }) => {
           <span className="text-blue-accent text-3xl xs:text-6xl ">
             {feature.icon}
           </span>
-          <p className="text-sm xs:text-lg">{feature.description}</p>
+          <p className="text-sm xs:text-lg ">{feature.description}</p>
         </div>
       ))}
     </div>
