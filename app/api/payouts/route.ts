@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatDate, formatTo12HourTime } from "@/lib/utils";
-import { corsMiddleware } from "@/lib/corsmiddleware";
+
 export const runtime = "nodejs";
-export const GET = corsMiddleware(async (req: NextRequest) => {
+export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
   const recent = searchParams.get("recent");
@@ -60,4 +60,4 @@ export const GET = corsMiddleware(async (req: NextRequest) => {
       { status: 500 }
     );
   }
-});
+};

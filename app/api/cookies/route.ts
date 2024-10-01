@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { corsMiddleware } from "@/lib/corsmiddleware";
 
 // POST Method (Set Cookie)
 export const POST = async (req: NextRequest) => {

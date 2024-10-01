@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-import { convertCurrency } from "@/lib/utils";
+
 import jwt from "jsonwebtoken";
 
 // Utility function to calculate percentage increases
