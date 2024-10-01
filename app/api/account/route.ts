@@ -72,7 +72,7 @@ export const GET = corsMiddleware(async (req: NextRequest) => {
     const accountBalances = userBalances.map((balance) => {
       return {
         name: convertCurrencyToName(balance.currency),
-        amount: `${balance.balance.toFixed(2)}${balance.currency}`,
+        amount: `${balance.balance.toFixed(2)} ${balance.currency}`,
       };
     });
     return NextResponse.json({

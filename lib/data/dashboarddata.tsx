@@ -17,13 +17,13 @@ export const sidebar = [
     path: "/dashboard",
   },
   {
-    title: "Tables",
+    title: "Transactions",
 
     icon: {
       white: chartwhite,
       blue: chartblue,
     },
-    path: "/dashboard/tables",
+    path: "/dashboard/transactions",
   },
   {
     title: "Accounts",

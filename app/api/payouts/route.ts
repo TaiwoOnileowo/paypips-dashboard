@@ -43,7 +43,7 @@ export const GET = corsMiddleware(async (req: NextRequest) => {
         return {
           id: payout.id,
           beneficiary: payout.address,
-          amount: payout.amount.toFixed(0),
+          amount: payout.amount,
           currency: payout.currency,
           status: payout.status,
           date: formatDate(payout.initiated_at),
