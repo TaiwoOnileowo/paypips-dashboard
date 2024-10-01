@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { convertCurrency } from "@/lib/utils";
 import jwt from "jsonwebtoken";
-import { corsMiddleware } from "@/lib/corsmiddleware";
 
 // Utility function to calculate percentage increases
 const calculatePercentageIncrease = (
@@ -17,132 +16,131 @@ const calculatePercentageIncrease = (
     .toString();
 };
 
-export const GET = corsMiddleware(
-  async (req: NextRequest, res: NextResponse) => {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader && authHeader.split(" ")[1];
-    const secret = process.env.JWT_SECRET;
+export const GET = async (req: NextRequest, res: NextResponse) => {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
+  const authHeader = req.headers.get("Authorization");
+  const token = authHeader && authHeader.split(" ")[1];
+  const secret = process.env.JWT_SECRET;
 
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
-    }
-    if (!secret) {
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
+  }
+  if (!secret) {
+    return NextResponse.json(
+      { error: "Secret key is required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret);
+
+    if (!userId) {
       return NextResponse.json(
-        { error: "Secret key is required" },
+        { error: "User ID is required" },
         { status: 400 }
       );
     }
 
-    try {
-      const decoded = jwt.verify(token, secret);
+    // Fetch user Payments and subscriptions
+    const userPayments = await prisma.payments.findMany({
+      where: { owner_id: userId },
+    });
 
-      if (!userId) {
-        return NextResponse.json(
-          { error: "User ID is required" },
-          { status: 400 }
-        );
-      }
+    // Calculate today, yesterday, current month, and previous month
+    const today = new Date().toDateString();
+    const yesterday = new Date(
+      new Date().setDate(new Date().getDate() - 1)
+    ).toDateString();
 
-      // Fetch user Payments and subscriptions
-      const userPayments = await prisma.payments.findMany({
-        where: { owner_id: userId },
-      });
+    const currentMonth = new Date().getMonth();
+    const previousMonth = new Date(
+      new Date().setMonth(new Date().getMonth() - 1)
+    ).getMonth();
 
-      // Calculate today, yesterday, current month, and previous month
-      const today = new Date().toDateString();
-      const yesterday = new Date(
-        new Date().setDate(new Date().getDate() - 1)
-      ).toDateString();
+    // Filter today's and yesterday's Payments
+    const todayPayments = userPayments.filter((payment) =>
+      payment.created_at ? payment.created_at.toDateString() === today : false
+    );
 
-      const currentMonth = new Date().getMonth();
-      const previousMonth = new Date(
-        new Date().setMonth(new Date().getMonth() - 1)
-      ).getMonth();
+    const yesterdayPayments = userPayments.filter((payment) =>
+      payment.created_at
+        ? payment.created_at.toDateString() === yesterday
+        : false
+    );
 
-      // Filter today's and yesterday's Payments
-      const todayPayments = userPayments.filter((payment) =>
-        payment.created_at ? payment.created_at.toDateString() === today : false
-      );
+    // Filter current and previous month's Payments
+    const currentMonthPayments = userPayments.filter((payment) =>
+      payment.created_at
+        ? payment.created_at.getMonth() === currentMonth
+        : false
+    );
 
-      const yesterdayPayments = userPayments.filter((payment) =>
-        payment.created_at
-          ? payment.created_at.toDateString() === yesterday
-          : false
-      );
+    const previousMonthPayments = userPayments.filter((payment) =>
+      payment.created_at
+        ? payment.created_at.getMonth() === previousMonth
+        : false
+    );
 
-      // Filter current and previous month's Payments
-      const currentMonthPayments = userPayments.filter((payment) =>
-        payment.created_at
-          ? payment.created_at.getMonth() === currentMonth
-          : false
-      );
+    // Calculate total and today's amounts
+    const todayRevenue = todayPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
+      0
+    );
 
-      const previousMonthPayments = userPayments.filter((payment) =>
-        payment.created_at
-          ? payment.created_at.getMonth() === previousMonth
-          : false
-      );
+    const yesterdayRevenue = yesterdayPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
+      0
+    );
 
-      // Calculate total and today's amounts
-      const todayRevenue = todayPayments.reduce(
-        (acc, payment) => acc + payment.amount_usd!,
-        0
-      );
+    const totalRevenue = userPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
+      0
+    );
+    // Monthly Revenues
+    const monthRevenue = currentMonthPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
+      0
+    );
+    
 
-      const yesterdayRevenue = yesterdayPayments.reduce(
-        (acc, payment) => acc + payment.amount_usd!,
-        0
-      );
+    const previousMonthRevenue = previousMonthPayments.reduce(
+      (acc, payment) => acc + payment.amount_usd!,
+      0
+    );
 
-      const totalRevenue = userPayments.reduce(
-        (acc, payment) => acc + payment.amount_usd!,
-        0
-      );
-      // Monthly Revenues
-      const monthRevenue = currentMonthPayments.reduce(
-        (acc, payment) => acc + payment.amount_usd!,
-        0
-      );
+    const todayRevenuePercentageIncrease = calculatePercentageIncrease(
+      todayRevenue,
+      yesterdayRevenue
+    );
 
-      const previousMonthRevenue = previousMonthPayments.reduce(
-        (acc, payment) => acc + payment.amount_usd!,
-        0
-      );
+    const totalRevenuePercentageIncrease =
+      totalRevenue > 0
+        ? ((todayRevenue / totalRevenue) * 100).toFixed(0).toString()
+        : "0";
 
-      const todayRevenuePercentageIncrease = calculatePercentageIncrease(
-        todayRevenue,
-        yesterdayRevenue
-      );
+    const monthRevenuePercentageIncrease = calculatePercentageIncrease(
+      monthRevenue,
+      previousMonthRevenue
+    );
 
-      const totalRevenuePercentageIncrease =
-        totalRevenue > 0
-          ? ((todayRevenue / totalRevenue) * 100).toFixed(0).toString()
-          : "0";
+    // const withdrawableRevenue
+    const revenueStats = {
+      totalRevenue: totalRevenue.toFixed(0).toString(),
+      todayRevenue: todayRevenue.toFixed(0).toString(),
+      monthRevenue: monthRevenue.toFixed(0).toString(),
+      todayRevenuePercentageIncrease,
+      monthRevenuePercentageIncrease,
+      totalRevenuePercentageIncrease,
+    };
 
-      const monthRevenuePercentageIncrease = calculatePercentageIncrease(
-        monthRevenue,
-        previousMonthRevenue
-      );
-
-      // const withdrawableRevenue
-      const revenueStats = {
-        totalRevenue: totalRevenue.toFixed(0).toString(),
-        todayRevenue: todayRevenue.toFixed(0).toString(),
-        monthRevenue: monthRevenue.toFixed(0).toString(),
-        todayRevenuePercentageIncrease,
-        monthRevenuePercentageIncrease,
-        totalRevenuePercentageIncrease,
-      };
-
-      return NextResponse.json(revenueStats);
-    } catch (error) {
-      console.log(error);
-      return NextResponse.json(
-        { error: `An error occurred: ${error}` },
-        { status: 500 }
-      );
-    }
+    return NextResponse.json(revenueStats);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: `An error occurred: ${error}` },
+      { status: 500 }
+    );
   }
-);
+};
