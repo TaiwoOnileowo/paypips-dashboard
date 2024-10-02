@@ -4,16 +4,22 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-export const convertCurrency = (currency: string, amount: number) => {
+export const formatAmountWithSign = (currency: string, amount: string) => {
   switch (currency) {
     case "LTCT":
-      return amount * 69.6;
+      return `Ł${amount}`;
     case "USDT.TRC20":
-      return amount * 1.08;
+      return `₮${amount}`;
     case "BTC":
-      return amount * 65479.6;
+      return `₿${amount}`;
     case "NGN":
-      return amount * 0.0006;
+      return `₦${amount}`;
+    // case "SOL":
+    //   return "Solana";
+    // case "UGX":
+    //   return "UGX";
+    // case "USDT.ERC20":
+    //   return "USDT.ERC20";
     default:
       return amount;
   }
@@ -100,4 +106,10 @@ export function formatTimeAgo(dateString: string) {
     if (years === 1) return "a year ago";
     return `${years} years ago`;
   }
+}
+export function formatNumberWithCommas(number: number) {
+  return number.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }

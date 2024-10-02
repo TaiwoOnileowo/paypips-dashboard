@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatNumberWithCommas } from "@/lib/utils";
 
 export const runtime = "nodejs";
 export const GET = async (req: NextRequest) => {
@@ -9,7 +9,7 @@ export const GET = async (req: NextRequest) => {
   const userId = searchParams.get("userId");
 
   const pageParam = searchParams.get("page") || "1";
-  const limitParam = searchParams.get("limit") || "10"; 
+  const limitParam = searchParams.get("limit") || "10";
   const page = parseInt(pageParam, 10);
   const limit = parseInt(limitParam, 10);
 
@@ -54,7 +54,7 @@ export const GET = async (req: NextRequest) => {
     // Format the payments
     const formattedPayments = userPayments.map((payment) => ({
       id: payment.id,
-      amount: payment.amount_usd!.toFixed(0),
+      amount: formatNumberWithCommas(Number(payment.amount_usd!.toFixed(0))),
       plan: payment.groupname,
       method: payment.payment_method,
       date: formatDate(payment.created_at),
@@ -77,7 +77,7 @@ export const GET = async (req: NextRequest) => {
         limit,
       },
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return NextResponse.json(
       { error: `An error occurred: ${error.message}` },
       { status: 500 }

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { formatTo12HourTime, formatDate } from "@/lib/utils";
+import {
+  formatTo12HourTime,
+  formatDate,
+  formatNumberWithCommas,
+  formatAmountWithSign,
+} from "@/lib/utils";
 
 export const runtime = "nodejs";
 const returnAddress = (address: string | null | undefined) => {
@@ -49,7 +54,7 @@ export const GET = async (req: NextRequest) => {
     const convertedPayments = userPayments.map((payment) => ({
       ...payment,
       id: payment.id,
-      amount: payment.amount_usd!.toFixed(0),
+      amount: formatNumberWithCommas(Number(payment.amount_usd!.toFixed(0))),
       plan: payment.groupname,
       method: payment.payment_method,
       date: formatDate(payment.created_at),
@@ -62,7 +67,10 @@ export const GET = async (req: NextRequest) => {
     const convertedPayouts = userPayouts.map((payout) => ({
       id: payout.id,
       beneficiary: payout.address,
-      amount: payout.amount.toFixed(0),
+      amount: formatAmountWithSign(
+        payout.currency,
+        formatNumberWithCommas(Number(payout.amount.toFixed(0)))
+      ),
       currency: payout.currency,
       status: payout.status,
       date: formatDate(payout.initiated_at),

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { convertCurrencyToName } from "@/lib/utils";
+import { convertCurrencyToName, formatAmountWithSign, formatNumberWithCommas } from "@/lib/utils";
 
 export const runtime = "nodejs";
 const returnAddress = (address: string | null | undefined) => {
@@ -71,9 +71,7 @@ export const GET = async (req: NextRequest) => {
     const accountBalances = userBalances.map((balance) => {
       return {
         name: convertCurrencyToName(balance.currency),
-        amount: `${balance.balance.toFixed(2)} ${
-          balance.currency.split(".")[0]
-        }`,
+        amount: formatAmountWithSign(balance.currency, formatNumberWithCommas(Number(balance.balance.toFixed(2)))),
       };
     });
     return NextResponse.json({

@@ -91,7 +91,7 @@ export const pricing = [
   {
     id: 1,
     name: "Basic Plan",
-    amount: 0,
+    amount: "Free",
     amount_annual: 0,
     transaction_fee: 3,
     benefits: {
@@ -108,33 +108,8 @@ export const pricing = [
   },
   {
     id: 2,
-    name: "Growth Plan",
-    amount: 0,
-    amount_annual: 0,
-    transaction_fee: 8,
-    benefits: {
-      1: "Everything in Basic Plan",
-      2: "Automated Group and Subscription Management",
-      3: "Automated Renewal Reminders",
-      4: "Dashboard Analytics with metrics on user engagement, transaction volumes, and revenue tracking.",
-      5: "8% (transaction + Management) fee",
-    },
-    benefits_sm: {
-      1: "Card, Bank Transfer & USDT Crypto Payments",
-      2: "Basic Group Management",
-      // 3: "Email Support",
-      // 4: "Automated Renewal Reminders",
-      // 5: "Analytics Dashboard",
-    },
-    text: "+ Zero fees till $1000 in transactions, then 8% fee",
-    ctatext:
-      "Tailored for those who need more automation without upfront costs, allowing you to scale first before paying more fees.",
-    button: "Start For Free",
-  },
-  {
-    id: 3,
     name: "Professional Plan",
-    amount: 149,
+    amount: "$149",
     amount_annual: 990,
     transaction_fee: 2.5,
     benefits: {
@@ -163,6 +138,32 @@ export const pricing = [
       "Ideal for established communities. Premium service that ensures smooth operations and enhances your members satisfaction.",
     button: "Get Started",
   },
+  {
+    id: 3,
+    name: "Growth Plan",
+    amount:"$0",
+    amount_annual: 0,
+    transaction_fee: 8,
+    benefits: {
+      1: "Everything in Basic Plan",
+      2: "Automated Group and Subscription Management",
+      3: "Automated Renewal Reminders",
+      4: "Dashboard Analytics with metrics on user engagement, transaction volumes, and revenue tracking.",
+      5: "8% (transaction + Management) fee",
+    },
+    benefits_sm: {
+      1: "Card, Bank Transfer & USDT Crypto Payments",
+      2: "Basic Group Management",
+      // 3: "Email Support",
+      // 4: "Automated Renewal Reminders",
+      // 5: "Analytics Dashboard",
+    },
+    text: "+ Zero fees till $1000 in transactions, then 8% fee",
+    ctatext:
+      "Tailored for those who need more automation without upfront costs, allowing you to scale first before paying more fees.",
+    button: "Start For Free",
+  },
+ 
 ];
 
 export const choose = [

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 
 import jwt from "jsonwebtoken";
+import { formatNumberWithCommas } from "@/lib/utils";
 
 // Utility function to calculate percentage increases
 const calculatePercentageIncrease = (
@@ -103,7 +104,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       (acc, payment) => acc + payment.amount_usd!,
       0
     );
-    
 
     const previousMonthRevenue = previousMonthPayments.reduce(
       (acc, payment) => acc + payment.amount_usd!,
@@ -127,9 +127,15 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
     // const withdrawableRevenue
     const revenueStats = {
-      totalRevenue: totalRevenue.toFixed(0).toString(),
-      todayRevenue: todayRevenue.toFixed(0).toString(),
-      monthRevenue: monthRevenue.toFixed(0).toString(),
+      totalRevenue: formatNumberWithCommas(
+        Number(totalRevenue.toFixed(0).toString())
+      ),
+      todayRevenue: formatNumberWithCommas(
+        Number(todayRevenue.toFixed(0).toString())
+      ),
+      monthRevenue: formatNumberWithCommas(
+        Number(monthRevenue.toFixed(0).toString())
+      ),
       todayRevenuePercentageIncrease,
       monthRevenuePercentageIncrease,
       totalRevenuePercentageIncrease,

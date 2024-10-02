@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-import { convertCurrency } from "@/lib/utils";
+import { formatNumberWithCommas } from "@/lib/utils";
 import jwt from "jsonwebtoken";
 
 // Utility function to calculate percentage increases
@@ -115,7 +115,9 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       todaySubscriptionPercentageIncrease,
       monthSubscriptionPercentageIncrease,
       activeSubscriptionPercentageIncrease,
-      withdarawableBalance: withdarawableBalance?.toFixed(2).toString() || "0",
+      withdarawableBalance: formatNumberWithCommas(
+        Number(withdarawableBalance?.toFixed(2).toString() || "0")
+      ),
       subscriptionPlan: plan,
     };
 
