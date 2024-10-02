@@ -150,7 +150,7 @@ const PayoutsTable = ({ session }: { session: Session }) => {
     >
       <div className="flex max-md:flex-col justify-between items-center">
         <h2 className="text-white text-lg font-medium">Withdrawals</h2>
-        {/* <div className="max-md:pt-3 flex gap-3 items-center text-white">
+        <div className="max-md:pt-3 flex gap-3 items-center text-white">
           <div className="flex items-center gap-2 rounded-xl border border-lightGray bg-[#0F1535] pl-2">
             <Image src={search} alt="search" width={20} height={20} />
             <input
@@ -160,7 +160,7 @@ const PayoutsTable = ({ session }: { session: Session }) => {
             />
           </div>
           <FilterListRoundedIcon className="cursor-pointer text-white" />
-        </div> */}
+        </div>
       </div>
       <div className="mt-5 overflow-auto max-md:mt-2 w-full text-white">
         {payouts.length > 0 ? (
@@ -233,16 +233,17 @@ const PayoutsTable = ({ session }: { session: Session }) => {
           </div>
         )}
       </div>
-
-      <TablePagination
-        component="div"
-        count={pagination.totalItems}
-        page={currentPage}
-        className="text-white"
-        onPageChange={handlePageChange}
-        rowsPerPage={limit}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
+      {!(currentPage === 0 && payouts.length != limit) && (
+        <TablePagination
+          component="div"
+          count={pagination.totalItems}
+          page={currentPage}
+          className="text-white"
+          onPageChange={handlePageChange}
+          rowsPerPage={limit}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
+      )}
     </div>
   );
 };

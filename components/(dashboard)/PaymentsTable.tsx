@@ -217,7 +217,7 @@ const PaymentsTable = ({ session }: { session: Session }) => {
           </div>
         )}
       </div>
-      {payments.length === limit && currentPage === 0 && (
+      {!(currentPage === 0 && payments.length != limit) && (
         <TablePagination
           component="div"
           count={pagination.totalItems}
