@@ -1,4 +1,3 @@
-
 import React from "react";
 import forward from "@/assets/icons/forward.svg";
 import Image from "next/image";
@@ -50,7 +49,8 @@ const Transactions = ({
                 !isPayout ? " text-[#01B574]" : "text-[#E31A1A]"
               } `}
             >
-              {isPayout ? "-" : "+$"}{transaction.amount}{isPayout && ` ${(transaction as Payout).currency.split(".TRC20")[0]}`}
+              {isPayout ? "-" : "+$"}
+              {transaction.amount}
             </p>
           </div>
         );
