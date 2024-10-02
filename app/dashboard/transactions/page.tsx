@@ -1,4 +1,5 @@
-import PaymentsTable from "@/components/(dashboard)/PaymentsTable";
+import IncomingPayments from "@/components/(dashboard)/Transactions/IncomingPayments/IncomingPayments";
+import Withdrawals from "@/components/(dashboard)/Withdrawals";
 import PayoutsTable from "@/components/(dashboard)/Withdrawals";
 import React from "react";
 import { auth } from "@/auth";
@@ -19,8 +20,8 @@ const Page = async () => {
   }
   return (
     <div className="p-6   flex flex-col max-md:gap-6 md:gap-10 items-center">
-      <PaymentsTable session={session} />
-      <PayoutsTable session={session} />
+      <IncomingPayments session={session} />
+      <Withdrawals session={session} />
     </div>
   );
 };
