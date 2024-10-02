@@ -48,7 +48,7 @@ const LatestTransaction = ({ session }: { session: Session }) => {
         </div>
         <div className="flex justify-between items-center w-[85%]">
           <div>
-            <h3 className="text-sm font-medium max-md:max-w-[200px]  xl:max-w-[200px] truncate">
+            <h3 className="text-sm font-medium max-md:max-w-[200px]  xl:max-w-[200px] overflow-scroll hidden-scroll">
               {isPayout
                 ? `Payout to ${(newestTransaction as Payout).beneficiary}`
                 : (newestTransaction as Payment).plan}

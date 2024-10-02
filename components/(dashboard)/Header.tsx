@@ -19,7 +19,7 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { AiOutlineMenuFold } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
-import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { MdOutlineMenu } from "react-icons/md";
 const Header = () => {
   const { showSidebar, setShowSidebar } = useAppContext();
   const pathname = usePathname();
@@ -38,12 +38,9 @@ const Header = () => {
       </p>
       <div className="flex gap-5 max-md:gap-4  justify-center items-center text-xl max-md:text-base">
         {showSidebar ? (
-          <AiOutlineMenuUnfold className="text-white" onClick={toggleSidebar} />
+          <IoMdClose className="text-white" onClick={toggleSidebar} />
         ) : (
-          <AiOutlineMenuFold
-            className="text-white xl:hidden"
-            onClick={toggleSidebar}
-          />
+          <MdOutlineMenu className="text-white xl:hidden" onClick={toggleSidebar} />
         )}
         <Popover>
           <PopoverTrigger>
@@ -59,7 +56,7 @@ const Header = () => {
               >
                 <Image src={profileblue} alt="Profile" width={15} height={15} />
               </div>
-              <p className="text-white font-plus text-sm font-semibold">
+              <p className="text-white font-plus text-sm  font-semibold">
                 View Profile
               </p>
             </Link>
