@@ -9,6 +9,7 @@ import checkgreen from "@/assets/icons/check-green.svg";
 import cart from "@/assets/icons/cart-blue.svg";
 import dollar from "@/assets/icons/dollar1.gif";
 import Error from "../Error";
+import NotFound from "../NotFound";
 const RecentPayments = ({ session }: { session: Session }) => {
   const { data: revenueStats } = useGetRevenueStats(session);
   const { data, isLoading, isError, error } = useGetPayments({
@@ -67,7 +68,6 @@ const RecentPayments = ({ session }: { session: Session }) => {
   }
   const payments = data?.payments;
 
-
   return (
     <div
       className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-3xl basis-1/3"
@@ -101,10 +101,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
           </div>
         </>
       ) : (
-        <div className="flex items-center pt-10 h-full flex-col">
-          <Image src={dollar} alt="dollar" width={100} height={100} />
-          No payments yet
-        </div>
+        <NotFound message="No payments yet" />
       )}
     </div>
   );
