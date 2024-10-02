@@ -31,7 +31,7 @@ const PayMethods = ({ session }: { session: Session }) => {
   if (isLoading) {
     return (
       <div
-        className="col-span-2 text-white p-6  rounded-3xl backdrop-blur-[60px] bg-cover bg-no-repeat bg-center bg-paymethod_bg"
+        className="col-span-4 text-white p-6  rounded-3xl backdrop-blur-[60px] bg-cover bg-no-repeat bg-center bg-paymethod_bg"
         style={{
           background:
             "linear-gradient(127deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)",
@@ -40,7 +40,7 @@ const PayMethods = ({ session }: { session: Session }) => {
         <div className="flex justify-between w-full items-center">
           <h3 className="font-medium">Payment Addresses</h3>
         </div>
-        <div className="w-full grid max-md:grid-cols-1 grid-cols-2 gap-2 items-center justify-center mt-4">
+        <div className="w-full gap-2 items-center justify-center mt-4">
           {[1, 2, 3, 4].map((_, index) => (
             <Skeleton
               key={index}
@@ -93,7 +93,7 @@ const PayMethods = ({ session }: { session: Session }) => {
   };
   return (
     <div
-      className="col-span-2 text-white p-6  rounded-3xl backdrop-blur-[60px] bg-cover bg-no-repeat bg-center bg-paymethod_bg"
+      className="col-span-4 text-white p-6  rounded-3xl backdrop-blur-[60px] bg-cover bg-no-repeat bg-center bg-paymethod_bg"
       style={{
         background:
           "linear-gradient(127deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)",
@@ -107,7 +107,7 @@ const PayMethods = ({ session }: { session: Session }) => {
         {/* TO-BE-IMP */}
       </div>
       {filledUserAddresses.length > 0 ? (
-        <div className="w-full grid max-md:grid-cols-1 grid-cols-2 gap-2 items-center justify-center mt-4">
+        <div className="w-full gap-2 items-center justify-center mt-4">
           {filledUserAddresses.map((method, index) => (
             <div
               key={index}

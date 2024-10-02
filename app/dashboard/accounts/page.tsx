@@ -23,13 +23,13 @@ const Page = async () => {
     redirect("/sign-in");
   }
   return (
-    <div className="p-6">
-      <div className=" lg:grid text-white grid-cols-12 gap-4  flex flex-col ">
-        <div className="col-span-8 lg:grid grid-cols-2 gap-4 flex flex-col ">
+    <div className="p-6 text-white grid grid-cols-12">
+      <div className="col-span-8 max-lg:col-span-12 flex flex-col gap-8">
+        <div className="w-full lg:grid grid-cols-2 gap-4 flex flex-col ">
           <CreditBalance session={session} />
           <AccountBalances session={session} />
-          <PayMethods session={session} />
         </div>
+        <PayMethods session={session} />
         <RecentTransactions session={session} />
       </div>
     </div>

@@ -238,7 +238,7 @@ const PayoutsTable = ({ session }: { session: Session }) => {
           component="div"
           count={pagination.totalItems}
           page={currentPage}
-          className="text-white"
+          className="!text-white"
           onPageChange={handlePageChange}
           rowsPerPage={limit}
           onRowsPerPageChange={handleRowsPerPageChange}
