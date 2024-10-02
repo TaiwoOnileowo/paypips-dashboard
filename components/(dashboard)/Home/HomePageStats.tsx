@@ -14,7 +14,7 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const HomePageStats = ({ session }: { session: Session }) => {
-  if (typeof window === "undefined") return null;
+  // if (typeof window === "undefined") return null;
   const { data: revenueStats } = useGetRevenueStats(session);
   const { data: subscriptionstats } = useGetSubscriptionStats(session);
   const [hideAmount, setHideAmount] = useState(

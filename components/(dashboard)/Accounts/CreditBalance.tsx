@@ -18,7 +18,7 @@ import LatestTransaction from "../LatestTransaction";
 import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
 const CreditBalance = ({ session }: { session: Session }) => {
   const { data: subscriptionstats } = useGetSubscriptionStats(session);
-  if (typeof window === "undefined") return null;
+  // if (typeof window === "undefined") return null;
 
   const [hideAmount, setHideAmount] = useState(
     localStorage.getItem("hide-amount") === "true" || false
