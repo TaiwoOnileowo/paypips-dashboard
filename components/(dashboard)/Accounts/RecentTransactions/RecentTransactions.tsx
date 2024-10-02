@@ -20,7 +20,7 @@ const RecentTransactions = ({ session }: { session: Session }) => {
     return (
       <Parent>
         <div className="mt-4 flex flex-col gap-4">
-          {[...Array(6)].map((_, idx) => (
+          {[...Array(8)].map((_, idx) => (
             <div className="flex items-center gap-5 mt-2" key={idx}>
               <Skeleton className="h-8 w-14" />
               <div className="space-y-2 w-full">

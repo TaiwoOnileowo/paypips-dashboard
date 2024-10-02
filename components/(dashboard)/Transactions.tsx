@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { recentTransactions } from "@/lib/data/dashboarddata";
 import forward from "@/assets/icons/forward.svg";
 import Image from "next/image";
 import priority from "@/assets/icons/priority.svg";
@@ -36,7 +35,7 @@ const Transactions = ({
                 />
               </div>
               <div>
-                <h3 className="text-sm font-medium my-0.5 truncate max-md:max-w-[200px]">
+                <h3 className="text-sm font-medium my-0.5 overflow-x-scroll hidden-scroll max-md:max-w-[200px] ">
                   {isPayout
                     ? `Payout to ${(transaction as Payout).beneficiary}`
                     : (transaction as Payment).plan}
