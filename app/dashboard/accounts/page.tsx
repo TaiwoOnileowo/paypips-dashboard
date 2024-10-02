@@ -23,8 +23,8 @@ const Page = async () => {
   }
   return (
     <div className="p-6 text-white grid grid-cols-12 gap-6">
-      <div className="w-full col-span-7 gap-6 flex flex-col ">
-        <div className="grid grid-cols-2 gap-6 w-full">
+      <div className="w-full max-lg:col-span-12  col-span-7 gap-6 flex flex-col ">
+        <div className="grid grid-cols-2 gap-6 w-full col-span-12">
           <CreditBalance session={session} />
           <AccountBalances session={session} />
         </div>
