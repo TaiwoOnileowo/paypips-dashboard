@@ -48,13 +48,13 @@ const LatestTransaction = ({ session }: { session: Session }) => {
         </div>
         <div className="flex justify-between items-center w-[85%]">
           <div>
-            <h3 className="text-sm font-medium max-md:max-w-[180px]  xl:max-w-[180px] overflow-scroll hidden-scroll">
+            <h3 className="text-sm font-medium max-md:max-w-[180px] scrollbar xl:max-w-[180px] overflow-x-auto">
               {isPayout
                 ? `Payout to ${(newestTransaction as Payout).beneficiary}`
                 : (newestTransaction as Payment).plan}
             </h3>
 
-            <p className="text-sm text-gray-400 mt-0.5">
+            <p className="text-xs text-gray-400 mt-0.5">
               {formatTimeAgo(newestTransaction?.created_at || "")},{" "}
               {newestTransaction?.time}
             </p>

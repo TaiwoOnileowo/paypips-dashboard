@@ -11,9 +11,27 @@
 .gradient-blur {
   backdrop-filter: blur(180px);
 }
-.hidden-scroll {
-  scrollbar-width: none;
+.scrollbar {
+  /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280  #f1f1f1;
 }
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+.scrollbar::-webkit-scrollbar {
+  width: 4px; /* Thinner scrollbar */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray background */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #6b7280 ; /* Blue color for the thumb */
+  border-radius: 10px; /* Rounded thumb */
+  border: 2px solid #f1f1f1; /* Padding around the thumb */
+}
+
 td,
 th {
   padding: 16px;
