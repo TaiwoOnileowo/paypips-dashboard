@@ -1,9 +1,8 @@
 import React from "react";
-
-import PayMethods from "@/components/(dashboard)/Accounts/PayMethods";
+import PayMethods from "@/components/(dashboard)/Accounts/Paymethods/PayMethods";
 import CreditBalance from "@/components/(dashboard)/Accounts/CreditBalance";
 import AccountBalances from "@/components/(dashboard)/Accounts/AccountBalances";
-import RecentTransactions from "@/components/(dashboard)/Accounts/RecentTransactions";
+import RecentTransactions from "@/components/(dashboard)/Accounts/RecentTransactions/RecentTransactions";
 import { auth } from "@/auth";
 
 import { redirect } from "next/navigation";
@@ -23,15 +22,15 @@ const Page = async () => {
     redirect("/sign-in");
   }
   return (
-    <div className="p-6 text-white grid grid-cols-12">
-      <div className="col-span-8 max-lg:col-span-12 flex flex-col gap-8">
-        <div className="w-full lg:grid grid-cols-2 gap-4 flex flex-col ">
+    <div className="p-6 text-white grid grid-cols-12 gap-6">
+      <div className="w-full col-span-7 gap-6 flex flex-col ">
+        <div className="grid grid-cols-2 gap-6 w-full">
           <CreditBalance session={session} />
           <AccountBalances session={session} />
         </div>
         <PayMethods session={session} />
-        <RecentTransactions session={session} />
       </div>
+      <RecentTransactions session={session} />
     </div>
   );
 };
