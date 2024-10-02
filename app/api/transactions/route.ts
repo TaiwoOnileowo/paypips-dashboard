@@ -49,7 +49,7 @@ export const GET = async (req: NextRequest) => {
     const convertedPayments = userPayments.map((payment) => ({
       ...payment,
       id: payment.id,
-      amount: payment.amount.toFixed(0),
+      amount: payment.amount_usd!.toFixed(0),
       plan: payment.groupname,
       method: payment.payment_method,
       date: formatDate(payment.created_at),

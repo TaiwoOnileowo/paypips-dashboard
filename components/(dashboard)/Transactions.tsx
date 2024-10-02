@@ -50,7 +50,7 @@ const Transactions = ({
                 !isPayout ? " text-[#01B574]" : "text-[#E31A1A]"
               } `}
             >
-              {isPayout ? "-" : "+"}${transaction.amount}
+              {isPayout ? "-" : "+$"}{transaction.amount}
             </p>
           </div>
         );
