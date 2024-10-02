@@ -1,18 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import search from "@/assets/icons/search.svg";
-import Image from "next/image";
+
 import { Session } from "next-auth";
 
 import { TablePagination } from "@mui/material";
 
 import { useGetPayments } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
-import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 
-import Error from "./Error";
-import NotFound from "./NotFound";
-const PaymentsTable = ({ session }: { session: Session }) => {
+import Error from "../../Error";
+import Parent from "./Parent";
+import NotFound from "../../NotFound";
+const IncomingPayments = ({ session }: { session: Session }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const { data, isLoading, isError, error } = useGetPayments({
@@ -33,27 +32,7 @@ const PaymentsTable = ({ session }: { session: Session }) => {
   if (isLoading) {
     // Display skeleton loaders while data is being fetched
     return (
-      <div
-        className="rounded-3xl w-full p-5"
-        style={{
-          background:
-            "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(10, 14, 35, 0.71) 91.2%)",
-        }}
-      >
-        <div className="flex max-md:flex-col justify-between items-center">
-          <h2 className="text-white text-lg font-medium">Incoming Payments</h2>
-          {/* <div className="flex gap-3 items-center text-white max-md:pt-3">
-            <div className="flex items-center gap-2 rounded-xl border border-lightGray bg-[#0F1535] pl-2">
-              <Image src={search} alt="search" width={20} height={20} />
-              <input
-                type="text"
-                className="px-3 p-2 bg-[#0F1535] rounded-r-xl text-sm text-white ring-0 transition-all ease-in outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search..."
-              />
-            </div>
-            <FilterListRoundedIcon className="cursor-pointer text-white" />
-          </div> */}
-        </div>
+      <Parent>
         <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">
           <table className="w-full table-auto">
             <thead>
@@ -91,34 +70,14 @@ const PaymentsTable = ({ session }: { session: Session }) => {
             </tbody>
           </table>
         </div>
-      </div>
+      </Parent>
     );
   }
 
   if (isError || !data) {
     console.log(error, "error");
     return (
-      <div
-        className="rounded-3xl w-full p-5 pb-10"
-        style={{
-          background:
-            "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(10, 14, 35, 0.71) 91.2%)",
-        }}
-      >
-        <div className="flex max-md:flex-col justify-between items-center">
-          <h2 className="text-white text-lg font-medium">Incoming Payments</h2>
-          {/* <div className="flex gap-3 items-center text-white max-md:pt-3">
-            <div className="flex items-center gap-2 rounded-xl border border-lightGray bg-[#0F1535] pl-2">
-              <Image src={search} alt="search" width={20} height={20} />
-              <input
-                type="text"
-                className="px-3 p-2 bg-[#0F1535] rounded-r-xl text-sm text-white ring-0 transition-all ease-in outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search..."
-              />
-            </div>
-            <FilterListRoundedIcon className="cursor-pointer text-white" />
-          </div> */}
-        </div>
+      <Parent>
         <table className="w-full table-auto">
           <thead>
             <tr className="text-left max-md:text-sm">
@@ -131,7 +90,7 @@ const PaymentsTable = ({ session }: { session: Session }) => {
           </thead>
         </table>
         <Error message="An error occurred while fetching payments" />
-      </div>
+      </Parent>
     );
   }
   const payments = data.payments;
@@ -139,28 +98,7 @@ const PaymentsTable = ({ session }: { session: Session }) => {
   console.log(data);
 
   return (
-    <div
-      className="rounded-3xl w-full p-5"
-      style={{
-        background:
-          "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(10, 14, 35, 0.71) 91.2%)",
-      }}
-    >
-      <div className="flex max-md:flex-col justify-between items-center">
-        <h2 className="text-white text-lg font-medium">Incoming Payments</h2>
-        {/* <div className="flex gap-3 items-center text-white max-md:pt-3">
-          <div className="flex items-center gap-2 rounded-xl border border-lightGray bg-[#0F1535] pl-2">
-            <Image src={search} alt="search" width={20} height={20} />
-            <input
-              type="text"
-              className="px-3 p-2 bg-[#0F1535] rounded-r-xl text-sm text-white ring-0 transition-all ease-in outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Search..."
-            />
-          </div>
-          <FilterListRoundedIcon className="cursor-pointer text-white" />
-        </div> */}
-        {/* TO-BE-IMP */}
-      </div>
+    <Parent>
       <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">
         {payments.length > 0 ? (
           <table className="w-full table-auto">
@@ -228,8 +166,8 @@ const PaymentsTable = ({ session }: { session: Session }) => {
           onRowsPerPageChange={handleRowsPerPageChange}
         />
       )}
-    </div>
+    </Parent>
   );
 };
 
-export default PaymentsTable;
+export default IncomingPayments;

@@ -1,5 +1,5 @@
 import PaymentsTable from "@/components/(dashboard)/PaymentsTable";
-import PayoutsTable from "@/components/(dashboard)/PayoutsTable";
+import PayoutsTable from "@/components/(dashboard)/Withdrawals";
 import React from "react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
