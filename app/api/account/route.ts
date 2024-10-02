@@ -71,7 +71,9 @@ export const GET = async (req: NextRequest) => {
     const accountBalances = userBalances.map((balance) => {
       return {
         name: convertCurrencyToName(balance.currency),
-        amount: `${balance.balance.toFixed(2)} ${balance.currency}`,
+        amount: `${balance.balance.toFixed(2)} ${
+          balance.currency.split(".")[0]
+        }`,
       };
     });
     return NextResponse.json({

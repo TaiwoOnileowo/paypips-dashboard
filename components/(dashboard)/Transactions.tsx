@@ -35,7 +35,7 @@ const Transactions = ({
                 />
               </div>
               <div>
-                <h3 className="text-sm font-medium my-0.5 overflow-x-auto scrollbar max-md:max-w-[200px] xl:max-w-[250px]">
+                <h3 className="text-sm font-medium my-0.5 overflow-x-auto scrollbar max-md:max-w-[150px] xl:max-w-[250px]">
                   {isPayout
                     ? `Payout to ${(transaction as Payout).beneficiary}`
                     : (transaction as Payment).plan}
@@ -50,7 +50,7 @@ const Transactions = ({
                 !isPayout ? " text-[#01B574]" : "text-[#E31A1A]"
               } `}
             >
-              {isPayout ? "-" : "+$"}{transaction.amount}{isPayout && ` ${(transaction as Payout).currency}`}
+              {isPayout ? "-" : "+$"}{transaction.amount}{isPayout && ` ${(transaction as Payout).currency.split(".TRC20")[0]}`}
             </p>
           </div>
         );
