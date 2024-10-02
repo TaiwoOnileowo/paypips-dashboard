@@ -21,7 +21,12 @@ export interface SubscriptionStats {
     status: string;
   };
 }
-
+export interface Pagination {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  limit: number;
+}
 export interface Payment {
   id: string;
   amount: string;

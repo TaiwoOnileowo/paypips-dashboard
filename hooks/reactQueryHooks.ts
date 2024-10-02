@@ -9,6 +9,7 @@ import http from "../lib/http";
 import {
   AccountDetail,
   Balance,
+  Pagination,
   Payment,
   Payout,
   RevenueStats,
@@ -58,22 +59,34 @@ export const useGetSubscriptionStats = (session: Session | null) => {
     },
   });
 };
-export const useGetRecentPayments = (session: Session | null) => {
-  return useQuery<Payment[]>({
-    queryKey: ["payments"],
+export const useGetPayments = ({
+  session,
+  page,
+  limit,
+}: {
+  session: Session;
+  page: number;
+  limit: number;
+}) => {
+  return useQuery<{
+    payments: Payment[];
+    pagination: Pagination;
+  }>({
+    queryKey: ["payments", page],
     queryFn: async () => {
       try {
         const userId = session?.user?.id;
         const token = session?.user?.token;
         const response = await http.get(
-          `${baseURL}/payments?userId=${userId}&recent=true`,
+          `${baseURL}/payments?userId=${userId}&page=${page}&limit=${limit}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        return response.data.payments;
+
+        return response.data;
       } catch (error) {
         throw new Error(`An error occurred: ${error}`);
       }
@@ -81,22 +94,33 @@ export const useGetRecentPayments = (session: Session | null) => {
   });
 };
 
-export const useGetRecentPayouts = (session: Session | null) => {
-  return useQuery<Payout[]>({
-    queryKey: ["payouts"],
+export const useGetPayouts = ({
+  session,
+  page,
+  limit,
+}: {
+  session: Session;
+  page: number;
+  limit: number;
+}) => {
+  return useQuery<{
+    payouts: Payout[];
+    pagination: Pagination;
+  }>({
+    queryKey: ["payouts", page],
     queryFn: async () => {
       try {
         const userId = session?.user?.id;
         const token = session?.user?.token;
         const response = await http.get(
-          `${baseURL}/payouts?userId=${userId}&recent=true`,
+          `${baseURL}/payouts?userId=${userId}&page=${page}&limit=${limit}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        return response.data.payouts;
+        return response.data;
       } catch (error) {
         throw new Error(`An error occurred: ${error}`);
       }

@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+
 import errorGif from "@/assets/icons/error.gif";
 const Error = ({ message }: { message: string }) => {
   return (

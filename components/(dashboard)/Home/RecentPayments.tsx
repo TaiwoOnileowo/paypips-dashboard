@@ -1,10 +1,7 @@
 "use client";
 import React from "react";
 import { Session } from "next-auth";
-import {
-  useGetRecentPayments,
-  useGetRevenueStats,
-} from "@/hooks/reactQueryHooks";
+import { useGetPayments, useGetRevenueStats } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import errorGif from "@/assets/icons/error.gif";
@@ -14,12 +11,11 @@ import dollar from "@/assets/icons/dollar1.gif";
 import Error from "../Error";
 const RecentPayments = ({ session }: { session: Session }) => {
   const { data: revenueStats } = useGetRevenueStats(session);
-  const {
-    data: payments,
-    isLoading,
-    isError,
-    error,
-  } = useGetRecentPayments(session);
+  const { data, isLoading, isError, error } = useGetPayments({
+    session,
+    page: 1,
+    limit: 4,
+  });
 
   if (isLoading) {
     // Display skeleton loaders while data is being fetched
@@ -35,7 +31,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
 
         {/* Skeleton for the stats */}
         <div className="mt-2 flex items-center gap-2">
-          <Skeleton className="h-4 w-36" />
+          <Skeleton className="h-4 w-32" />
         </div>
 
         {/* Skeleton for the payments list */}
@@ -54,7 +50,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
     );
   }
 
-  if (isError) {
+  if (isError || !data) {
     console.log(error, "error");
     return (
       <div
@@ -69,10 +65,9 @@ const RecentPayments = ({ session }: { session: Session }) => {
       </div>
     );
   }
+  const payments = data?.payments;
 
-  if (!payments) return <div>No payments</div>;
 
-  console.log(payments, "payments");
   return (
     <div
       className="col-span-6 xl:col-span-4 max-xl:max-h-[350px] h-full  p-6 text-white rounded-3xl basis-1/3"

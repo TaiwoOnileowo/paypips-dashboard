@@ -7,7 +7,12 @@ export const runtime = "nodejs";
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-  const recent = searchParams.get("recent");
+
+  const pageParam = searchParams.get("page") || "1";
+  const limitParam = searchParams.get("limit") || "10";
+  const page = parseInt(pageParam, 10);
+  const limit = parseInt(limitParam, 10);
+
   const authHeader = req.headers.get("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
   const secret = process.env.JWT_SECRET;
@@ -30,10 +35,18 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+    // Calculate the number of items to skip
+    const skip = page * limit;
+
     const userPayouts = await prisma.withdrawals.findMany({
       where: { owner_id: userId },
+      skip,
+      take: limit,
+      orderBy: {
+        initiated_at: "desc",
+      },
     });
-    const sortedReturnPayouts = userPayouts
+    const formattedPayouts = userPayouts
       .sort(
         (a, b) =>
           (b.initiated_at ? b.initiated_at.getTime() : 0) -
@@ -50,8 +63,21 @@ export const GET = async (req: NextRequest) => {
           time: formatTo12HourTime(payout.initiated_at),
         };
       });
+    // Fetch total count of payments for pagination info
+    const totalPayouts = await prisma.withdrawals.count({
+      where: { owner_id: userId },
+    });
+
+    const totalPages = Math.ceil(totalPayouts / limit);
+
     return NextResponse.json({
-      payouts: recent ? sortedReturnPayouts.slice(0, 4) : sortedReturnPayouts,
+      payouts: formattedPayouts,
+      pagination: {
+        totalItems: totalPayouts,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
     });
   } catch (error) {
     console.log(error);

@@ -7,13 +7,20 @@ export const runtime = "nodejs";
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-  const recent = searchParams.get("recent");
+
+  const pageParam = searchParams.get("page") || "1";
+  const limitParam = searchParams.get("limit") || "10"; 
+  const page = parseInt(pageParam, 10);
+  const limit = parseInt(limitParam, 10);
+
   const authHeader = req.headers.get("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
   const secret = process.env.JWT_SECRET;
+
   if (!token) {
-    return NextResponse.json({ error: "Unauthorised" }, { status: 400 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
   }
+
   if (!secret) {
     return NextResponse.json(
       { error: "Secret key is required" },
@@ -31,34 +38,48 @@ export const GET = async (req: NextRequest) => {
       );
     }
 
+    // Calculate the number of items to skip
+    const skip = page * limit;
+
+    // Fetch paginated user payments
     const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },
+      skip,
+      take: limit,
+      orderBy: {
+        created_at: "desc", // Order by created_at in descending order
+      },
     });
-    // BOLU-TODO: add owner_id to payments table
-    const sortedReturnPayments = userPayments
-      .sort(
-        (a, b) =>
-          (b.created_at ? b.created_at.getTime() : 0) -
-          (a.created_at ? a.created_at.getTime() : 0)
-      )
-      .map((payment) => {
-        return {
-          id: payment.id,
-          amount: payment.amount_usd!.toFixed(0),
-          plan: payment.groupname,
-          method: payment.payment_method,
-          date: formatDate(payment.created_at),
-          email: payment.email,
-        };
-      });
+
+    // Format the payments
+    const formattedPayments = userPayments.map((payment) => ({
+      id: payment.id,
+      amount: payment.amount_usd!.toFixed(0),
+      plan: payment.groupname,
+      method: payment.payment_method,
+      date: formatDate(payment.created_at),
+      email: payment.email,
+    }));
+
+    // Fetch total count of payments for pagination info
+    const totalPayments = await prisma.payments.count({
+      where: { owner_id: userId },
+    });
+
+    const totalPages = Math.ceil(totalPayments / limit);
+
     return NextResponse.json({
-      payments: recent
-        ? sortedReturnPayments.slice(0, 4)
-        : sortedReturnPayments,
+      payments: formattedPayments,
+      pagination: {
+        totalItems: totalPayments,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
     });
-  } catch (error) {
+  } catch (error:any) {
     return NextResponse.json(
-      { error: `An error occurred: ${error}` },
+      { error: `An error occurred: ${error.message}` },
       { status: 500 }
     );
   }
