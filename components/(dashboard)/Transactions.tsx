@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import forward from "@/assets/icons/forward.svg";
 import Image from "next/image";
@@ -35,7 +35,7 @@ const Transactions = ({
                 />
               </div>
               <div>
-                <h3 className="text-sm font-medium my-0.5 overflow-x-scroll hidden-scroll max-md:max-w-[200px] ">
+                <h3 className="text-sm font-medium my-0.5 overflow-x-scroll hidden-scroll max-md:max-w-[200px] xl:max-w-[350px]">
                   {isPayout
                     ? `Payout to ${(transaction as Payout).beneficiary}`
                     : (transaction as Payment).plan}
