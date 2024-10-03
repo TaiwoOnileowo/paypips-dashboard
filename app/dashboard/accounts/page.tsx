@@ -1,7 +1,7 @@
 import React from "react";
 import PayMethods from "@/components/(dashboard)/Accounts/Paymethods/PayMethods";
 import CreditBalance from "@/components/(dashboard)/Accounts/CreditBalance";
-import AccountBalances from "@/components/(dashboard)/Accounts/AccountBalances";
+import AccountBalances from "@/components/(dashboard)/Accounts/AccountBalances/AccountBalances";
 import RecentTransactions from "@/components/(dashboard)/Accounts/RecentTransactions/RecentTransactions";
 import { auth } from "@/auth";
 

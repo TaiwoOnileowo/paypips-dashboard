@@ -58,7 +58,7 @@ const RecentTransactions = ({ session }: { session: Session }) => {
           />
         </>
       ) : (
-        <NotFound message="No recent transactions" />
+        <NotFound message="No transactions to show" />
       )}
     </Parent>
   );

@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { convertCurrencyToName, formatAmountWithSign, formatNumberWithCommas } from "@/lib/utils";
+import {
+  convertCurrencyToName,
+  formatAmountWithSign,
+  formatNumberWithCommas,
+} from "@/lib/utils";
 
 export const runtime = "nodejs";
 const returnAddress = (address: string | null | undefined) => {
@@ -18,6 +22,10 @@ export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
 
+  const pageParam = searchParams.get("page") || "1";
+  const limitParam = searchParams.get("limit") || "4";
+  const page = parseInt(pageParam, 10);
+  const limit = parseInt(limitParam, 10);
   const authHeader = req.headers.get("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
   const secret = process.env.JWT_SECRET;
@@ -40,11 +48,17 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+
+    // Calculate the number of items to skip
+    const skip = page * limit;
+
     const userData = await prisma.user_details.findUnique({
       where: { owner_id: userId },
     });
     const userBalances = await prisma.available_balance.findMany({
       where: { owner_id: userId },
+      skip,
+      take: limit,
     });
     const userAddresses = [
       {
@@ -71,12 +85,26 @@ export const GET = async (req: NextRequest) => {
     const accountBalances = userBalances.map((balance) => {
       return {
         name: convertCurrencyToName(balance.currency),
-        amount: formatAmountWithSign(balance.currency, formatNumberWithCommas(Number(balance.balance.toFixed(2)))),
+        amount: formatAmountWithSign(
+          balance.currency,
+          formatNumberWithCommas(Number(balance.balance.toFixed(2)))
+        ),
       };
     });
+    const totalAccountBalances = await prisma.available_balance.count({
+      where: { owner_id: userId },
+    });
+    const totalPages = Math.ceil(totalAccountBalances / limit);
+
     return NextResponse.json({
       addresses: userAddresses,
       balances: accountBalances,
+      pagination: {
+        totalItems: totalAccountBalances,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
     });
   } catch (error) {
     return NextResponse.json(

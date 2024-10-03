@@ -4,10 +4,10 @@ import { Session } from "next-auth";
 import { useGetPayments, useGetRevenueStats } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-import errorGif from "@/assets/icons/error.gif";
+
 import checkgreen from "@/assets/icons/check-green.svg";
 import cart from "@/assets/icons/cart-blue.svg";
-import dollar from "@/assets/icons/dollar1.gif";
+
 import Error from "../Error";
 import NotFound from "../NotFound";
 const RecentPayments = ({ session }: { session: Session }) => {
