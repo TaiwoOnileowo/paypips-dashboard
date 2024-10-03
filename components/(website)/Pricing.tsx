@@ -23,14 +23,24 @@ import {
 } from "@/components/ui/drawer";
 import Button from "./Button";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DialogClose } from "@radix-ui/react-dialog";
 
 const Pricing = () => {
   const [clickedIndex, setClickedIndex] = useState(1);
+  const [screenWidth, setScreenWidth] = useState(0);
   const [open, setOpen] = useState(false);
-  const screenWidth = window.innerWidth;
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      setScreenWidth(screenWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [screenWidth]);
   const isDesktop = screenWidth > 768;
   return (
     <section

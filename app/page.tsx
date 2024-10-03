@@ -12,14 +12,13 @@ import Hero from "@/components/(website)/Hero";
 import FeatureStroll from "@/components/(website)/FeatureStroll";
 
 import "./index.css";
-import { Header } from "@/components/(website)/Header";
-import { FloatingNav } from "@/components/ui/FloatingNavbar";
+import Header from "@/components/(website)/Header";
+
 import { navLinks } from "@/lib/data/websitedata";
 const Page = () => {
   return (
     <div className="bg-white relative overflow-x-hidden ">
-      {/* <Header /> */}
-      <FloatingNav navItems={navLinks} />
+      <Header/>
       <Hero />
 
       <About />
