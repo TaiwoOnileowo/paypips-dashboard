@@ -43,6 +43,7 @@ model group_offerings {
   payment_interval      String?                 @db.VarChar(64)
   payment_amount        Float
   display_name          String?                 @db.VarChar(64)
+  terms_condition       String?
   groups_groupofferings groups_groupofferings[]
 }
 

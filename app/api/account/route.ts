@@ -60,6 +60,7 @@ export const GET = async (req: NextRequest) => {
       skip,
       take: limit,
     });
+
     const userAddresses = [
       {
         account: returnAddress(userData?.trc_address),

@@ -2,14 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
 import { formatDate, formatNumberWithCommas } from "@/lib/utils";
+import Fuse from "fuse.js";
 
 export const runtime = "nodejs";
+
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
 
   const pageParam = searchParams.get("page") || "1";
   const limitParam = searchParams.get("limit") || "10";
+  const searchQuery = searchParams.get("search") || "";
   const page = parseInt(pageParam, 10);
   const limit = parseInt(limitParam, 10);
 
@@ -41,11 +44,9 @@ export const GET = async (req: NextRequest) => {
     // Calculate the number of items to skip
     const skip = page * limit;
 
-    // Fetch paginated user payments
+    // Fetch user payments without pagination to apply search
     const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },
-      skip,
-      take: limit,
       orderBy: {
         created_at: "desc", // Order by created_at in descending order
       },
@@ -61,15 +62,36 @@ export const GET = async (req: NextRequest) => {
       email: payment.email,
     }));
 
-    // Fetch total count of payments for pagination info
-    const totalPayments = await prisma.payments.count({
-      where: { owner_id: userId },
-    });
+    // Search functionality using Fuse.js
+    if (searchQuery) {
+      const fuse = new Fuse(formattedPayments, {
+        keys: ["plan", "method", "email"],
+        threshold: 0.3,
+      });
 
+      const result = fuse.search(searchQuery).map((res) => res.item);
+      const paginatedResult = result.slice(skip, skip + limit);
+      const totalResults = result.length;
+      const totalPages = Math.ceil(totalResults / limit);
+      return NextResponse.json({
+        payments: paginatedResult,
+        pagination: {
+          totalItems: totalResults,
+          totalPages,
+          currentPage: page,
+          limit,
+        },
+      });
+    }
+
+    const paginatedPayments = formattedPayments.slice(skip, skip + limit);
+
+    // Fetch total count of payments for pagination info
+    const totalPayments = userPayments.length;
     const totalPages = Math.ceil(totalPayments / limit);
 
     return NextResponse.json({
-      payments: formattedPayments,
+      payments: paginatedPayments,
       pagination: {
         totalItems: totalPayments,
         totalPages,

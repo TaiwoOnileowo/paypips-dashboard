@@ -4,7 +4,6 @@ import { Session } from "next-auth";
 import { useGetPayments, useGetRevenueStats } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-
 import checkgreen from "@/assets/icons/check-green.svg";
 import cart from "@/assets/icons/cart-blue.svg";
 
@@ -86,15 +85,17 @@ const RecentPayments = ({ session }: { session: Session }) => {
               : "N/A"}
           </p>
 
-          <div className="mt-6 ">
+          <div className="mt-6 w-full">
             {payments.map((item, index) => (
-              <div className="flex items-start gap-5 mt-4" key={index}>
+              <div className="flex items-start gap-5 mt-4 w-full" key={index}>
                 <Image src={cart} alt="cart" width={20} height={20} />
-                <div>
-                  <p className="truncate max-w-[400px]">
+                <div className="w-[calc(100%-40px)] ">
+                  <p className=" overflow-x-auto scrollbar max-w-full ">
                     ${item.amount}, {item.plan}
                   </p>
-                  <p className="text-sm text-gray-300/80">{item.email}</p>
+                  <p className="text-sm text-gray-300/80 overflow-x-auto scrollbar max-w-full">
+                    {item.email}
+                  </p>
                 </div>
               </div>
             ))}

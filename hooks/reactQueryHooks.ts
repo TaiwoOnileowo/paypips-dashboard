@@ -63,22 +63,28 @@ export const useGetPayments = ({
   session,
   page,
   limit,
+  query,
 }: {
   session: Session;
   page: number;
   limit: number;
+  query?: string;
 }) => {
   return useQuery<{
     payments: Payment[];
     pagination: Pagination;
   }>({
-    queryKey: ["payments", page],
+    queryKey: [
+      "payments",
+      (query !== "" || query !== undefined) && query,
+      page,
+    ],
     queryFn: async () => {
       try {
         const userId = session?.user?.id;
         const token = session?.user?.token;
         const response = await http.get(
-          `${baseURL}/payments?userId=${userId}&page=${page}&limit=${limit}`,
+          `${baseURL}/payments?userId=${userId}&page=${page}&limit=${limit}&search=${query}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -98,22 +104,24 @@ export const useGetPayouts = ({
   session,
   page,
   limit,
+  query,
 }: {
   session: Session;
   page: number;
   limit: number;
+  query?: string;
 }) => {
   return useQuery<{
     payouts: Payout[];
     pagination: Pagination;
   }>({
-    queryKey: ["payouts", page],
+    queryKey: ["payouts", (query !== "" || query !== undefined) && query, page],
     queryFn: async () => {
       try {
         const userId = session?.user?.id;
         const token = session?.user?.token;
         const response = await http.get(
-          `${baseURL}/payouts?userId=${userId}&page=${page}&limit=${limit}`,
+          `${baseURL}/payouts?userId=${userId}&page=${page}&limit=${limit}&search=${query}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

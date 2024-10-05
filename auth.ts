@@ -2,7 +2,6 @@ import NextAuth, { Session } from "next-auth";
 import { ZodError } from "zod";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "./lib/validations/signin";
-import { hashPassword } from "@/utils/password";
 import { getUserFromDb } from "./lib/actions/user.actions";
 import { JWT } from "next-auth/jwt";
 

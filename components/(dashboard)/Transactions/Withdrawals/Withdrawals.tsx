@@ -1,23 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Session } from "next-auth";
 
 import { useGetPayouts } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TablePagination } from "@mui/material";
-
-import Error from "./Error";
-import NotFound from "./NotFound";
-import Parent from "./Transactions/Withdrawals/Parent";
+import Error from "../../Error";
+import Parent from "./Parent";
+import NotFound from "../../NotFound";
 
 const Withdrawals = ({ session }: { session: Session }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [query, setQuery] = useState("");
   const { data, isLoading, isError, error } = useGetPayouts({
     session,
     page: currentPage,
     limit,
+    query,
   });
   const handlePageChange = (event: unknown, newPage: number) => {
     setCurrentPage(newPage);
@@ -28,10 +29,18 @@ const Withdrawals = ({ session }: { session: Session }) => {
     setLimit(parseInt(event.target.value, 10));
     setCurrentPage(0);
   };
-
+  const searchRef = useRef<HTMLInputElement | null>(null);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchRef.current) {
+      setQuery(searchRef.current?.value);
+      return;
+    }
+  };
+  console.log(data);
   if (isLoading) {
     return (
-      <Parent>
+      <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
         <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">
           <table className="w-full table-auto">
             <thead>
@@ -79,7 +88,7 @@ const Withdrawals = ({ session }: { session: Session }) => {
   if (isError || !data) {
     console.log(error, "error");
     return (
-      <Parent>
+      <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
         <table className="w-full table-auto ">
           <thead className="">
             <tr className=" text-left max-md:text-sm">
@@ -99,7 +108,7 @@ const Withdrawals = ({ session }: { session: Session }) => {
   const payouts = data.payouts;
   const pagination = data.pagination;
   return (
-    <Parent>
+    <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
       <div className="mt-5 overflow-auto max-md:mt-2 w-full text-white">
         {payouts.length > 0 ? (
           <table className="w-full table-auto ">
@@ -171,17 +180,16 @@ const Withdrawals = ({ session }: { session: Session }) => {
           </div>
         )}
       </div>
-      {!(currentPage === 0 && payouts.length != limit) && (
-        <TablePagination
-          component="div"
-          count={pagination.totalItems}
-          page={currentPage}
-          className="!text-white"
-          onPageChange={handlePageChange}
-          rowsPerPage={limit}
-          onRowsPerPageChange={handleRowsPerPageChange}
-        />
-      )}
+
+      <TablePagination
+        component="div"
+        count={pagination.totalItems}
+        page={currentPage}
+        className="!text-white"
+        onPageChange={handlePageChange}
+        rowsPerPage={limit}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
     </Parent>
   );
 };

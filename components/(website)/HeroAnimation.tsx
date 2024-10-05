@@ -6,7 +6,7 @@ import paystack from "@/assets/images/paystack.svg";
 import logo from "@/assets/images/logo.png";
 
 import Image from "next/image";
-import HeroAnimationSide from "../HeroAnimationSide";
+import HeroAnimationSide from "./HeroAnimationSide";
 
 const HeroAnimation = () => {
   return (

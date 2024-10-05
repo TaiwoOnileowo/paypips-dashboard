@@ -125,6 +125,7 @@ export const payments = [
     method: "USD",
     date: "01/02/2024",
   },
+  
 ];
 export const payouts = [
   {
@@ -225,6 +226,18 @@ export const accountBalances = [
   {
     name: "USDT",
     amount: "$100",
+  },
+  {
+    name: "Ethereum",
+    amount: "0.0099ETH",
+  },
+  {
+    name: "Ethereum",
+    amount: "0.0099ETH",
+  },
+  {
+    name: "Ethereum",
+    amount: "0.0099ETH",
   },
   {
     name: "Ethereum",

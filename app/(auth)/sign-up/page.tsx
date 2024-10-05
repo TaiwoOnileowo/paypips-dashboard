@@ -3,7 +3,9 @@ import Label from "@/components/ui/Label";
 import React from "react";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 const Page = () => {
+  redirect("/sign-in");
   return (
     <div
       className="w-full h-screen relative grid lg:grid-cols-2 font-plus text-white"

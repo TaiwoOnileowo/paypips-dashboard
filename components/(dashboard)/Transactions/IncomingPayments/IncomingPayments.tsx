@@ -1,24 +1,25 @@
 "use client";
-import React, { useState } from "react";
 
+import React, { useState, useRef } from "react";
 import { Session } from "next-auth";
 
 import { TablePagination } from "@mui/material";
-
 import { useGetPayments } from "@/hooks/reactQueryHooks";
 import { Skeleton } from "@/components/ui/skeleton";
-
 import Error from "../../Error";
 import Parent from "./Parent";
 import NotFound from "../../NotFound";
 const IncomingPayments = ({ session }: { session: Session }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [query, setQuery] = useState("");
   const { data, isLoading, isError, error } = useGetPayments({
     session,
     page: currentPage,
     limit: limit,
+    query,
   });
+  const searchRef = useRef<HTMLInputElement | null>(null);
   const handlePageChange = (event: unknown, newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -28,11 +29,18 @@ const IncomingPayments = ({ session }: { session: Session }) => {
     setLimit(parseInt(event.target.value, 10));
     setCurrentPage(0);
   };
-
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchRef.current && searchRef.current.value) {
+      setQuery(searchRef.current?.value);
+      return;
+    }
+    return;
+  };
   if (isLoading) {
     // Display skeleton loaders while data is being fetched
     return (
-      <Parent>
+      <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
         <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">
           <table className="w-full table-auto">
             <thead>
@@ -77,7 +85,7 @@ const IncomingPayments = ({ session }: { session: Session }) => {
   if (isError || !data) {
     console.log(error, "error");
     return (
-      <Parent>
+      <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
         <table className="w-full table-auto">
           <thead>
             <tr className="text-left max-md:text-sm">
@@ -95,10 +103,9 @@ const IncomingPayments = ({ session }: { session: Session }) => {
   }
   const payments = data.payments;
   const pagination = data.pagination;
-  console.log(data);
-
+ 
   return (
-    <Parent>
+    <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
       <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">
         {payments.length > 0 ? (
           <table className="w-full table-auto">

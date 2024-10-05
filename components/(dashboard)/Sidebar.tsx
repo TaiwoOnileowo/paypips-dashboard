@@ -32,11 +32,11 @@ const Sidebar = () => {
         onClick={toggleSidebar}
       />
       <div className="flex items-center  justify-center gap-3 flex-col  h-[6%]">
-        <div className="flex items-center h-full gap-2 justify-center">
-          <Image src={logo} alt="logo" width={50} />
+        <Link href="/" target="_blank" className="flex items-center h-full gap-2 justify-center">
+          <Image src={logo} alt="logo" width={40} height={40} />
 
-          <h1 className="text-white font-plus mb-3  md:text-xl">PAYPIPS</h1>
-        </div>
+          <h1 className="text-white font-plus  md:text-xl">PAYPIPS</h1>
+        </Link>
         <Image
           src={hr}
           alt="hr"

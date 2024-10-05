@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { formatDate, formatNumberWithCommas, formatTo12HourTime } from "@/lib/utils";
+import { formatDate, formatTo12HourTime } from "@/lib/utils";
+import Fuse from "fuse.js";
 
 export const runtime = "nodejs";
 export const GET = async (req: NextRequest) => {
@@ -10,6 +11,7 @@ export const GET = async (req: NextRequest) => {
 
   const pageParam = searchParams.get("page") || "1";
   const limitParam = searchParams.get("limit") || "10";
+  const searchQuery = searchParams.get("search") || "";
   const page = parseInt(pageParam, 10);
   const limit = parseInt(limitParam, 10);
 
@@ -40,8 +42,7 @@ export const GET = async (req: NextRequest) => {
 
     const userPayouts = await prisma.withdrawals.findMany({
       where: { owner_id: userId },
-      skip,
-      take: limit,
+
       orderBy: {
         initiated_at: "desc",
       },
@@ -56,22 +57,41 @@ export const GET = async (req: NextRequest) => {
         return {
           id: payout.id,
           beneficiary: payout.address,
-          amount: formatNumberWithCommas(Number(payout.amount)),
+          amount: payout.amount,
           currency: payout.currency,
           status: payout.status,
           date: formatDate(payout.initiated_at),
           time: formatTo12HourTime(payout.initiated_at),
         };
       });
-    // Fetch total count of payments for pagination info
-    const totalPayouts = await prisma.withdrawals.count({
-      where: { owner_id: userId },
-    });
+    if (searchQuery) {
+      const fuse = new Fuse(formattedPayouts, {
+        keys: ["beneficiary", "currency"],
+        threshold: 0.3,
+      });
 
+      const result = fuse.search(searchQuery).map((res) => res.item);
+      const paginatedResult = result.slice(skip, skip + limit);
+      console.log(paginatedResult)
+      const totalResults = result.length;
+      const totalPages = Math.ceil(totalResults / limit);
+      return NextResponse.json({
+        payouts: paginatedResult,
+        pagination: {
+          totalItems: totalResults,
+          totalPages,
+          currentPage: page,
+          limit,
+        },
+      });
+    }
+
+    const paginatedPayouts = formattedPayouts.slice(skip, skip + limit);
+    const totalPayouts = userPayouts.length;
     const totalPages = Math.ceil(totalPayouts / limit);
 
     return NextResponse.json({
-      payouts: formattedPayouts,
+      payouts: paginatedPayouts,
       pagination: {
         totalItems: totalPayouts,
         totalPages,

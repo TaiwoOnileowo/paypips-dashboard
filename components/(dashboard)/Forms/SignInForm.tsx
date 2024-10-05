@@ -7,8 +7,7 @@ import { toast } from "react-toastify";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import http from "@/lib/http";
-import { auth } from "@/auth";
+
 const SignInForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -73,13 +72,14 @@ const SignInForm = () => {
         <Label htmlFor="remember-me" text="Remember Me" />
       </div> */}
       <button
-        className="w-full flex items-center justify-center gap-5 bg-sharpBlue rounded-2xl  mt-8 text-sm uppercase font-bold font-plus p-3"
+        className="w-full disabled:bg-sharpBlue/50 disabled:text-white/50 flex items-center justify-center gap-5 bg-sharpBlue rounded-2xl  mt-8 text-sm uppercase font-bold font-plus p-3"
         type="submit"
+        disabled={loading}
       >
-        Sign In{" "}
-        {loading && (
+        {loading ? "Please Wait..." : "Sign In"}
+        {/* {loading && (
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-        )}
+        )} */}
       </button>
       {/* <p className="mt-4 text-harsh text-sm flex justify-center w-full ">
         Don&apos;t have an account?{" "}
