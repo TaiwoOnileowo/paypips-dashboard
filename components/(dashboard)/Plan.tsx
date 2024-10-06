@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { Session } from "next-auth";
 import slash from "@/assets/icons/slash1.svg";
+import { pricing } from "@/lib/data/websitedata";
 import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
 import Error from "./Error";
 import { Skeleton } from "@mui/material";
@@ -59,7 +60,15 @@ const Plan = ({ session }: { session: Session }) => {
     >
       <h1 className="text-lg font-bold">Plan</h1>
       <h1 className="text-gray-400 mt-2 font-bold">{plan?.name}</h1>
-      <p className="text-gray-400  mt-1 ">{getPlanText(plan?.name || "")}</p>
+      <p className="text-gray-400 mt-1 font-bold flex items-center ">
+        Status: <span className="text-white ml-2">{plan?.status}</span>{" "}
+        {plan?.status === "Active" && (
+          <span className="w-1 h-1 ml-2 inline-flex rounded-full animate-ping bg-green-500"></span>
+        )}
+      </p>
+      {plan?.status !== "Pending" && (
+        <p className="text-gray-400  mt-1 ">{getPlanText(plan?.name || "")}</p>
+      )}
 
       <Image src={slash} alt="slash" className="my-6 w-full" />
     </div>
