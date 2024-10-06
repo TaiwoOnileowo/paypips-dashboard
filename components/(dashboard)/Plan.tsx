@@ -71,6 +71,12 @@ const Plan = ({ session }: { session: Session }) => {
       )}
 
       <Image src={slash} alt="slash" className="my-6 w-full" />
+      <div className="flex flex-col items-center">
+        <h1 className=" ">Your subscription is pending</h1>
+        <button className="rounded-2xl mt-3 px-6 bg-sharpBlue p-3">
+          Make payment now
+        </button>
+      </div>
     </div>
   );
 };

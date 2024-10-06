@@ -15,7 +15,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
     session,
     page: 1,
     limit: 4,
-    query:""
+    query: "",
   });
 
   if (isLoading) {
@@ -82,7 +82,10 @@ const RecentPayments = ({ session }: { session: Session }) => {
           <p className="text-gray-300/80 mt-1 flex items-center gap-2">
             <Image src={checkgreen} alt="checkgreen" width={15} height={15} />
             {revenueStats && revenueStats.monthRevenuePercentageIncrease
-              ? `${revenueStats.monthRevenuePercentageIncrease}% this month`
+              ? `${
+                  !revenueStats.monthRevenuePercentageIncrease.includes("-") &&
+                  "+"
+                }${revenueStats.monthRevenuePercentageIncrease}% this month`
               : "N/A"}
           </p>
 

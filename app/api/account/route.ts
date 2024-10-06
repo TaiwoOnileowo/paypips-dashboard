@@ -57,8 +57,6 @@ export const GET = async (req: NextRequest) => {
     });
     const userBalances = await prisma.available_balance.findMany({
       where: { owner_id: userId },
-      skip,
-      take: limit,
     });
 
     const userAddresses = [
@@ -92,20 +90,21 @@ export const GET = async (req: NextRequest) => {
         ),
       };
     });
-    const totalAccountBalances = await prisma.available_balance.count({
-      where: { owner_id: userId },
-    });
-    const totalPages = Math.ceil(totalAccountBalances / limit);
+
+    // const totalAccountBalances = await prisma.available_balance.count({
+    //   where: { owner_id: userId },
+    // });
+    // const totalPages = Math.ceil(totalAccountBalances / limit);
 
     return NextResponse.json({
       addresses: userAddresses,
       balances: accountBalances,
-      pagination: {
-        totalItems: totalAccountBalances,
-        totalPages,
-        currentPage: page,
-        limit,
-      },
+      // pagination: {
+      //   totalItems: totalAccountBalances,
+      //   totalPages,
+      //   currentPage: page,
+      //   limit,
+      // },
     });
   } catch (error) {
     return NextResponse.json(

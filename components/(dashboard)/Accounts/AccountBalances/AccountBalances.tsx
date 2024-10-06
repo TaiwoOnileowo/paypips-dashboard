@@ -40,7 +40,10 @@ const AccountBalances = ({ session }: { session: Session }) => {
       </Parent>
     );
   }
-  const balances = account.balances.splice(0, 4);
+  const balances =
+    account.balances.length > 4
+      ? account.balances.slice(0, 4)
+      : account.balances;
   return (
     <Parent>
       {balances.length > 0 ? (

@@ -60,7 +60,9 @@ const LatestTransaction = ({ session }: { session: Session }) => {
             </p>
           </div>
           <p className=" font-bold">
-            {isPayout ? "-" : "+"}${newestTransaction?.amount}
+            {isPayout ? "-" : "+"}
+            {!isPayout && "$"}
+            {newestTransaction?.amount}
           </p>
         </div>
       </div>
