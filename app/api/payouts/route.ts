@@ -12,6 +12,18 @@ export const GET = async (req: NextRequest) => {
   const pageParam = searchParams.get("page") || "1";
   const limitParam = searchParams.get("limit") || "10";
   const searchQuery = searchParams.get("search") || "";
+
+  // Filters
+  const minAmount = parseFloat(searchParams.get("minAmount") || "0");
+  // const minAmount = searchParams.get("minAmount");
+  const maxAmount = parseFloat(searchParams.get("maxAmount") || "Infinity");
+
+  // const maxAmount = searchParams.get("maxAmount");
+  const currency = searchParams.get("currency");
+  const status = searchParams.get("status");
+  const startDate = searchParams.get("startDate");
+  const endDate = searchParams.get("endDate");
+
   const page = parseInt(pageParam, 10);
   const limit = parseInt(limitParam, 10);
 
@@ -37,33 +49,56 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+
+    // Construct date filter if startDate or endDate is provided
+    let dateFilter = {};
+    if (startDate || endDate) {
+      dateFilter = {
+        initiated_at: {
+          ...(startDate && { gte: new Date(startDate) }),
+          ...(endDate && { lte: new Date(endDate) }),
+        },
+      };
+    }
+
     // Calculate the number of items to skip
     const skip = page * limit;
 
-    const userPayouts = await prisma.withdrawals.findMany({
-      where: { owner_id: userId },
+    // Build the filter query
+    const filters = {
+      owner_id: userId,
+      // ...(minAmount && { amount: { gte: minAmount } }),
+      // ...(maxAmount && {
+      //   amount: { ...(minAmount && { gte: minAmount }), lte: maxAmount },
+      // }),
+      ...(currency && { currency }),
+      ...(status && { status }),
+      ...dateFilter,
+    };
+    console.log(filters, maxAmount, minAmount);
 
+    const userPayouts = await prisma.withdrawals.findMany({
+      where: filters,
       orderBy: {
         initiated_at: "desc",
       },
     });
-    const formattedPayouts = userPayouts
-      .sort(
-        (a, b) =>
-          (b.initiated_at ? b.initiated_at.getTime() : 0) -
-          (a.initiated_at ? a.initiated_at.getTime() : 0)
-      )
-      .map((payout) => {
-        return {
-          id: payout.id,
-          beneficiary: payout.address,
-          amount: payout.amount,
-          currency: payout.currency,
-          status: payout.status,
-          date: formatDate(payout.initiated_at),
-          time: formatTo12HourTime(payout.initiated_at),
-        };
-      });
+    console.log(userPayouts);
+
+    // Format payouts for display
+    const formattedPayouts = userPayouts.map((payout) => {
+      return {
+        id: payout.id,
+        beneficiary: payout.address,
+        amount: payout.amount,
+        currency: payout.currency,
+        status: payout.status,
+        date: formatDate(payout.initiated_at),
+        time: formatTo12HourTime(payout.initiated_at),
+      };
+    });
+
+    // Apply search if needed
     if (searchQuery) {
       const fuse = new Fuse(formattedPayouts, {
         keys: ["beneficiary", "currency"],
@@ -72,9 +107,9 @@ export const GET = async (req: NextRequest) => {
 
       const result = fuse.search(searchQuery).map((res) => res.item);
       const paginatedResult = result.slice(skip, skip + limit);
-      console.log(paginatedResult)
       const totalResults = result.length;
       const totalPages = Math.ceil(totalResults / limit);
+
       return NextResponse.json({
         payouts: paginatedResult,
         pagination: {
@@ -86,6 +121,7 @@ export const GET = async (req: NextRequest) => {
       });
     }
 
+    // Paginate results
     const paginatedPayouts = formattedPayouts.slice(skip, skip + limit);
     const totalPayouts = userPayouts.length;
     const totalPages = Math.ceil(totalPayouts / limit);
