@@ -32,16 +32,18 @@ const Pricing = () => {
   const [screenWidth, setScreenWidth] = useState(0);
   const [open, setOpen] = useState(false);
   useEffect(() => {
+    const screenWidth = window.innerWidth;
+    console.log(screenWidth);
     const handleResize = () => {
-      const screenWidth = window.innerWidth;
       setScreenWidth(screenWidth);
     };
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [screenWidth]);
+  }, []);
   const isDesktop = screenWidth > 768;
+  console.log(screenWidth, isDesktop);
   return (
     <section
       id="pricing"

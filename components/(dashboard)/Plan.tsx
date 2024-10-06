@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import React from "react";
 import Image from "next/image";
 import { Session } from "next-auth";
 import slash from "@/assets/icons/slash1.svg";
 import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
 import Error from "./Error";
+import { Skeleton } from "@mui/material";
 const Plan = ({ session }: { session: Session }) => {
   const { data, isLoading, isError, error } = useGetSubscriptionStats(session);
 
@@ -18,6 +19,8 @@ const Plan = ({ session }: { session: Session }) => {
         }}
       >
         <h1 className="text-lg font-bold">Plan</h1>
+        <Skeleton className="h-6 w-[300px] bg-gray-400" />
+        <Skeleton className="w-full h-10 bg-gray-400" />
       </div>
     );
   }
@@ -36,6 +39,16 @@ const Plan = ({ session }: { session: Session }) => {
     );
   }
   const plan = data?.subscriptionPlan;
+  const getPlanText = (plan: string) => {
+    if (plan.includes("Proffesional") || plan.includes("Professional")) {
+      return "Lower transaction fees, access codes, priority onboarding, custom broadcast messages, access to beta features and more";
+    } else if (plan.includes("Basic")) {
+      return "Recieve payments through multiple methods, invite links, email support, access to dashboard and more";
+    } else if (plan.includes("Growth")) {
+      return "Automated group management, automated renewal reminders, dashboard analytics and more";
+    }
+    return "";
+  };
   return (
     <div
       className="max-[1300px]:col-span-12 max-md:text-sm h-[370px] col-span-6 p-6 rounded-3xl text-[15px]"
@@ -46,12 +59,8 @@ const Plan = ({ session }: { session: Session }) => {
     >
       <h1 className="text-lg font-bold">Plan</h1>
       <h1 className="text-gray-400 mt-2 font-bold">{plan?.name}</h1>
-      {/* <p className="text-gray-400 mt-2 text-sm font-bold">{plan?.name}</p> */}
-      <p className="text-gray-400  mt-1 ">
-        Lower transaction fees, access codes, priority onboarding, custom
-        broadcast messages, access to beta features and more
-      </p>
-      {/* BOLU-TODO */}
+      <p className="text-gray-400  mt-1 ">{getPlanText(plan?.name || "")}</p>
+
       <Image src={slash} alt="slash" className="my-6 w-full" />
     </div>
   );

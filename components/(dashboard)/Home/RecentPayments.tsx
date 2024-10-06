@@ -15,6 +15,7 @@ const RecentPayments = ({ session }: { session: Session }) => {
     session,
     page: 1,
     limit: 4,
+    query:""
   });
 
   if (isLoading) {
