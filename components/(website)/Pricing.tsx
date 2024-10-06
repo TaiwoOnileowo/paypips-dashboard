@@ -26,32 +26,35 @@ import Button from "./Button";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DialogClose } from "@radix-ui/react-dialog";
+import PricingFeatures from "./PricingFeatures";
 
 const Pricing = () => {
   const [clickedIndex, setClickedIndex] = useState(1);
-  const [screenWidth, setScreenWidth] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
-    const screenWidth = window.innerWidth;
-    console.log(screenWidth);
     const handleResize = () => {
-      setScreenWidth(screenWidth);
+      setScreenWidth(window.innerWidth);
     };
+
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   const isDesktop = screenWidth > 768;
-  console.log(screenWidth, isDesktop);
+ 
   return (
     <section
       id="pricing"
-      className="relative bg-white pt-12 pb-24 md:pb-48 flex flex-col justify-center items-center"
+      className="relative bg-white p-12 flex flex-col justify-center items-center"
     >
       <Heading text="Pricing" color={"black"} />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-10 mt-24">
+      <div className="grid grid-cols-1 xl:grid-cols-3 items-center gap-10 mt-24">
         {pricing.map((price, idx) => {
           let ctaLink = "https://t.me/paypips_adminBot";
           return (
@@ -80,39 +83,7 @@ const Pricing = () => {
                 )}
               </h1>
 
-              <div className="flex my-3 items-center gap-2">
-                <div className="md:w-[4px] md:h-[4px] w-[3px] h-[3px] bg-blue-accent rounded-full" />
-                <hr className="border-medium-gray opacity-50 w-[100px] md:w-[120px]" />
-                <p className="text-xs text-gray-600">Features</p>
-                <hr className="border-medium-gray opacity-50 w-[100px] md:w-[120px]" />
-                <div className="md:w-[4px] md:h-[4px] w-[3px] h-[3px] bg-blue-accent rounded-full" />
-              </div>
-              <div className="flex flex-col justify-between md:gap-4">
-                <div className="flex gap-2 flex-col">
-                  {Object.values(price.benefits).map((benefit, index) => (
-                    <p
-                      key={index}
-                      className="flex gap-2 text-xs md:text-sm items-center"
-                    >
-                      <span className="bg-blue-accent p-1 flex items-center justify-center rounded-full">
-                        <FaCheck className="text-xs text-white" />
-                      </span>
-                      {index === 0 && idx === 0 ? (
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              "Card, Bank Transfer <br> USDT, BTC, ETH - Crypto Payment options",
-                          }}
-                        />
-                      ) : (
-                        <span key={index} className="">
-                          {benefit}
-                        </span>
-                      )}
-                    </p>
-                  ))}
-                </div>
-              </div>
+              <PricingFeatures price={price} />
               {isDesktop ? (
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
@@ -124,13 +95,25 @@ const Pricing = () => {
                       />
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] flex flex-col items-center">
-                    <DialogHeader>
-                      <DialogTitle className="text-center text-2xl font-bold">
-                        {price.name}
-                      </DialogTitle>
-                      <DialogDescription className="text-center">
-                        {price.ctatext}
+                  {clickedIndex === idx && (
+                    <DialogContent
+                      className={`flex   flex-col text-medium-gray p-2 xs:p-4 py-6 md:p-6 w-[300px] min-h-[440px] md:w-[400px] transition-all ease col-span-1 cursor-default rounded-[15px] gap-2 light-blue-gradient`}
+                    >
+                      <DialogHeader>
+                        <DialogTitle>
+                          <h1 className=" text-2xl font-bold">{price.name}</h1>
+                        </DialogTitle>
+                      </DialogHeader>
+                      <DialogDescription>
+                        <h1 className="text-2xl md:text-4xl text-blue-accent  font-bold">
+                          {price.amount}
+                          {idx !== 0 && (
+                            <span className="text-sm text-medium-gray">
+                              /month
+                            </span>
+                          )}
+                        </h1>
+                        <PricingFeatures price={price} />
                       </DialogDescription>
                       <DialogFooter className="flex justify-center">
                         <DialogClose>
@@ -143,8 +126,8 @@ const Pricing = () => {
                           </Link>
                         </DialogClose>
                       </DialogFooter>
-                    </DialogHeader>
-                  </DialogContent>
+                    </DialogContent>
+                  )}
                 </Dialog>
               ) : (
                 <Drawer open={open} onOpenChange={setOpen}>
@@ -185,6 +168,15 @@ const Pricing = () => {
           );
         })}
       </div>
+      <svg
+        viewBox="0 0 1440 137"
+        className="hidden md:block absolute -bottom-4"
+      >
+        <path
+          d="M0 137H1440V114.609H346.775C331.995 114.609 318.039 107.799 308.943 96.1501L248.278 18.4586C239.181 6.8092 225.225 0 210.445 0H0V137Z"
+          fill="#14181f"
+        ></path>
+      </svg>
     </section>
   );
 };

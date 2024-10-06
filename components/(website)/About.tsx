@@ -9,13 +9,12 @@ const About = () => {
       <div className="blur absolute z-[0] w-[60%]  h-[60%] left-[-50%] top-[70%] rounded-[50%] opacity-40 bg-shining-gradient" />
       <div className="items-center max-w-6xl flex justify-center flex-col mx-auto px-4">
         <Heading text="Introducing Paypips" />
-        <div className="background-transition flex mt-10 justify-center items-center max-w-[600px] md:max-w-[700px]  text-muted-text text-opacity-50 space-y-4  p-8  rounded-lg shadow-lg">
-          <p className="text-sm xs:text-base text-white  md:text-2xl text-scroll-reveal md:text-center max-w-2xl">
-            PayPips is dedicated to providing top-notch management tools for
-            Telegram community owners, especially those in the Forex trading
-            space. Our mission is to help community leaders streamline their
-            operations, enhance member engagement, and achieve their business
-            goals.
+        <div className="background-transition flex mt-10 justify-center items-center max-w-xl lg:max-w-2xl   text-muted-text text-opacity-50 space-y-4  p-8  rounded-lg shadow-lg">
+          <p className="text-sm xs:text-base max-md:text-lg text-white  lg:text-2xl text-scroll-reveal md:text-center max-w-2xl">
+            PayPips is here to provide top-notch management tools for Forex
+            Telegram community owners. Our mission is to help community leaders
+            streamline their operations, enhance payment,subscription and
+            member engagement and achieve their business goals.
           </p>
         </div>
       </div>

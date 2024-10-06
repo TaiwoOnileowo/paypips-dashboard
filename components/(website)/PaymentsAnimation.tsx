@@ -5,7 +5,6 @@ import { FaDollarSign } from "react-icons/fa";
 import { FaBitcoinSign } from "react-icons/fa6";
 import paystack from "@/assets/images/paystack.svg";
 import Image from "next/image";
-// import { FaMoneyBills } from "react-icons/fa6";
 
 const PaymentsAnimation = () => {
   const [count, setCount] = useState(250);
@@ -70,7 +69,10 @@ const PaymentsAnimation = () => {
   }, []);
 
   return (
-    <div className="relative text-white flex items-center justify-center">
+    <div
+      className="relative w-full
+     xl:w-[50%] text-white flex items-center justify-center"
+    >
       <div className="flex flex-col mx-0 md:mx-4 items-center gap-4 xs:gap-6 md:gap-8">
         <div
           className={`bg-white z-10 text-blue-accent p-2 xs:p-4 rounded-full ${
@@ -93,14 +95,14 @@ const PaymentsAnimation = () => {
         >
           <Image
             src={paystack}
-            alt=""
+            alt="Paystack"
             className="md:w-14 md:h-14 w-6 h-[20px]  xs:w-10 xs:h-10"
           />
         </div>
       </div>
-      <hr className="hr-border absolute w-[80px] xs:w-[100px] msm:w-[120px] md:w-[180px] bend1 top-[38%]  xs:top-[35%] left-[18%]" />
+      <hr className="hr-border absolute w-[80px] xs:w-[100px] msm:w-[150px] md:w-[180px] bend1 top-[38%]  xs:top-[35%] left-[20%]" />
       <hr className="hr-border md:w-[140px] w-[60px] xs:w-[80px] msm:w-[100px] " />
-      <hr className="hr-border absolute bend2 w-[80px] xs:w-[100px] msm:w-[120px] md:w-[180px] bottom-[38%] xs:bottom-[35%] left-[18%]" />
+      <hr className="hr-border absolute bend2 w-[80px] xs:w-[100px] msm:w-[150px] md:w-[180px] bottom-[38%] xs:bottom-[35%] left-[20%]" />
       <div
         className={`ball ${
           isMoving.first && (window.innerWidth > 1200 ? "first" : "first-sm")
@@ -117,11 +119,11 @@ const PaymentsAnimation = () => {
         } opacity-0 bottom-[21%] msm:bottom-[18%] md:bottom-[15%] left-[10%] w-[10px] h-[10px] xs:w-[20px] xs:h-[20px] md:w-[30px] md:h-[30px]`}
       />
       <div
-        className={`p-2 xs:p-4 md:p-6 rounded-[15px] flex flex-col items-center gap-6 z-[10] bg-white text-black ${
+        className={`p-2 w-[350px] xs:p-4 md:p-6 rounded-[15px] flex flex-col gap-6 z-[10] bg-white text-black ${
           isAnimating && "scale-forex-div"
         }`}
       >
-        <div className="flex gap-2 xs:gap-4 items-center">
+        <div className="flex gap-2 xs:gap-4">
           <div className="bg-blue-accent p-2 xs:p-4 text-white rounded-full">
             <FaDollarSign className="msm:text-[40px] text-[10px] xs:text-[25px]" />
           </div>
@@ -137,10 +139,9 @@ const PaymentsAnimation = () => {
             </p>
           </div>
         </div>
-        <div className=" w-[98px] xs:w-[150px] md:w-[300px]">
-          <div className="bg-[#dde0ca]  msm:w-[150px] md:w-[300px] h-[60px] xs:h-[100px] md:h-[200px]" />
-          <div className="bg-[#dde0ca] mt-4 msm:w-[150px] md:w-[300px] h-[50px] md:h-[100px]" />
-        </div>
+
+        <div className="bg-[#dde0ca] w-full h-[200px]" />
+        <div className="bg-[#dde0ca] mt-1 w-full h-[100px]" />
       </div>
     </div>
   );

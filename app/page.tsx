@@ -14,11 +14,10 @@ import FeatureStroll from "@/components/(website)/FeatureStroll";
 import "./index.css";
 import Header from "@/components/(website)/Header";
 
-import { navLinks } from "@/lib/data/websitedata";
-const Page = () => {
+const Page = async () => {
   return (
     <div className="bg-white relative overflow-x-hidden ">
-      <Header/>
+      <Header />
       <Hero />
 
       <About />

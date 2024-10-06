@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 const FeatureStrollAnimation = () => {
@@ -15,7 +15,7 @@ const FeatureStrollAnimation = () => {
     step10: false,
     step11: false,
   });
-  const timeouts = useRef([]);
+  const timeouts = useRef<NodeJS.Timeout[]>([]);
 
   const clearTimeouts = () => {
     timeouts.current.forEach(clearTimeout);

@@ -1,55 +1,28 @@
-// @ts-nocheck
 "use client";
-
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { features } from "@/lib/data/websitedata";
-
-const FeaturesList = ({ setVisible, visible }) => {
+import { useInView } from "framer-motion";
+const FeaturesList = () => {
   const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const handleIntersection = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.1,
-    });
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  const isInView = useInView(sectionRef, { amount: 0.2, once: true });
   return (
     <div
-      className="md:w-[60%] grid md:grid-cols-2 gap-8 p-4 xs:p-6"
+      className="xl:w-[50%] max-xl:w-full grid  md:grid-cols-2 gap-8"
       ref={sectionRef}
     >
       {features.map((feature, index) => (
         <div
           key={feature.id}
           className={`shadow_purple ${
-            index === 1 && visible && window.innerWidth > 1020
+            index === 1 && isInView && window.innerWidth > 1020
               ? "bent-div"
               : "shine"
-          } hover:border hover:border-gray-300 rounded-[15px] p-4 xs:p-6 bg-dark-bg flex item-center justify-center gap-2 xs:gap-6 flex-col`}
+          } border border-transparent hover:border-gray-300 rounded-[15px] p-4 xs:p-6 bg-dark-bg flex item-center justify-center gap-2 xs:gap-6 flex-col`}
         >
-          <span className="text-blue-accent text-3xl xs:text-6xl ">
+          <span className="text-blue-accent text-4xl ">
             {feature.icon}
           </span>
-          <p className="text-sm xs:text-lg ">{feature.description}</p>
+          <p>{feature.description}</p>
         </div>
       ))}
     </div>

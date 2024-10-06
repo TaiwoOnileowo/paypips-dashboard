@@ -95,7 +95,7 @@ const HowItWorks = () => {
       className="relative bg-white flex flex-col items-center justify-center  p-8 md:pb-48  md:px-16 text-light-text"
     >
       <Heading text="How It Works" color="black" />
-      <div className="grid md:grid-cols-3 md:gap-10  gap-5 items-center justify-center mt-10">
+      <div className="grid lg:grid-cols-3 grid-cols-1 md:gap-10  gap-5 items-center justify-center mt-10">
         <div
           onMouseEnter={initiateChatAnimation}
           className={`light-blue-gradient p-6 ${visible && "jump-in"}
@@ -242,6 +242,12 @@ const HowItWorks = () => {
           </div>
         </div>
       </div>
+      <svg viewBox="0 0 1440 137" className="hidden md:block absolute -bottom-4">
+        <path
+          d="M0 137H1440V114.609H346.775C331.995 114.609 318.039 107.799 308.943 96.1501L248.278 18.4586C239.181 6.8092 225.225 0 210.445 0H0V137Z"
+          fill="#14181f"
+        ></path>
+      </svg>
     </section>
   );
 };

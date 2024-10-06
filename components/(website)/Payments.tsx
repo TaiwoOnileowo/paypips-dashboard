@@ -9,17 +9,17 @@ const Payments = () => {
   return (
     <section
       id="payments-with-ease"
-      className="relative bg-dark-bg flex px-4 xs:px-10 w-full msm:px-24 pb-8 ss:pb-0 xsm:pb-32 pt-16 flex-col items-center justify-center text-white"
+      className="relative bg-dark-bg flex p-12 w-full  flex-col items-center justify-center text-white"
     >
       <div className="blur absolute z-[0] w-[60%] h-[60%] left-[-50%] top-[-15%] rounded-[50%] opacity-40 bg-shining-gradient" />
       <Heading text="Payments With Ease" />
-      <div className="flex xsm:flex-row flex-col gap-16 md:gap-16 xsm:mt-24 w-full">
-        <div className="md:w-[40%] flex justify-center flex-col">
+      <div className="flex max-lg:flex-col gap-16 md:gap-16 mt-8 w-full">
+        <div className="w-full xl:w-[50%] flex justify-center flex-col">
           <h3 className="uppercase text-blue-accent text-sm md:text-base py-2 hidden xsm:block">
             Flexible Payments
           </h3>
           <h1 className="text-xl xs:text-4xl md:text-5xl font-bold py-4">
-            Accept payments with ease
+            Accept payments <br /> with ease
           </h1>
           <ul className="flex text-muted-text text-sm md:text-base justify-center gap-4 flex-col">
             <p className="text-sm md:text-base">

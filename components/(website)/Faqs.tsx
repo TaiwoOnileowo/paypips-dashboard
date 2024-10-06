@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Heading from "./Heading";
 import { faqs } from "@/lib/data/websitedata";
@@ -7,10 +7,10 @@ const Faqs = () => {
   return (
     <section
       id="faqs"
-      className="bg-dark-bg flex flex-col m-8 xsm:m-16 rounded-3xl justify-center items-center py-2 xsm:py-12 md:py-16 md:m-24 lg:m-32 xl:m-40 2xl:m-48 px-4 md:px-8 lg:px-12 xl:px-16 2xl:px-24"
+      className="bg-dark-bg flex flex-col xl:m-16 xl:rounded-2xl justify-center items-center max-md:p-6 p-12 text-white"
     >
       <Heading text="Frequently Asked Questions" />
-      <div className="mt-12 flex flex-col w-full items-start">
+      <div className="mt-8 flex flex-col w-full ">
         {faqs.map((faq) => {
           const { id, question, answer } = faq;
           return (

@@ -61,7 +61,7 @@ export const moreFeatures = [
     id: 2,
     icon: "Access Codes",
     description:
-      "With Access Codes you will accept payments manually, but membership management (adding and removing from channels/groups, reminders, etc.) will be automated.",
+      "With Access Codes membership management (adding and removing from channels/groups, reminders, etc.) will be automated.",
   },
   {
     id: 3,
@@ -95,13 +95,13 @@ export const pricing = [
     amount: "Free",
     amount_annual: 0,
     transaction_fee: 3,
-    benefits: {
-      1: "Card, Bank Transfer <br> USDT, BTC, ETH - Crypto Payment options",
-      2: "Automatically send an invite link to users after payment",
-      3: "Basic analytics to track transactions and payment status",
-      4: "Email support",
-      5: "3% Transaction fee",
-    },
+
+    benefits: [
+      "Card, Bank Transfer & USDT Crypto Payments",
+      "Basic Group Management",
+      "Email Support",
+      "3% Transaction fee",
+    ],
     text: "+ 3% transaction fee",
     ctatext:
       "Perfect for one-off transactions. A use-case would be one time payment for a Mentorship group.",
@@ -113,16 +113,16 @@ export const pricing = [
     amount: "$149",
     amount_annual: 990,
     transaction_fee: 2.5,
-    benefits: {
-      1: "Every feature in Growth Plan",
 
-      2: "Custom broadcast messages to all subscribers.",
-      3: "Access Codes for exclusive content or events.",
-      4: "24/7 phone and email support with a dedicated account manager custom setup, e.g Waitlist",
-      5: "Priority onboarding and setup assistance.",
-      6: "Exclusive Perks: VIP access to beta features and early access to new integrations.",
-      7: "Lower transaction fee of 3%",
-    },
+    benefits: [
+      "Every feature in Growth Plan",
+      "Custom broadcast messages to all subscribers.",
+      "Access Codes for exclusive content or events.",
+      "24/7 phone and email support with a dedicated account manager custom setup, e.g Waitlist",
+      "Priority onboarding and setup assistance.",
+      "Exclusive Perks: VIP access to beta features and early access to new integrations.",
+      "Lower transaction fee of 3%",
+    ],
     benefits_sm: {
       1: " All Free Tier features",
       2: "Full bot Customization to your Brand",
@@ -142,16 +142,17 @@ export const pricing = [
   {
     id: 3,
     name: "Growth Plan",
-    amount:"$0",
+    amount: "$0",
     amount_annual: 0,
     transaction_fee: 8,
-    benefits: {
-      1: "Everything in Basic Plan",
-      2: "Automated Group and Subscription Management",
-      3: "Automated Renewal Reminders",
-      4: "Dashboard Analytics with metrics on user engagement, transaction volumes, and revenue tracking.",
-      5: "8% (transaction + Management) fee",
-    },
+
+    benefits: [
+      "Everything in Basic Plan",
+      "Automated Group and Subscription Management",
+      "Automated Renewal Reminders",
+      "Dashboard Analytics with metrics on user engagement, transaction volumes, and revenue tracking.",
+      "8% (transaction + Management) fee",
+    ],
     benefits_sm: {
       1: "Card, Bank Transfer & USDT Crypto Payments",
       2: "Basic Group Management",
@@ -164,17 +165,25 @@ export const pricing = [
       "Tailored for those who need more automation without upfront costs, allowing you to scale first before paying more fees.",
     button: "Start For Free",
   },
- 
 ];
 
 export const choose = [
   {
     id: 1,
-    title: "Secure Payment Integrations",
+    title: "User Friendly",
+  },
+  {
+    id: 8,
+    title: "Secure Payments",
+  },
+
+  {
+    id: 7,
+    title: "Affiliate Program",
   },
   {
     id: 2,
-    title: "Advanced Member Management",
+    title: "Enhanced Security ",
   },
   {
     id: 3,
@@ -186,19 +195,11 @@ export const choose = [
   },
   {
     id: 5,
-    title: "Flexible Pricing Options",
+    title: "Flexible Pricing",
   },
   {
     id: 6,
-    title: "User Friendly",
-  },
-  {
-    id: 7,
-    title: "Enhanced Security ",
-  },
-  {
-    id: 8,
-    title: "Built-in Affiliate Program",
+    title: "Advanced Member Management",
   },
 ];
 
