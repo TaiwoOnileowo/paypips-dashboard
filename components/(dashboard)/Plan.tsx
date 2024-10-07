@@ -7,6 +7,7 @@ import { pricing } from "@/lib/data/websitedata";
 import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
 import Error from "./Error";
 import { Skeleton } from "@mui/material";
+import Pricing from "./Pricing";
 const Plan = ({ session }: { session: Session }) => {
   const { data, isLoading, isError, error } = useGetSubscriptionStats(session);
 
@@ -26,6 +27,7 @@ const Plan = ({ session }: { session: Session }) => {
     );
   }
   if (isError) {
+    console.log(error, "error");
     return (
       <div
         className="max-[1300px]:col-span-12 max-md:text-sm h-[370px] col-span-6 p-6 rounded-3xl text-[15px]"
@@ -41,7 +43,7 @@ const Plan = ({ session }: { session: Session }) => {
   }
   const plan = data?.subscriptionPlan;
   const getPlanText = (plan: string) => {
-    if (plan.includes("Proffesional") || plan.includes("Professional")) {
+    if (plan.includes("Professional")) {
       return "Lower transaction fees, access codes, priority onboarding, custom broadcast messages, access to beta features and more";
     } else if (plan.includes("Basic")) {
       return "Recieve payments through multiple methods, invite links, email support, access to dashboard and more";
@@ -50,6 +52,8 @@ const Plan = ({ session }: { session: Session }) => {
     }
     return "";
   };
+  const pricingIndex = pricing.findIndex((price) => price.name === plan?.name);
+
   return (
     <div
       className="max-[1300px]:col-span-12 max-md:text-sm h-[370px] col-span-6 p-6 rounded-3xl text-[15px]"
@@ -70,12 +74,10 @@ const Plan = ({ session }: { session: Session }) => {
         <p className="text-gray-400  mt-1 ">{getPlanText(plan?.name || "")}</p>
       )}
 
-      <Image src={slash} alt="slash" className="my-6 w-full" />
+      <Image src={slash} alt="slash" className="my-4 w-full" />
       <div className="flex flex-col items-center">
-        <h1 className=" ">Your subscription is pending</h1>
-        <button className="rounded-2xl mt-3 px-6 bg-sharpBlue p-3">
-          Make payment now
-        </button>
+        <h1 className=" text-lg">Your subscription is pending</h1>
+        <Pricing index={pricingIndex} />
       </div>
     </div>
   );

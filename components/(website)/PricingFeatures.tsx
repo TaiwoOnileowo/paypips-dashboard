@@ -10,15 +10,14 @@ const PricingFeatures = ({
 }) => {
   return (
     <>
-      <div className="flex my-3 items-center gap-2">
-        <div className="md:w-[4px] md:h-[4px] w-[3px] h-[3px] bg-blue-accent rounded-full" />
-        <hr className="border-medium-gray opacity-50 w-[100px] md:w-[120px]" />
+      <div className="flex my-3 items-center gap-2 justify-center">
+        <div className="md:w-1 h-1 w-[3px]  bg-blue-accent rounded-full" />
+        <hr className="border-medium-gray opacity-50 w-full" />
         <p className="text-xs text-gray-600">Features</p>
-        <hr className="border-medium-gray opacity-50 w-[100px] md:w-[120px]" />
-        <div className="md:w-[4px] md:h-[4px] w-[3px] h-[3px] bg-blue-accent rounded-full" />
+        <hr className="border-medium-gray opacity-50 w-full" />
+        <div className="md:w-1 h-1 w-[3px]  bg-blue-accent rounded-full" />
       </div>
-      <div className="flex flex-col justify-between md:gap-4">
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-2 flex-col  mt-2">
           {price.benefits.map((benefit, index) => (
             <p
               key={index}
@@ -42,7 +41,7 @@ const PricingFeatures = ({
             </p>
           ))}
         </div>
-      </div>
+     
     </>
   );
 };

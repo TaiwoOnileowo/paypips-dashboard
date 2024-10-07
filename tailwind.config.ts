@@ -49,6 +49,8 @@ const config: Config = {
         "white-gradient":
           "linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%)",
         "black-gradient": "linear-gradient(90deg, #2f323b 0%, #ebecf0 100%)",
+        "light-blue-gradient":
+          "linear-gradient(138deg, #e8f0fc 35%, #bfd6fa 92%)",
       },
       borderRadius: {
         lg: "var(--radius)",

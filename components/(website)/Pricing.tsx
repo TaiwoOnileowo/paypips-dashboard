@@ -49,7 +49,7 @@ const Pricing = () => {
                 <PricingFeatures price={price} />
               </div>
               <Link href={ctaLink} target="_blank">
-                <Button className="w-[200px]" text="Proceed to Bot" />
+                <Button className="w-full" text="Get Started" />
               </Link>
             </div>
           );

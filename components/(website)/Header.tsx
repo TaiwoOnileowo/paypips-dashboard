@@ -39,7 +39,7 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <a href="https://t.me/PayPipsBot">
+          <a href="https://t.me/paypips_adminBot">
             <button className="border border-white text-white py-2 px-4 rounded-md hover:bg-white hover:text-black transition-all ease-in-out duration-300">
               Get Started
             </button>

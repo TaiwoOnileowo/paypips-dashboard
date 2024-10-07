@@ -6,8 +6,8 @@ import DashboardAnimation from "./DashboardAnimation";
 import Button from "./Button";
 const Dashboard = () => {
   return (
-    <section className=" w-full  flex-col items-center  xl:p-12 justify-center flex max-xl:bg-dark-bg">
-      <Heading text="Paypips Dashboard" color="text-medium-gray" />
+    <section className=" w-full  flex-col items-center  xl:p-12 justify-center flex bg-dark-bg">
+      <Heading text="Paypips Dashboard" />
       <div className="flex max-lg:flex-col xl:rounded-2xl p-12   bg-dark-bg  max-md:max-w-6xl mt-8  gap-12 w-full  text-white items-center justify-center">
         <div className="w-full xl:w-[50%] flex justify-center flex-col ">
           <h3 className="uppercase text-blue-accent py-2 text-sm md:text-base hidden xsm:block">
