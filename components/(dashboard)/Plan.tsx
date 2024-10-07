@@ -75,10 +75,10 @@ const Plan = ({ session }: { session: Session }) => {
       )}
 
       <Image src={slash} alt="slash" className="my-4 w-full" />
-      <div className="flex flex-col items-center">
+      {/* <div className="flex flex-col items-center">
         <h1 className=" text-lg">Your subscription is pending</h1>
         <Pricing index={pricingIndex} />
-      </div>
+      </div> */}
     </div>
   );
 };
