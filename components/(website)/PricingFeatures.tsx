@@ -11,11 +11,11 @@ const PricingFeatures = ({
   return (
     <div className="!text-medium-gray">
       <div className="flex my-3 items-center gap-2 justify-center">
-        <div className="md:w-1 h-1 w-[3px]  bg-blue-accent rounded-full" />
+        <div className="w-2 h-1   bg-blue-accent rounded-full" />
         <hr className="border-medium-gray opacity-50 w-full" />
         <p className="text-xs text-gray-600">Features</p>
         <hr className="border-medium-gray opacity-50 w-full" />
-        <div className="md:w-1 h-1 w-[3px]  bg-blue-accent rounded-full" />
+        <div className="w-2 h-1  bg-blue-accent rounded-full" />
       </div>
         <div className="flex gap-2 flex-col  mt-2">
           {price.benefits.map((benefit, index) => (

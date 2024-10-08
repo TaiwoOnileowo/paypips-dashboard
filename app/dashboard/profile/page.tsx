@@ -14,6 +14,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Plan from "@/components/(dashboard)/Plan";
 import PaymentOverlay from "@/components/(dashboard)/PaymentOverlay";
+import SubscriptionAlert from "@/components/(dashboard)/SubscriptionAlert";
 const Page = async ({
   searchParams,
 }: {
@@ -24,7 +25,7 @@ const Page = async ({
 }) => {
   const trxRef = searchParams.trxref;
   const ref = searchParams.reference;
-  console.log(trxRef, ref);
+
   const session = await auth();
 
   const token = session?.user.token;
@@ -54,7 +55,9 @@ const Page = async ({
 
   return (
     <div className="[1300px]:p-6 text-white p-4 ">
-      {trxRef && ref ? <PaymentOverlay trxRef={trxRef} reference={ref} session={session} /> : null}
+      {trxRef && ref ? (
+        <PaymentOverlay trxRef={trxRef} reference={ref} session={session} />
+      ) : null}
       <div
         style={{
           background:
@@ -62,6 +65,7 @@ const Page = async ({
         }}
         className="rounded-3xl p-6 flex max-md:flex-col gap-5 justify-between items-center"
       >
+        <SubscriptionAlert session={session} />
         <div className="flex max-md:flex-col max-md:gap-6 gap-8 items-center ">
           {/* <div className="w-20 h-20 bg-sharpBlue rounded-3xl flex relative items-center justify-center">
             <Image src={logo} alt="logo" className="w-14 h-14" />

@@ -68,16 +68,17 @@ const Pricing = ({ index, session }: { index: number; session: Session }) => {
               </DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <h3 className="text-blue-accent text-4xl font-bold">
+              <span className="text-blue-accent text-4xl font-bold">
                 {price.amount}
-              </h3>
+              </span>
 
               <PricingFeatures price={price} />
             </DialogDescription>
-            <DialogFooter className="flex justify-center">
-              {/* <DialogClose className="rounded-2xl mt-5 px-6 bg-sharpBlue p-3 text-white"> */}
-              <PaystackButton session={session} />
-              {/* </DialogClose> */}
+
+            <DialogFooter className="flex justify-center mt-8">
+              <DialogClose asChild>
+                <PaystackButton session={session} />
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -100,10 +101,10 @@ const Pricing = ({ index, session }: { index: number; session: Session }) => {
 
               <PricingFeatures price={price} />
             </DrawerDescription>
-            <DrawerFooter className="pt-2 flex justify-center items-center">
-              {/* <DrawerClose> */}
-              <PaystackButton session={session} />
-              {/* </DrawerClose> */}
+            <DrawerFooter className="mt-8 flex justify-center items-center">
+              <DrawerClose asChild>
+                <PaystackButton session={session} />
+              </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
