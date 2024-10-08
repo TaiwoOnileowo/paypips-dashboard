@@ -77,9 +77,9 @@ const SignInForm = () => {
         disabled={loading}
       >
         {loading ? "Please Wait..." : "Sign In"}
-        {/* {loading && (
+        {loading && (
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-        )} */}
+        )}
       </button>
       {/* <p className="mt-4 text-harsh text-sm flex justify-center w-full ">
         Don&apos;t have an account?{" "}

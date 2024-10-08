@@ -63,22 +63,25 @@ const Plan = ({ session }: { session: Session }) => {
       }}
     >
       <h1 className="text-lg font-bold">Plan</h1>
-      <h1 className="text-gray-400 mt-2 font-bold">{plan?.name}</h1>
+      <h1 className="text-gray-400 mt-2 font-bold capitalize">{plan?.name}</h1>
       <p className="text-gray-400 mt-1 font-bold flex items-center ">
-        Status: <span className="text-white ml-2">{plan?.status}</span>{" "}
-        {plan?.status === "Active" && (
+        Status:{" "}
+        <span className="text-white ml-2 capitalize">{plan?.status}</span>{" "}
+        {plan?.status.toLowerCase() === "active" && (
           <span className="w-1 h-1 ml-2 inline-flex rounded-full animate-ping bg-green-500"></span>
         )}
       </p>
-      {plan?.status !== "Pending" && (
+      {plan?.status.toLowerCase() !== "pending" && (
         <p className="text-gray-400  mt-1 ">{getPlanText(plan?.name || "")}</p>
       )}
 
       <Image src={slash} alt="slash" className="my-4 w-full" />
-      {/* <div className="flex flex-col items-center">
-        <h1 className=" text-lg">Your subscription is pending</h1>
-        <Pricing index={pricingIndex} />
-      </div> */}
+      {plan?.status.toLowerCase() === "pending" && (
+        <div className="flex flex-col items-center">
+          <h1 className=" text-lg">Your subscription is pending</h1>
+          <Pricing index={pricingIndex} session={session} />
+        </div>
+      )}
     </div>
   );
 };

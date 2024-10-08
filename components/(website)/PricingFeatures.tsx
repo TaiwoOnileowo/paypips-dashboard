@@ -9,7 +9,7 @@ const PricingFeatures = ({
   };
 }) => {
   return (
-    <>
+    <div className="!text-medium-gray">
       <div className="flex my-3 items-center gap-2 justify-center">
         <div className="md:w-1 h-1 w-[3px]  bg-blue-accent rounded-full" />
         <hr className="border-medium-gray opacity-50 w-full" />
@@ -42,7 +42,7 @@ const PricingFeatures = ({
           ))}
         </div>
      
-    </>
+    </div>
   );
 };
 

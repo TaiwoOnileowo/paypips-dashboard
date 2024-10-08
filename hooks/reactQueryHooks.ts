@@ -178,3 +178,56 @@ export const useGetTransactions = (session: Session | null) => {
     },
   });
 };
+export const useVerifyPayment = (ref: string, userId: string) => {
+  return useQuery({
+    queryKey: ["verify-payment"],
+    queryFn: async () => {
+      try {
+        const response = await http.get(
+          `${baseURL}/pay-verify?ref=${ref}&userId=${userId}`
+        );
+        return response.data;
+      } catch (error) {
+        throw new Error(`An error occurred: ${error}`);
+      }
+    },
+  });
+};
+
+// Mutations
+export const useMakePayment = (
+  payload: MutationOptions<
+    {
+      authorization_url: string;
+    },
+    unknown,
+    string
+  >
+) => {
+  const { onSuccess, ...options } = payload;
+
+  return useMutation<
+    {
+      authorization_url: string;
+    },
+    unknown,
+    string
+  >({
+    mutationFn: async (email) => {
+      try {
+        const response = await http.post(
+          `${baseURL}/pay-initialize`,
+          JSON.stringify({
+            email,
+          })
+        );
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        throw new Error(`An error occurred: ${error}`);
+      }
+    },
+    onSuccess,
+    ...options,
+  });
+};

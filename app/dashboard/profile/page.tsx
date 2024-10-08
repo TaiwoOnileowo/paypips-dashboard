@@ -13,9 +13,20 @@ import { auth } from "@/auth";
 
 import { redirect } from "next/navigation";
 import Plan from "@/components/(dashboard)/Plan";
-const Page = async () => {
+import PaymentOverlay from "@/components/(dashboard)/PaymentOverlay";
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: {
+    trxref: string;
+    reference: string;
+  };
+}) => {
+  const trxRef = searchParams.trxref;
+  const ref = searchParams.reference;
+  console.log(trxRef, ref);
   const session = await auth();
-  console.log(session);
+
   const token = session?.user.token;
   if (typeof token !== "string" || !session) {
     redirect("/sign-in");
@@ -25,24 +36,25 @@ const Page = async () => {
   if (!isTokenValid) {
     redirect("/sign-in");
   }
-  const profileInfo = [
-    {
-      title: "Full Name",
-      value: session.user.name,
-    },
+  // const profileInfo = [
+  //   {
+  //     title: "Full Name",
+  //     value: session.user.name,
+  //   },
 
-    {
-      title: "Email",
-      value: session.user.email,
-    },
-    {
-      title: "Location",
-      value: "Nigeria",
-    },
-  ];
+  //   {
+  //     title: "Email",
+  //     value: session.user.email,
+  //   },
+  //   {
+  //     title: "Location",
+  //     value: "Nigeria",
+  //   },
+  // ];
 
   return (
     <div className="[1300px]:p-6 text-white p-4 ">
+      {trxRef && ref ? <PaymentOverlay trxRef={trxRef} reference={ref} session={session} /> : null}
       <div
         style={{
           background:
@@ -91,6 +103,7 @@ const Page = async () => {
           </p>
         </div>
         <Plan session={session} />
+
         {/* <div
           className="max-[1300px]:col-span-12 max-md:text-sm h-[370px] col-span-3 p-6 rounded-3xl text-[15px]"
           style={{

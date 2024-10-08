@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Session } from "next-auth";
 import {
   Drawer,
   DrawerClose,
@@ -25,9 +26,9 @@ import { DialogClose } from "@radix-ui/react-dialog";
 
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-// import
-const Pricing = ({ index }: { index: number }) => {
-  //   const [displayedPrice, setDisplayedPrice] = useState(price);
+import PaystackButton from "./PaystackButton";
+
+const Pricing = ({ index, session }: { index: number; session: Session }) => {
   const [pricingIndex, setPricingIndex] = useState(index);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [open, setOpen] = useState(false);
@@ -57,27 +58,26 @@ const Pricing = ({ index }: { index: number }) => {
           <DialogContent
             className={`flex  flex-col text-medium-gray p-2 xs:p-4 py-6 md:p-6 w-[300px] min-h-[440px] md:w-[400px] transition-all ease col-span-1 cursor-default rounded-[15px] gap-2 bg-light-blue-gradient bg-[#e8f0fc]`}
           >
-            <div className=" absolute top-[50%] flex justify-between inset-0">
+            {/* <div className=" absolute top-[50%] flex justify-between inset-0">
               <FaAngleLeft size={18} className="cursor-pointer" />
               <FaAngleRight size={18} className="cursor-pointer" />
-            </div>
+            </div> */}
             <DialogHeader>
               <DialogTitle className=" text-2xl font-bold">
                 {price.name}
               </DialogTitle>
             </DialogHeader>
-            <DialogDescription className="text-2xl md:text-4xl text-blue-accent  font-bold">
-              {price.amount}
-              {/* {idx !== 0 && (
-                  <span className="text-sm text-medium-gray">/month</span>
-                )} */}
+            <DialogDescription>
+              <h3 className="text-blue-accent text-4xl font-bold">
+                {price.amount}
+              </h3>
 
               <PricingFeatures price={price} />
             </DialogDescription>
             <DialogFooter className="flex justify-center">
-              <DialogClose className="rounded-2xl mt-5 px-6 bg-sharpBlue p-3 text-white">
-                Pay with Paystack
-              </DialogClose>
+              {/* <DialogClose className="rounded-2xl mt-5 px-6 bg-sharpBlue p-3 text-white"> */}
+              <PaystackButton session={session} />
+              {/* </DialogClose> */}
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -96,18 +96,17 @@ const Pricing = ({ index }: { index: number }) => {
                 {price.name}
               </DrawerTitle>
             </DrawerHeader>
-            <DrawerDescription className="text-2xl text-center md:text-4xl text-blue-accent  font-bold">
-              {price.amount}
-              {/* {idx !== 0 && (
-                  <span className="text-sm text-medium-gray">/month</span>
-                )} */}
+            <DrawerDescription>
+              <h3 className="text-blue-accent text-4xl font-bold">
+                {price.amount}
+              </h3>
 
               <PricingFeatures price={price} />
             </DrawerDescription>
             <DrawerFooter className="pt-2 flex justify-center items-center">
-              <DrawerClose className="rounded-2xl mt-5 px-6 bg-sharpBlue p-3 text-white">
-                Pay with Paystack
-              </DrawerClose>
+              {/* <DrawerClose> */}
+              <PaystackButton session={session} />
+              {/* </DrawerClose> */}
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
