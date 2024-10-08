@@ -17,7 +17,7 @@ const PaystackButton = ({ session }: { session: Session }) => {
 
   return (
     <button
-      className="w-full disabled:bg-sharpBlue/50 disabled:text-white/50 flex items-center justify-center text-white gap-5 bg-sharpBlue rounded-2xl  mt-8 text-sm font-bold font-plus p-3"
+      className="w-full disabled:bg-sharpBlue/50 px-6 disabled:text-white/50 flex items-center justify-center text-white gap-5 bg-sharpBlue rounded-2xl  mt-8 text-sm font-bold font-plus p-3"
       disabled={isPending}
       onClick={handleMakePayment}
     >

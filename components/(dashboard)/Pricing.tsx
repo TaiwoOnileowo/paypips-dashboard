@@ -83,10 +83,7 @@ const Pricing = ({ index, session }: { index: number; session: Session }) => {
         </Dialog>
       ) : (
         <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerTrigger
-            asChild
-            className="rounded-2xl mt-5 px-6 bg-sharpBlue p-3 text-white"
-          >
+          <DrawerTrigger className="rounded-2xl mt-5 px-6 bg-sharpBlue p-3 text-white">
             Make payment now
           </DrawerTrigger>
 
@@ -96,7 +93,7 @@ const Pricing = ({ index, session }: { index: number; session: Session }) => {
                 {price.name}
               </DrawerTitle>
             </DrawerHeader>
-            <DrawerDescription>
+            <DrawerDescription className="flex flex-col items-center px-14">
               <h3 className="text-blue-accent text-4xl font-bold">
                 {price.amount}
               </h3>

@@ -36,7 +36,7 @@ export async function POST(request: Request): Promise<Response> {
 
     const params = JSON.stringify({
       name,
-      email: "taiwoonileowo17@gmail.com",
+      email,
       amount: Math.ceil(amountInNairaWithCharges).toString(),
       plan: "PLN_gkdo563x07xn53m",
       callback_url: `${baseURL}/dashboard/profile`,
