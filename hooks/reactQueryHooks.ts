@@ -57,6 +57,8 @@ export const useGetSubscriptionStats = (session: Session | null) => {
         throw new Error(`An error occurred: ${error}`);
       }
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 };
 export const useGetPayments = ({
