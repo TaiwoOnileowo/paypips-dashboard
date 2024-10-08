@@ -3,7 +3,7 @@ import prisma from "@/prisma/prisma";
 import { formatNumberWithCommas } from "@/lib/utils";
 import jwt from "jsonwebtoken";
 
-// Utility function to calculate percentage increases
+
 const calculatePercentageIncrease = (
   currentValue: number,
   previousValue: number
