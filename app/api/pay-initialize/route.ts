@@ -26,19 +26,17 @@ export async function POST(request: Request): Promise<Response> {
     const { email, name } = body;
     const baseURL = process.env.BASE_URL;
 
-    const amountInUSD = 150;
-    const amountInNaira = await convertUSDToNGN(amountInUSD);
-    const amountInNairaWithCharges = addChargesToAmount(amountInNaira);
-    console.log(
-      "Amount in Naira:",
-      Math.ceil(amountInNairaWithCharges).toString()
-    );
+    // const amountInUSD = 150;
+    // const amountInNaira = await convertUSDToNGN(amountInUSD);
+    // const amountInNairaWithCharges = addChargesToAmount(amountInNaira);
 
     const params = JSON.stringify({
       name,
       email,
-      amount: Math.ceil(amountInNairaWithCharges).toString(),
+      // amount: Math.ceil(amountInNairaWithCharges).toString(),
+      amount: "255000",
       plan: "PLN_gkdo563x07xn53m",
+      // plan: "PLN_upkkg4cy0u3zbiz",
       callback_url: `${baseURL}/dashboard/profile`,
     });
 

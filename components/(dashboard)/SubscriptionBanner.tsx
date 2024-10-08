@@ -53,6 +53,7 @@ const SubscriptionBanner = ({ session }: { session: Session }) => {
           onClick={handleMakePayment}
           disabled={isPending}
         >
+          <BsCreditCard2BackFill />
           Pay now
           {isPending && (
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
