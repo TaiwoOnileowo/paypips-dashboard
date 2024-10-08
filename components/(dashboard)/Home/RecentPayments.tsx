@@ -93,11 +93,11 @@ const RecentPayments = ({ session }: { session: Session }) => {
             {payments.map((item, index) => (
               <div className="flex items-center gap-5 mt-4 w-full" key={index}>
                 <Image src={cart} alt="cart" width={24} height={24} />
-                <div>
-                  <p className=" overflow-x-auto  max-w-[calc(100%-25px)] scrollbar whitespace-nowrap">
+                <div className="w-[calc(100%-25px)]">
+                  <p className=" overflow-x-auto  max-w-full scrollbar whitespace-nowrap">
                     ${item.amount}, {item.plan}
                   </p>
-                  <p className="text-sm text-gray-300/80 max-w-[calc(100%-25px)] whitespace-nowrap overflow-x-auto scrollbar ">
+                  <p className="text-sm text-gray-300/80 max-w-full whitespace-nowrap overflow-x-auto scrollbar ">
                     {item.email}
                   </p>
                 </div>
