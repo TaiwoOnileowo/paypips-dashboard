@@ -9,28 +9,27 @@ export async function POST(request: Request) {
   const signature = request.headers.get("x-paystack-signature");
 
   // Verify Paystack signature
-  // const secret = process.env.PAYSTACK_SECRET_KEY as string;
+  const secret = process.env.PAYSTACK_SECRET_KEY as string;
 
   const hash = crypto
-    .createHmac("sha512", "sk_test_d31b09379d91b2f7f5fbc108361d8e87cda0d925")
+    .createHmac("sha512", secret)
     .update(JSON.stringify(body))
     .digest("hex");
-  console.log(hash, signature);
+
   if (signature !== hash) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   // Event is verified, process the data
   const { event, data } = body;
-  console.log(event, data);
+
   if (event === "charge.success") {
     const txnRef = data.reference; // Reference from Paystack event
     const userEmail = data.customer.email;
     const userDetails = await prisma.user_details.findFirst({
       where: { email: userEmail },
     });
-    // const userId = userDetails?.owner_id;
-    const userId = "1234";
+    const userId = userDetails?.owner_id;
 
     // Check if the transaction has been processed already
     const existingTransaction = await prisma.processed_transactions.findFirst({
