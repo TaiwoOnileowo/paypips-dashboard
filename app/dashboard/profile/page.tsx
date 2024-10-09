@@ -65,7 +65,8 @@ const Page = async ({
         }}
         className="rounded-3xl p-6 flex max-md:flex-col gap-5 justify-between items-center"
       >
-        <SubscriptionAlert session={session} />
+        {!(trxRef && ref) && <SubscriptionAlert session={session} />}
+
         <div className="flex max-md:flex-col max-md:gap-6 gap-8 items-center ">
           {/* <div className="w-20 h-20 bg-sharpBlue rounded-3xl flex relative items-center justify-center">
             <Image src={logo} alt="logo" className="w-14 h-14" />
