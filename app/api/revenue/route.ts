@@ -48,7 +48,15 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },
     });
+    const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
+      where: { owner_id: userId },
+    });
+    const plan = {
+      name: userSubscriptionPlan?.sub_plan_name,
+      status: userSubscriptionPlan?.status,
+    };
 
+    const isPlanActive = plan.status?.toLowerCase() === "active";
     // Calculate today, yesterday, current month, and previous month
     const today = new Date().toDateString();
     const yesterday = new Date(
@@ -110,32 +118,31 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       0
     );
 
-    const todayRevenuePercentageIncrease = calculatePercentageIncrease(
-      todayRevenue,
-      yesterdayRevenue
-    );
+    const todayRevenuePercentageIncrease = isPlanActive
+      ? calculatePercentageIncrease(todayRevenue, yesterdayRevenue)
+      : "";
 
-    const totalRevenuePercentageIncrease =
-      totalRevenue > 0
+    const totalRevenuePercentageIncrease = isPlanActive
+      ? totalRevenue > 0
         ? ((todayRevenue / totalRevenue) * 100).toFixed(0).toString()
-        : "0";
+        : "0"
+      : "";
 
-    const monthRevenuePercentageIncrease = calculatePercentageIncrease(
-      monthRevenue,
-      previousMonthRevenue
-    );
+    const monthRevenuePercentageIncrease = isPlanActive
+      ? calculatePercentageIncrease(monthRevenue, previousMonthRevenue)
+      : "";
 
     // const withdrawableRevenue
     const revenueStats = {
-      totalRevenue: formatNumberWithCommas(
-        Number(totalRevenue.toFixed(0).toString())
-      ),
-      todayRevenue: formatNumberWithCommas(
-        Number(todayRevenue.toFixed(0).toString())
-      ),
-      monthRevenue: formatNumberWithCommas(
-        Number(monthRevenue.toFixed(0).toString())
-      ),
+      totalRevenue: isPlanActive
+        ? formatNumberWithCommas(Number(totalRevenue.toFixed(0).toString()))
+        : "",
+      todayRevenue: isPlanActive
+        ? formatNumberWithCommas(Number(todayRevenue.toFixed(0).toString()))
+        : "",
+      monthRevenue: isPlanActive
+        ? formatNumberWithCommas(Number(monthRevenue.toFixed(0).toString()))
+        : "",
       todayRevenuePercentageIncrease,
       monthRevenuePercentageIncrease,
       totalRevenuePercentageIncrease,

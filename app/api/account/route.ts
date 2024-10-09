@@ -58,6 +58,15 @@ export const GET = async (req: NextRequest) => {
     const userBalances = await prisma.available_balance.findMany({
       where: { owner_id: userId },
     });
+    const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
+      where: { owner_id: userId },
+    });
+    const plan = {
+      name: userSubscriptionPlan?.sub_plan_name,
+      status: userSubscriptionPlan?.status,
+    };
+
+    const isPlanActive = plan.status?.toLowerCase() === "active";
 
     const userAddresses = [
       {
@@ -98,7 +107,7 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json({
       addresses: userAddresses,
-      balances: accountBalances,
+      balances: isPlanActive ? accountBalances : [],
       // pagination: {
       //   totalItems: totalAccountBalances,
       //   totalPages,

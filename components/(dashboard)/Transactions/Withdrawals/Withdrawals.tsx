@@ -180,16 +180,17 @@ const Withdrawals = ({ session }: { session: Session }) => {
           </div>
         )}
       </div>
-
-      <TablePagination
-        component="div"
-        count={pagination.totalItems}
-        page={currentPage}
-        className="!text-white"
-        onPageChange={handlePageChange}
-        rowsPerPage={limit}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
+      {!(currentPage === 0 && payouts.length != limit) && (
+        <TablePagination
+          component="div"
+          count={pagination.totalItems}
+          page={currentPage}
+          className="!text-white"
+          onPageChange={handlePageChange}
+          rowsPerPage={limit}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
+      )}
     </Parent>
   );
 };

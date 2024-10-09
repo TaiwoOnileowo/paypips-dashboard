@@ -3,7 +3,6 @@ import prisma from "@/prisma/prisma";
 import { formatNumberWithCommas } from "@/lib/utils";
 import jwt from "jsonwebtoken";
 
-
 const calculatePercentageIncrease = (
   currentValue: number,
   previousValue: number
@@ -54,6 +53,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       name: userSubscriptionPlan?.sub_plan_name,
       status: userSubscriptionPlan?.status,
     };
+
+    const isPlanActive = plan.status?.toLowerCase() === "active";
     // Calculate today, yesterday, current month, and previous month
     const today = new Date().toDateString();
     const yesterday = new Date(
@@ -92,26 +93,35 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
           : false
     );
 
-    const todaySubscriptionPercentageIncrease = calculatePercentageIncrease(
-      todaySubscriptions.length,
-      yesterdaySubscriptions.length
-    );
+    const todaySubscriptionPercentageIncrease = isPlanActive
+      ? calculatePercentageIncrease(
+          todaySubscriptions.length,
+          yesterdaySubscriptions.length
+        )
+      : "";
 
-    const activeSubscriptionPercentageIncrease =
-      userSubscriptions.length > 0
+    const activeSubscriptionPercentageIncrease = isPlanActive
+      ? userSubscriptions.length > 0
         ? ((todaySubscriptions.length / userSubscriptions.length) * 100)
             .toFixed(2)
             .toString()
-        : "0";
+        : "0"
+      : "";
 
-    const monthSubscriptionPercentageIncrease = calculatePercentageIncrease(
-      currentMonthSubscriptions.length,
-      previousMonthSubscriptions.length
-    );
+    const monthSubscriptionPercentageIncrease = isPlanActive
+      ? calculatePercentageIncrease(
+          currentMonthSubscriptions.length,
+          previousMonthSubscriptions.length
+        )
+      : "";
 
     const subscriptionstats = {
-      activeSubscriptions: userSubscriptions.length.toString(),
-      todaySubscriptions: todaySubscriptions.length.toString(),
+      activeSubscriptions: isPlanActive
+        ? userSubscriptions.length.toString()
+        : "",
+      todaySubscriptions: isPlanActive
+        ? todaySubscriptions.length.toString()
+        : "",
       todaySubscriptionPercentageIncrease,
       monthSubscriptionPercentageIncrease,
       activeSubscriptionPercentageIncrease,

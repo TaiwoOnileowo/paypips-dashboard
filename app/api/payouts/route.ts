@@ -83,8 +83,15 @@ export const GET = async (req: NextRequest) => {
         initiated_at: "desc",
       },
     });
-    console.log(userPayouts);
+    const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
+      where: { owner_id: userId },
+    });
+    const plan = {
+      name: userSubscriptionPlan?.sub_plan_name,
+      status: userSubscriptionPlan?.status,
+    };
 
+    const isPlanActive = plan.status?.toLowerCase() === "active";
     // Format payouts for display
     const formattedPayouts = userPayouts.map((payout) => {
       return {
@@ -111,7 +118,7 @@ export const GET = async (req: NextRequest) => {
       const totalPages = Math.ceil(totalResults / limit);
 
       return NextResponse.json({
-        payouts: paginatedResult,
+        payouts: isPlanActive ? paginatedResult : [],
         pagination: {
           totalItems: totalResults,
           totalPages,

@@ -43,7 +43,15 @@ export const GET = async (req: NextRequest) => {
 
     // Calculate the number of items to skip
     const skip = page * limit;
+    const userSubscriptionPlan = await prisma.sub_plan_owner.findFirst({
+      where: { owner_id: userId },
+    });
+    const plan = {
+      name: userSubscriptionPlan?.sub_plan_name,
+      status: userSubscriptionPlan?.status,
+    };
 
+    const isPlanActive = plan.status?.toLowerCase() === "active";
     // Fetch user payments without pagination to apply search
     const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },
@@ -91,7 +99,7 @@ export const GET = async (req: NextRequest) => {
     const totalPages = Math.ceil(totalPayments / limit);
 
     return NextResponse.json({
-      payments: paginatedPayments,
+      payments: isPlanActive ? paginatedPayments : [],
       pagination: {
         totalItems: totalPayments,
         totalPages,
