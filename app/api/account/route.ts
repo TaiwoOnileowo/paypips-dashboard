@@ -84,10 +84,10 @@ export const GET = async (req: NextRequest) => {
     const accountBalances = userBalances.map((balance) => {
       return {
         name: convertCurrencyToName(balance.currency),
-        amount: formatAmountWithSign(
-          balance.currency,
-          formatNumberWithCommas(Number(balance.balance.toFixed(2)))
-        ),
+        amount:
+          balance.currency === "BTC"
+            ? balance.balance
+            : formatNumberWithCommas(Number(balance.balance)),
       };
     });
 

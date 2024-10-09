@@ -65,7 +65,7 @@ const CreditBalance = ({ session }: { session: Session }) => {
               : `${
                   subscriptionstats &&
                   subscriptionstats.withdarawableBalance !== "0"
-                    ? `$${subscriptionstats.withdarawableBalance}`
+                    ? `$ ${subscriptionstats.withdarawableBalance}`
                     : "N/A"
                 }`}
           </h1>
