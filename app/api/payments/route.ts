@@ -51,7 +51,7 @@ export const GET = async (req: NextRequest) => {
       status: userSubscriptionPlan?.status,
     };
 
-    const isPlanActive = plan.status?.toLowerCase() === "active";
+    const isPlanActive = plan.status?.toLowerCase() !== "pending";
     // Fetch user payments without pagination to apply search
     const userPayments = await prisma.payments.findMany({
       where: { owner_id: userId },

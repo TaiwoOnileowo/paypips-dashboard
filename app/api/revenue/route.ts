@@ -56,7 +56,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       status: userSubscriptionPlan?.status,
     };
 
-    const isPlanActive = plan.status?.toLowerCase() === "active";
+    const isPlanActive = plan.status?.toLowerCase() !== "pending";
     // Calculate today, yesterday, current month, and previous month
     const today = new Date().toDateString();
     const yesterday = new Date(

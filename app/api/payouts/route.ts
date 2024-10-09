@@ -91,7 +91,7 @@ export const GET = async (req: NextRequest) => {
       status: userSubscriptionPlan?.status,
     };
 
-    const isPlanActive = plan.status?.toLowerCase() === "active";
+    const isPlanActive = plan.status?.toLowerCase() !== "pending";
     // Format payouts for display
     const formattedPayouts = userPayouts.map((payout) => {
       return {
