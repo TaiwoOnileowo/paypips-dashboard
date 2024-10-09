@@ -9,10 +9,10 @@ export async function POST(request: Request) {
   const signature = request.headers.get("x-paystack-signature");
 
   // Verify Paystack signature
-  const secret = process.env.PAYSTACK_SECRET_KEY as string;
+  // const secret = process.env.PAYSTACK_SECRET_KEY as string;
 
   const hash = crypto
-    .createHmac("sha512", secret)
+    .createHmac("sha512", "sk_test_d31b09379d91b2f7f5fbc108361d8e87cda0d925")
     .update(JSON.stringify(body))
     .digest("hex");
   console.log(hash, signature);
