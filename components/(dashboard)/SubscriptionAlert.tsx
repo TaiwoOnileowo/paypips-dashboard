@@ -45,12 +45,14 @@ const SubscriptionAlert = ({ session }: { session: Session }) => {
             continue enjoying our services.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="flex items-center justify-center gap-2">
-          <AlertDialogCancel onClick={closePaymentAlert}>
+        <AlertDialogFooter className="flex items-center justify-center gap-2 w-full">
+          <AlertDialogCancel onClick={closePaymentAlert} className="w-full">
             I&apos;ll do it later
           </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <PaystackButton session={session} />
+          <AlertDialogAction asChild className="w-full">
+            <div className="max-md:w-full !bg-sharpBlue rounded-md">
+              <PaystackButton session={session} />
+            </div>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

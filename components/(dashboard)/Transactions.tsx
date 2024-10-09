@@ -14,6 +14,7 @@ const Transactions = ({
 
   transactions: Payment[] | Payout[];
 }) => {
+
   return (
     <div className="w-full mt-4">
       <p className="font-medium text-gray-400 text-xs uppercase">{name}</p>

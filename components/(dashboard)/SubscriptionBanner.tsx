@@ -36,20 +36,20 @@ const SubscriptionBanner = ({ session }: { session: Session }) => {
     setOpen(false);
   };
   return (
-    <div className="bg-red-500 w-full h-10 text-white px-5 flex items-center justify-between">
+    <div className="bg-red-500 w-full h-12 text-white px-5 flex items-center justify-between">
       <div className="flex items-center gap-2">
         <IoMdNotificationsOutline size={18} />
-        <p className="text-sm font-semibold">Your subscription is pending!</p>
+        <p className="text-sm font-semibold max-md:text-xs">Your subscription is pending!</p>
       </div>
-      <div className="flex justify-end font-semibold items-center gap-5 text-sm">
+      <div className="flex justify-end font-semibold items-center gap-5 max-md:text-xs text-sm">
         <button
-          className="border border-white rounded-md p-1  px-2 cursor-pointer hover:bg-red-50/10"
+          className="border border-white  whitespace-nowrap rounded-md p-1  px-2 cursor-pointer hover:bg-red-50/10"
           onClick={closeBanner}
         >
-          I&apos;ll pay later
+          Pay later
         </button>
         <button
-          className="border border-white rounded-md p-1 flex gap-2 items-center   px-2 cursor-pointer hover:bg-red-50/10"
+          className="border border-white whitespace-nowrap rounded-md p-1 flex gap-2 items-center   px-2 cursor-pointer hover:bg-red-50/10"
           onClick={handleMakePayment}
           disabled={isPending}
         >

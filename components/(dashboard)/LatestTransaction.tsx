@@ -35,7 +35,7 @@ const LatestTransaction = ({ session }: { session: Session }) => {
   }
   const newestTransaction = transactions[0];
   const isPayout = newestTransaction?.isPayout;
-
+  if (!newestTransaction) return null;
   return (
     <>
       <p className="text-xs mt-4 text-gray-400 font-medium ">NEWEST</p>

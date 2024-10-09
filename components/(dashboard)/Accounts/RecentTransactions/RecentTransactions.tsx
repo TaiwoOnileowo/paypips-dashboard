@@ -43,7 +43,7 @@ const RecentTransactions = ({ session }: { session: Session }) => {
       </Parent>
     );
   }
-
+  
   return (
     <Parent>
       {transactions.length > 0 ? (
