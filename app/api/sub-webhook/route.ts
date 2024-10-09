@@ -10,11 +10,12 @@ export async function POST(request: Request) {
 
   // Verify Paystack signature
   const secret = process.env.PAYSTACK_SECRET_KEY as string;
+
   const hash = crypto
     .createHmac("sha512", secret)
     .update(JSON.stringify(body))
     .digest("hex");
-
+  console.log(hash, signature);
   if (signature !== hash) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
