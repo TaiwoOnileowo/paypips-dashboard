@@ -2,7 +2,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import crypto from "crypto";
-
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 export async function POST(request: Request) {
   const body = await request.json();
   const signature = request.headers.get("x-paystack-signature");
