@@ -104,7 +104,7 @@ const Page = async ({
         >
           <h1 className="text-2xl font-bold">Welcome Back!</h1>
           <p className="text-white/90 mt-0.5 text-sm">
-            Nice to see you, {session.user.name}
+            Nice to see you, {session.user.name || session.user.email}
           </p>
         </div>
         <Plan session={session} />
