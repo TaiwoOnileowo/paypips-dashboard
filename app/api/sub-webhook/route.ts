@@ -27,7 +27,8 @@ export async function POST(request: Request) {
     const userDetails = await prisma.user_details.findFirst({
       where: { email: userEmail },
     });
-    const userId = userDetails?.owner_id;
+    // const userId = userDetails?.owner_id;
+    const userId = "1234";
 
     // Check if the transaction has been processed already
     const existingTransaction = await prisma.processed_transactions.findFirst({

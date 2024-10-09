@@ -56,6 +56,7 @@ const Pricing = ({ index, session }: { index: number; session: Session }) => {
           </DialogTrigger>
 
           <DialogContent
+            aria-describedby="modal-content"
             className={`flex  flex-col text-medium-gray p-2 xs:p-4 py-6 md:p-6 w-[300px] min-h-[440px] md:w-[400px] transition-all ease col-span-1 cursor-default rounded-[15px] gap-2 bg-light-blue-gradient bg-[#e8f0fc]`}
           >
             {/* <div className=" absolute top-[50%] flex justify-between inset-0">
@@ -67,12 +68,14 @@ const Pricing = ({ index, session }: { index: number; session: Session }) => {
                 {price.name}
               </DialogTitle>
             </DialogHeader>
-            <DialogDescription>
-              <span className="text-blue-accent text-4xl font-bold">
-                {price.amount}
-              </span>
+            <DialogDescription asChild >
+              <>
+                <p className="text-blue-accent text-4xl font-bold">
+                  {price.amount}
+                </p>
 
-              <PricingFeatures price={price} />
+                <PricingFeatures price={price} />
+              </>
             </DialogDescription>
 
             <DialogFooter className="flex justify-center mt-8">

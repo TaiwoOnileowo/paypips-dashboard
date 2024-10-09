@@ -32,11 +32,11 @@ export async function POST(request: Request): Promise<Response> {
 
     const params = JSON.stringify({
       name,
-      email,
+      email:"taiwoonileowo17@gmail.com",
       // amount: Math.ceil(amountInNairaWithCharges).toString(),
       amount: "255000",
-      plan: "PLN_gkdo563x07xn53m",
-      // plan: "PLN_upkkg4cy0u3zbiz",
+      // plan: "PLN_gkdo563x07xn53m",
+      plan: "PLN_upkkg4cy0u3zbiz",
       callback_url: `${baseURL}/dashboard/profile`,
     });
 

@@ -55,9 +55,9 @@ const Page = async ({
 
   return (
     <div className="[1300px]:p-6 text-white p-4 ">
-      {trxRef && ref ? (
+      {/* {trxRef && ref ? (
         <PaymentOverlay trxRef={trxRef} reference={ref} session={session} />
-      ) : null}
+      ) : null} */}
       <div
         style={{
           background:
