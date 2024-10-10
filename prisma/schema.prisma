@@ -160,7 +160,6 @@ model withdrawals {
 model processed_transactions {
   txn_id     String    @id @db.VarChar(255)
   created_at DateTime? @default(now()) @db.Timestamp(6)
- 
 }
 
 model webhook_logs {
