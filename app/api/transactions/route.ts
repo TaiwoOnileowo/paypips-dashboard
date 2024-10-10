@@ -67,10 +67,13 @@ export const GET = async (req: NextRequest) => {
     const convertedPayouts = userPayouts.map((payout) => ({
       id: payout.id,
       beneficiary: payout.address,
-      amount: formatAmountWithSign(
-        payout.currency,
-        formatNumberWithCommas(Number(payout.amount.toFixed(0)))
-      ),
+      amount:
+        payout.currency === "BTC"
+          ? formatAmountWithSign(payout.currency, payout.amount.toString())
+          : formatAmountWithSign(
+              payout.currency,
+              formatNumberWithCommas(Number(payout.amount.toFixed(0)))
+            ),
       currency: payout.currency,
       status: payout.status,
       date: formatDate(payout.initiated_at),

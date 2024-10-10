@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { formatDate, formatTo12HourTime } from "@/lib/utils";
+import {
+  formatDate,
+  formatTo12HourTime,
+  formatAmountWithSign,
+  formatNumberWithCommas,
+} from "@/lib/utils";
 import Fuse from "fuse.js";
-
 export const runtime = "nodejs";
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
@@ -97,7 +101,10 @@ export const GET = async (req: NextRequest) => {
       return {
         id: payout.id,
         beneficiary: payout.address,
-        amount: payout.amount,
+        amount:
+          payout.currency === "BTC"
+            ? payout.amount
+            : formatNumberWithCommas(Number(payout.amount.toFixed(0))),
         currency: payout.currency,
         status: payout.status,
         date: formatDate(payout.initiated_at),
