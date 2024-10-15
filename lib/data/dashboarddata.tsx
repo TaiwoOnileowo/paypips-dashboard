@@ -119,7 +119,7 @@ export const employeeStats = [
     icon: <CreditCard className="h-4 w-4 text-muted-foreground" />,
   },
   {
-    title: "Total Clients",
+    title: "Active Clients",
     value: "+573",
     percent: "+201 since last month",
     icon: <Users className="h-4 w-4 text-muted-foreground" />,

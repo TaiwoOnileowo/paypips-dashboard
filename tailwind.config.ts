@@ -16,6 +16,7 @@ const config: Config = {
         sharpBlue: "#0075FF",
         lightGray: "rgba(226, 232, 240, 0.30)",
         harsh: "#A0AEC0",
+        brightPurple: "#CB3CFF",
         "dark-bg": "#14181f",
         "dark-surface": "#1a1a1a",
         "accent-bg": "#2f323b",
@@ -43,6 +44,8 @@ const config: Config = {
         shadow: "url('/shadow.svg')",
         ico_bg: "url('/ico-bg.svg')",
         paymethod_bg: "url('/paymethod-bg.svg')",
+        card_gradient:
+          "linear-gradient(127deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%)",
         "primary-gradient1": "linear-gradient(135deg, #246763, #5e19b3)",
         "primary-gradient": "linear-gradient(90deg, #14181f 0%, #1a1a1a 100%)",
         "shining-gradient": "linear-gradient(135deg, #5e19b3, #3d87f5)",
