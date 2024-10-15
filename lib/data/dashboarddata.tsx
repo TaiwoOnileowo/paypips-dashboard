@@ -5,49 +5,61 @@ import cardblue from "@/assets/icons/card-blue.svg";
 import homeblue from "@/assets/icons/home-blue.svg";
 import chartblue from "@/assets/icons/chart-blue.svg";
 
-import profilewhite from "@/assets/icons/profile-white.svg";
-import profileblue from "@/assets/icons/profile-blue.svg";
-export const sidebar = [
+import {
+  IconHomeFilled,
+  IconChartColumn,
+  IconCreditCardFilled,
+  IconUserFilled,
+} from "@tabler/icons-react";
+export const clientsidebar = [
   {
     title: "Home",
-    icon: {
-      white: homewhite,
-      blue: homeblue,
-    },
+    icon: <IconHomeFilled className="w-5 h-5" />,
     path: "/dashboard",
   },
   {
     title: "Transactions",
 
-    icon: {
-      white: chartwhite,
-      blue: chartblue,
-    },
+    icon: <IconChartColumn className="w-5 h-5" />,
     path: "/dashboard/transactions",
   },
   {
     title: "Accounts",
-    icon: {
-      white: cardwhite,
-      blue: cardblue,
-    },
+    icon: <IconCreditCardFilled className="w-5 h-5" />,
     path: "/dashboard/accounts",
   },
   {
     title: "Profile",
-    icon: {
-      white: profilewhite,
-      blue: profileblue,
-    },
+    icon: <IconUserFilled className="w-5 h-5" />,
     path: "/dashboard/profile",
   },
+];
+export const employeesidebar = [
+  {
+    title: "Home",
+    icon: <IconHomeFilled className="w-5 h-5" />,
+    path: "/dashboard",
+  },
+  {
+    title: "Tables",
+    icon: <IconChartColumn className="w-5 h-5" />,
+    path: "/dashboard/tables",
+  },
   // {
-  //   title: "Logout",
+  //   title: "Accounts",
   //   icon: {
-  //     white: logoutwhite,
-  //     blue: logoutblue,
+  //     white: cardwhite,
+  //     blue: cardblue,
   //   },
-  //   path: "/dashboard/logout",
+  //   path: "/dashboard/accounts",
+  // },
+  // {
+  //   title: "Profile",
+  //   icon: {
+  //     white: profilewhite,
+  //     blue: profileblue,
+  //   },
+  //   path: "/dashboard/profile",
   // },
 ];
 import doublecheck from "@/assets/icons/double-check.svg";

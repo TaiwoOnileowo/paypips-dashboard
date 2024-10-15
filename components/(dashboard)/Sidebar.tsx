@@ -2,21 +2,25 @@
 import React from "react";
 import hr from "@/assets/icons/hr.svg";
 import Image from "next/image";
-import { sidebar } from "@/lib/data/dashboarddata";
+import { employeesidebar, clientsidebar } from "@/lib/data/dashboarddata";
 import { usePathname } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
 import { useAppContext } from "@/context";
 import logo from "@/public/logo.svg";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
+import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const splitPathname = pathname?.split("/")[2];
   const { showSidebar, setShowSidebar } = useAppContext();
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
+  const role = session?.user.role;
+  const activeSidebar = role === "client" ? clientsidebar : employeesidebar;
   return (
     <div
       className={`col-span-2 px-6 relative  items-center transiton-all duration-300 ease-linear flex flex-col max-xl:fixed ${
@@ -31,11 +35,18 @@ const Sidebar = () => {
         className="absolute text-white cursor-pointer top-6 right-6 text-xl md:hidden"
         onClick={toggleSidebar}
       />
-      <div className="flex items-center  justify-center gap-3 flex-col  h-[6%]">
-        <Link href="/" target="_blank" className="flex items-center h-full gap-2 justify-center">
-          <Image src={logo} alt="logo" width={40} height={40} />
+      <div className="flex items-center  justify-center gap-3 flex-col  h-[4%]">
+        <Link
+          href="/"
+          target="_blank"
+          className="flex items-center h-full gap-2 justify-center"
+        >
+          <Image src={logo} alt="logo" width={60} height={60} />
 
-          <h1 className="text-white font-plus  md:text-xl">PAYPIPS</h1>
+          {/* <h1 className="text-white font-plus  md:text-xl">PAYPIPS </h1> */}
+          <h1 className="text-white font-plus  md:text-xl font-bold">
+            SYNCGRAM
+          </h1>
         </Link>
         <Image
           src={hr}
@@ -46,7 +57,7 @@ const Sidebar = () => {
         />
       </div>
       <div className="items-center flex flex-col gap-1 mt-6 w-full justify-center">
-        {sidebar.map((item, index) => {
+        {activeSidebar.map((item, index) => {
           const path = item.path.split("/")[2];
           const active = path === splitPathname;
 
@@ -64,12 +75,9 @@ const Sidebar = () => {
                   active ? "bg-sharpBlue" : "bg-harshBlue"
                 } flex items-center justify-center`}
               >
-                <Image
-                  src={active ? item.icon.white : item.icon.blue}
-                  alt=""
-                  width={15}
-                  height={15}
-                />
+                <span className={`${active ? "text-white" : "text-sharpBlue"}`}>
+                  {item.icon}
+                </span>
               </div>
               <p className="text-white font-plus text-sm font-semibold">
                 {item.title}

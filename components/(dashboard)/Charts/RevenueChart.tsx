@@ -61,7 +61,7 @@ export default function RevenueChart() {
     >
       <CardHeader className="flex w-full flex-row justify-between items-center space-y-2 pb-4">
         <div>
-          <CardTitle className="text-sm font-medium text-slate-50 font-plus">
+          <CardTitle className="text-sm font-medium  flex items-center text-slate-50 font-plus">
             <CreditCard className="h-4 w-4 text-muted-foreground inline mr-2" />{" "}
             Total Revenue
           </CardTitle>
