@@ -129,6 +129,14 @@ model user_details {
   full_name         String? @db.VarChar(255)
 }
 
+model employee_details {
+  id        String  @id @db.VarChar(64)
+  full_name String? @db.VarChar(255)
+  email     String  @unique @db.VarChar(255)
+  password  String  @unique @db.VarChar(64)
+  role      String  @db.VarChar(64)
+}
+
 model users {
   id           String         @id @db.VarChar(64)
   email        String         @unique @db.VarChar(128)

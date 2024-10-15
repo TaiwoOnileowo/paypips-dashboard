@@ -3,40 +3,53 @@ import prisma from "@/prisma/prisma";
 import { signIn, signOut } from "@/auth";
 import { SignJWT } from "jose";
 import { jwtVerify } from "jose";
-import { baseURL } from "../http";
+
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "");
 
 export const getUserFromDb = async (email: string, password: string) => {
-  // Find user by unique field (email)
-
-  const user = await prisma.user_details.findUnique({
+  const client = await prisma.user_details.findUnique({
     where: { email: email.toLowerCase() },
   });
-
-  console.log(user, "useraction", email);
-
-  // If user is not found, return null
-  if (!user) {
+  const employee = await prisma.employee_details.findUnique({
+    where: { email: email.toLowerCase() },
+  });
+  const user = client || employee;
+  if (!client && !employee) {
     console.log("nouser");
     return null;
   }
 
-  if (user.password !== password) {
-    console.log()
+  if (user?.password !== password) {
     return null;
   }
 
-  const token = await new SignJWT({ id: user.owner_id, email: user.email })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("24h")
-    .sign(JWT_SECRET);
-  console.log(token, "token user");
-  return {
-    id: user.owner_id,
-    email: user.email,
-    token,
-    fullname: user.full_name,
-  };
+  let token = "";
+  if (client && "owner_id" in user) {
+    token = await new SignJWT({ id: user.owner_id, email: user.email })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("24h")
+      .sign(JWT_SECRET);
+    return {
+      id: user.owner_id,
+      email: user.email,
+      token,
+      fullname: user.full_name,
+      role: "client",
+    };
+  }
+  if (employee && "id" in user) {
+    token = await new SignJWT({ id: user.id, email: user.email })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("24h")
+      .sign(JWT_SECRET);
+    return {
+      id: user.id,
+      email: user.email,
+      token,
+      role: user.role,
+      fullname: user.full_name,
+    };
+  }
 };
 
 export const signInUser = async (

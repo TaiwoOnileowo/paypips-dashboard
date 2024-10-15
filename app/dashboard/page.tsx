@@ -13,6 +13,7 @@ const Page = async () => {
   const session = await auth();
 
   const token = session?.user.token;
+
   if (typeof token !== "string" || !session) {
     redirect("/sign-in");
   }
@@ -25,7 +26,7 @@ const Page = async () => {
   return (
     <div className="p-6 ">
       <HomePageStats session={session} />
-      <SubscriptionAlert session={session}/>
+      <SubscriptionAlert session={session} />
       <div className="w-full lg:grid  lg:grid-cols-12 mt-10  xl:h-[340px] xl:gap-6 max-lg:px-0  gap-6 flex flex-col aspect-square basis-full">
         <div className="col-span-12 max-h-full xl:col-span-5 rounded-3xl bg-cover shadow-md h-full bg-center bg-smile  p-6 xl:pt-14 relative basis-1/3">
           <p className="text-gray-300/80   my-1 md:text-lg">Welcome back,</p>

@@ -20,6 +20,7 @@ declare module "next-auth" {
     email?: string | null;
     image?: string | null;
     token?: JWT;
+    role: string;
   }
 }
 
@@ -41,9 +42,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           );
           // const { email, password } = credentials;
           // Fetch user from DB by email
-        
+
           const user = await getUserFromDb(email, password);
-          console.log(user,"authuser");
+          console.log(user, "authuser");
           // If no user found, throw error
           if (!user) {
             throw new Error("User not found.");
@@ -55,6 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             email: user.email,
             token: user.token as unknown as JWT,
             name: user.fullname,
+            role: user.role,
           };
         } catch (error: any) {
           // Handle Zod validation error (Invalid input)
@@ -76,6 +78,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.id = user.id;
         token.token = user.token;
         token.fullname = user.name;
+        token.role = user.role;
       }
       return token;
     },
@@ -83,6 +86,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.id = token.id as string;
       session.user.name = token.name;
       session.user.token = token.token as JWT;
+      session.user.role = token.role as string;
       return session;
     },
   },
