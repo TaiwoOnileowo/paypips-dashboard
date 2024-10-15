@@ -1,10 +1,3 @@
-import cardwhite from "@/assets/icons/card-white.svg";
-import homewhite from "@/assets/icons/home-white.svg";
-import chartwhite from "@/assets/icons/chart-white.svg";
-import cardblue from "@/assets/icons/card-blue.svg";
-import homeblue from "@/assets/icons/home-blue.svg";
-import chartblue from "@/assets/icons/chart-blue.svg";
-
 import {
   IconHomeFilled,
   IconChartColumn,
@@ -45,22 +38,6 @@ export const employeesidebar = [
     icon: <IconChartColumn className="w-5 h-5" />,
     path: "/dashboard/tables",
   },
-  // {
-  //   title: "Accounts",
-  //   icon: {
-  //     white: cardwhite,
-  //     blue: cardblue,
-  //   },
-  //   path: "/dashboard/accounts",
-  // },
-  // {
-  //   title: "Profile",
-  //   icon: {
-  //     white: profilewhite,
-  //     blue: profileblue,
-  //   },
-  //   path: "/dashboard/profile",
-  // },
 ];
 import doublecheck from "@/assets/icons/double-check.svg";
 import cards from "@/assets/icons/cards.svg";
