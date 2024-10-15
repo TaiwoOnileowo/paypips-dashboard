@@ -1,0 +1,96 @@
+export const weeklyData = [
+  {
+    day: "Mon",
+    revenue: 1000,
+    expenses: 800,
+    revenueChange: 5,
+    expensesChange: 2,
+  },
+  {
+    day: "Tue",
+    revenue: 1200,
+    expenses: 900,
+    revenueChange: 10,
+    expensesChange: 5,
+  },
+  {
+    day: "Wed",
+    revenue: 1500,
+    expenses: 700,
+    revenueChange: 20,
+    expensesChange: -3,
+  },
+  {
+    day: "Thu",
+    revenue: 1300,
+    expenses: 600,
+    revenueChange: -5,
+    expensesChange: -8,
+  },
+  {
+    day: "Fri",
+    revenue: 1400,
+    expenses: 1000,
+    revenueChange: 8,
+    expensesChange: 6,
+  },
+  {
+    day: "Sat",
+    revenue: 1600,
+    expenses: 1100,
+    revenueChange: 12,
+    expensesChange: 7,
+  },
+  {
+    day: "Sun",
+    revenue: 1700,
+    expenses: 1200,
+    revenueChange: 5,
+    expensesChange: 3,
+  },
+];
+
+export const monthlyData = [
+  {
+    month: "January",
+    revenue: 18000,
+    expenses: 12000,
+    revenueChange: 15,
+    expensesChange: 10,
+  },
+  {
+    month: "February",
+    revenue: 16000,
+    expenses: 11000,
+    revenueChange: -8,
+    expensesChange: -5,
+  },
+  {
+    month: "March",
+    revenue: 20000,
+    expenses: 15000,
+    revenueChange: 10,
+    expensesChange: 8,
+  },
+  {
+    month: "April",
+    revenue: 19000,
+    expenses: 13000,
+    revenueChange: -5,
+    expensesChange: -3,
+  },
+  {
+    month: "May",
+    revenue: 21000,
+    expenses: 16000,
+    revenueChange: 8,
+    expensesChange: 6,
+  },
+  {
+    month: "June",
+    revenue: 22000,
+    expenses: 17000,
+    revenueChange: 10,
+    expensesChange: 5,
+  },
+];

@@ -57,38 +57,74 @@ import cart from "@/assets/icons/cart-white.svg";
 export const homePageStats = [
   {
     sub: "Today's revenue",
-    // value: "$10,000",
+
     value: "",
     percent: "",
-    // percent: "+10%",
+
     icon: cards,
   },
   {
     sub: "Today's subscription",
-    // value: "3,000",
+
     value: "",
-    // percent: "+15%",
+
     percent: "",
     icon: globe,
   },
   {
     sub: "Active subscription",
-    // value: "6000",
+
     value: "",
-    // percent: "-3%",
+
     percent: "",
     icon: doublecheck,
   },
   {
     sub: "Total revenue",
-    // value: "$100,000",
+
     value: "",
-    // percent: "+5%",
+
     percent: "",
     icon: cart,
   },
 ];
-
+import {
+  Activity,
+  ArrowUpRight,
+  CircleUser,
+  CreditCard,
+  DollarSign,
+  Menu,
+  Package2,
+  Search,
+  Users,
+} from "lucide-react";
+export const employeeStats = [
+  {
+    title: "Total Transactions",
+    value: "$45,231.89",
+    percent: "+20.1% from last month",
+    icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+  },
+  {
+    title: "Total expenses",
+    value: "$45,231.89",
+    percent: "-180.1% from last month",
+    icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+  },
+  {
+    title: "Total Income",
+    value: "$45,231.89",
+    percent: "+19% from last month",
+    icon: <CreditCard className="h-4 w-4 text-muted-foreground" />,
+  },
+  {
+    title: "Total Clients",
+    value: "+573",
+    percent: "+201 since last month",
+    icon: <Users className="h-4 w-4 text-muted-foreground" />,
+  },
+];
 export const payments = [
   {
     amount: "$600",
@@ -125,7 +161,6 @@ export const payments = [
     method: "USD",
     date: "01/02/2024",
   },
-  
 ];
 export const payouts = [
   {

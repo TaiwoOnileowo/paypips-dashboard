@@ -11,6 +11,7 @@ declare module "next-auth" {
       name: string | null | undefined;
       id: string;
       token: JWT;
+      role: string;
       email: string;
     };
   }
