@@ -1,34 +1,11 @@
 import https from "https";
 import { NextResponse } from "next/server";
-const appId = process.env.OPEN_EXCHANGE_RATES_ID;
-const USD_TO_NGN_API = `https://openexchangerates.org/api/latest.json?app_id=${appId}&base=USD`;
-
-async function convertUSDToNGN(amountInUSD: number): Promise<number> {
-  try {
-    const response = await fetch(USD_TO_NGN_API);
-    const data = await response.json();
-
-    const exchangeRate = data.rates.NGN;
-    return amountInUSD * exchangeRate;
-  } catch (error) {
-    console.error("Error fetching exchange rate:", error);
-    throw new Error("Failed to fetch exchange rate");
-  }
-}
-const addChargesToAmount = (amount: number): number => {
-  const charges = 0.015 * amount + 100;
-  return amount + charges;
-};
 
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await request.json();
     const { email, name } = body;
     const baseURL = process.env.BASE_URL;
-
-    // const amountInUSD = 150;
-    // const amountInNaira = await convertUSDToNGN(amountInUSD);
-    // const amountInNairaWithCharges = addChargesToAmount(amountInNaira);
 
     const params = JSON.stringify({
       name,

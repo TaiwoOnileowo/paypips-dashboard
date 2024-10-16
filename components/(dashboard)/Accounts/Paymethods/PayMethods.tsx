@@ -13,7 +13,7 @@ import btc from "@/assets/icons/btc.svg";
 import usdt from "@/assets/icons/usdt.svg";
 import eth from "@/assets/icons/eth.svg";
 import flutterwave from "@/assets/icons/flutterwave.png";
-import { useGetAccountDetails } from "@/hooks/reactQueryHooks";
+import { useGetAccountDetails } from "@/hooks/clientApiHooks";
 import NotFound from "../../NotFound";
 import Parent from "./Parent";
 import Error from "../../Error";

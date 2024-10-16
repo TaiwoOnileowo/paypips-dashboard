@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Session } from "next-auth";
 import slash from "@/assets/icons/slash1.svg";
 import { pricing } from "@/lib/data/websitedata";
-import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
+import { useGetSubscriptionStats } from "@/hooks/clientApiHooks";
 import Error from "./Error";
 import { Skeleton } from "@mui/material";
 import Pricing from "./Pricing";

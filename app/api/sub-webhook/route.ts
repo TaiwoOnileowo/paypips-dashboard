@@ -30,7 +30,9 @@ export async function POST(request: Request) {
       where: { email: userEmail },
     });
     const userId = userDetails?.owner_id;
-
+    if (!userId) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
     // Check if the transaction has been processed already
     const existingTransaction = await prisma.processed_transactions.findFirst({
       where: { txn_id: txnRef },

@@ -1,5 +1,5 @@
 "use client";
-import { useVerifyPayment } from "@/hooks/reactQueryHooks";
+import { useVerifyPayment } from "@/hooks/clientApiHooks";
 import React from "react";
 import checkanim from "@/assets/icons/checkanim.gif";
 import errorGif from "@/assets/icons/error.gif";

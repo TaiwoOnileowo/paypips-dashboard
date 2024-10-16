@@ -4,10 +4,11 @@ import RevenueChart from "../Charts/RevenueChart";
 import ProfitChart from "../Charts/ProfitChart";
 import ClientChart from "../Charts/ClientChart";
 import PlanChart from "../Charts/PlanChart";
-const EmployeeHome = () => {
+import { Session } from "next-auth";
+const EmployeeHome = ({ session }: { session: Session }) => {
   return (
     <div className="h-full">
-      <HomeStats />
+      <HomeStats session={session} />
       <div className="grid grid-cols-12  gap-6 mt-6 ">
         <RevenueChart />
         <ProfitChart />

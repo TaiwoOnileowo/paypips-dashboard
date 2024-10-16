@@ -56,7 +56,6 @@ export const homePageStats = [
     sub: "Today's subscription",
 
     value: "",
-
     percent: "",
     icon: globe,
   },
@@ -77,40 +76,31 @@ export const homePageStats = [
     icon: cart,
   },
 ];
-import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  DollarSign,
-  Menu,
-  Package2,
-  Search,
-  Users,
-} from "lucide-react";
+import { CircleDollarSign, CreditCard, DollarSign, Users } from "lucide-react";
 export const employeeStats = [
   {
-    title: "Total Transactions",
-    value: "$45,231.89",
-    percent: "+20.1% from last month",
-    icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
-  },
-  {
-    title: "Total expenses",
-    value: "$45,231.89",
-    percent: "-180.1% from last month",
-    icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+    title: "Total Amount Processed",
+    // value: "$240.8k",
+    value: "N/A",
+    percent: "",
+    icon: <CircleDollarSign className="h-4 w-4 text-muted-foreground" />,
   },
   {
     title: "Total Income",
-    value: "$45,231.89",
-    percent: "+19% from last month",
+    value: "N/A",
+    percent: "",
     icon: <CreditCard className="h-4 w-4 text-muted-foreground" />,
   },
   {
+    title: "Total expenses",
+    value: "$0",
+    percent: "+0% from last month",
+    icon: <DollarSign className="h-4 w-4 text-muted-foreground" />,
+  },
+  {
     title: "Active Clients",
-    value: "+573",
-    percent: "+201 since last month",
+    value: "N/A",
+    percent: "",
     icon: <Users className="h-4 w-4 text-muted-foreground" />,
   },
 ];

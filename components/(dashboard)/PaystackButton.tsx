@@ -1,4 +1,4 @@
-import { useMakePayment } from "@/hooks/reactQueryHooks";
+import { useMakePayment } from "@/hooks/clientApiHooks";
 import React from "react";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";

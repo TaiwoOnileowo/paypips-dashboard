@@ -10,6 +10,13 @@ export async function GET(request: Request) {
   if (!userId) {
     return NextResponse.json({ error: "Missing userId" }, { status: 400 });
   }
+  const user = await prisma.user_details.findFirst({
+    where: { owner_id: userId },
+  });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
 
   try {
     const processedTransactions = await prisma.processed_transactions.findFirst(

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useGetAccountDetails } from "@/hooks/reactQueryHooks";
+import { useGetAccountDetails } from "@/hooks/clientApiHooks";
 import { Session } from "next-auth";
 import { Skeleton } from "@/components/ui/skeleton";
 import Error from "../../Error";

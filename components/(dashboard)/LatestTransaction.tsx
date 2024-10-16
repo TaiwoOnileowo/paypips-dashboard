@@ -2,7 +2,7 @@ import React from "react";
 import { Payment, Payout } from "@/types";
 import { formatTimeAgo } from "@/lib/utils";
 import domain from "@/assets/icons/domain.svg";
-import { useGetTransactions } from "@/hooks/reactQueryHooks";
+import { useGetTransactions } from "@/hooks/clientApiHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { Session } from "next-auth";

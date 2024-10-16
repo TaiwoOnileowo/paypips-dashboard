@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { Session } from "next-auth";
 
 import { TablePagination } from "@mui/material";
-import { useGetPayments } from "@/hooks/reactQueryHooks";
+import { useGetPayments } from "@/hooks/clientApiHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import Error from "../../Error";
 import Parent from "./Parent";
@@ -103,7 +103,7 @@ const IncomingPayments = ({ session }: { session: Session }) => {
   }
   const payments = data.payments;
   const pagination = data.pagination;
- 
+
   return (
     <Parent onSubmit={handleSubmit} isLoading={isLoading} ref={searchRef}>
       <div className="max-md:mt-2 mt-5 w-full text-white overflow-auto">

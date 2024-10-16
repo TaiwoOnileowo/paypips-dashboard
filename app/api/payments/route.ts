@@ -40,6 +40,13 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+    const user = await prisma.user_details.findFirst({
+      where: { owner_id: userId },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
     // Calculate the number of items to skip
     const skip = page * limit;

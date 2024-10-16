@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import LatestTransaction from "../LatestTransaction";
-import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
+import { useGetSubscriptionStats } from "@/hooks/clientApiHooks";
 const CreditBalance = ({ session }: { session: Session }) => {
   const { data: subscriptionstats } = useGetSubscriptionStats(session);
   // if (typeof window === "undefined") return null;

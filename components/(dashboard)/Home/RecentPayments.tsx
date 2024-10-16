@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Session } from "next-auth";
-import { useGetPayments, useGetRevenueStats } from "@/hooks/reactQueryHooks";
+import { useGetPayments, useGetRevenueStats } from "@/hooks/clientApiHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import checkgreen from "@/assets/icons/check-green.svg";

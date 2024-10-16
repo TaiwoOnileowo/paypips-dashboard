@@ -2,7 +2,7 @@
 import React from "react";
 import smilyface from "@/assets/icons/smilyface.svg";
 import Image from "next/image";
-import { useGetRevenueStats } from "@/hooks/reactQueryHooks";
+import { useGetRevenueStats } from "@/hooks/clientApiHooks";
 
 import { Session } from "next-auth";
 const MonthlyRevenue = ({ session }: { session: Session }) => {

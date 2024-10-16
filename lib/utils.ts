@@ -4,6 +4,22 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+export function formatNumberWithK(num: number) {
+  // Check if number is less than 1000
+  if (num < 1000) return num.toString();
+
+  // Format for numbers in thousands (k)
+  if (num >= 1000 && num < 1000000) {
+    return (num / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+  }
+
+  // Format for numbers in millions (m)
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "m";
+  }
+
+  return num.toString();
+}
 export const formatAmountWithSign = (currency: string, amount: string) => {
   switch (currency) {
     case "LTCT":

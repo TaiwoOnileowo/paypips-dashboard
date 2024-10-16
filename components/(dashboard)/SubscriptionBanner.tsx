@@ -1,5 +1,5 @@
 "use client";
-import { useMakePayment } from "@/hooks/reactQueryHooks";
+import { useMakePayment } from "@/hooks/clientApiHooks";
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -7,7 +7,7 @@ import { Session } from "next-auth";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { BsCreditCard2BackFill } from "react-icons/bs";
-import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
+import { useGetSubscriptionStats } from "@/hooks/clientApiHooks";
 const SubscriptionBanner = ({ session }: { session: Session }) => {
   const { data, isLoading, isError, error } = useGetSubscriptionStats(session);
   const router = useRouter();
@@ -39,7 +39,9 @@ const SubscriptionBanner = ({ session }: { session: Session }) => {
     <div className="bg-red-500 w-full h-12 text-white px-5 flex items-center justify-between">
       <div className="flex items-center gap-2">
         <IoMdNotificationsOutline size={18} />
-        <p className="text-sm font-semibold max-md:text-xs">Your subscription is pending!</p>
+        <p className="text-sm font-semibold max-md:text-xs">
+          Your subscription is pending!
+        </p>
       </div>
       <div className="flex justify-end font-semibold items-center gap-5 max-md:text-xs text-sm">
         <button

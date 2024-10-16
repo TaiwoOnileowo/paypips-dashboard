@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Session } from "next-auth";
 import card from "@/assets/icons/card.gif";
 import { BsCreditCard2BackFill } from "react-icons/bs";
-import { useGetSubscriptionStats } from "@/hooks/reactQueryHooks";
+import { useGetSubscriptionStats } from "@/hooks/clientApiHooks";
 import {
   AlertDialog,
   AlertDialogAction,

@@ -43,6 +43,13 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         { status: 400 }
       );
     }
+    const user = await prisma.user_details.findFirst({
+      where: { owner_id: userId },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
     // Fetch user Payments and subscriptions
     const userPayments = await prisma.payments.findMany({

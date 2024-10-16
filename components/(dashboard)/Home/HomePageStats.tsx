@@ -7,14 +7,13 @@ import { Session } from "next-auth";
 import {
   useGetRevenueStats,
   useGetSubscriptionStats,
-} from "@/hooks/reactQueryHooks";
+} from "@/hooks/clientApiHooks";
 
 import { IoEyeOffOutline } from "react-icons/io5";
 
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const HomePageStats = ({ session }: { session: Session }) => {
- 
   const { data: revenueStats } = useGetRevenueStats(session);
   const { data: subscriptionstats } = useGetSubscriptionStats(session);
   const [hideAmount, setHideAmount] = useState(

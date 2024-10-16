@@ -1,11 +1,44 @@
+"use client";
 import React from "react";
-
+import { Session } from "next-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { employeeStats } from "@/lib/data/dashboarddata";
-const HomeStats = () => {
+import { useGetClients, useGetRevenue } from "@/hooks/employeeApiHooks";
+const HomeStats = ({ session }: { session: Session }) => {
+  const { data: clients } = useGetClients(session);
+  const { data: revenue } = useGetRevenue(session);
+  let updatedHomeStats = employeeStats;
+  if (clients && revenue) {
+    updatedHomeStats = employeeStats.map((stat) => {
+      switch (stat.title) {
+        case "Active Clients":
+          return {
+            ...stat,
+            value: clients.total,
+            percent: `${clients.increase} since last month`,
+          };
+        case "Total Amount Processed":
+          return {
+            ...stat,
+            value: revenue.totalAmountProcessed,
+            percent: `${revenue.todayAmountProcessedIncrease}% from yesterday`,
+          };
+        case "Total Income":
+          return {
+            ...stat,
+            value: revenue.totalAmountProcessed,
+            percent: `${revenue.monthAmountProcessedIncrease}% from yesterday`,
+          };
+        default:
+          return stat;
+      }
+    });
+    console.log(revenue.totalAmountProcessed, updatedHomeStats);
+  }
+
   return (
     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-      {employeeStats.map((stat, index) => {
+      {updatedHomeStats.map((stat, index) => {
         const isPositive = stat.percent.includes("+");
         return (
           <Card

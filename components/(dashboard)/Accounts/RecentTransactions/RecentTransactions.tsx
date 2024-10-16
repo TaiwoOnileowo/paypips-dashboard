@@ -4,7 +4,7 @@ import DateRangeRoundedIcon from "@mui/icons-material/DateRangeRounded";
 import Transactions from "../../Transactions";
 import { Session } from "next-auth";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetTransactions } from "@/hooks/reactQueryHooks";
+import { useGetTransactions } from "@/hooks/clientApiHooks";
 import Error from "../../Error";
 import NotFound from "../../NotFound";
 import Parent from "./Parent";
@@ -43,7 +43,7 @@ const RecentTransactions = ({ session }: { session: Session }) => {
       </Parent>
     );
   }
-  
+
   return (
     <Parent>
       {transactions.length > 0 ? (

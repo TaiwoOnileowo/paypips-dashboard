@@ -21,6 +21,15 @@ export interface SubscriptionStats {
     status: string;
   };
 }
+export interface CompanyRevenue {
+  totalAmountProcessed: string;
+  todayAmountProcessedIncrease: string;
+  monthAmountProcessedIncrease: string;
+}
+export interface CompanyClients {
+  total: string;
+  increase: string;
+}
 export interface Pagination {
   totalItems: number;
   totalPages: number;

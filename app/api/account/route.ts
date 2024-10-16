@@ -55,6 +55,9 @@ export const GET = async (req: NextRequest) => {
     const userData = await prisma.user_details.findUnique({
       where: { owner_id: userId },
     });
+    if (!userData) {
+      return NextResponse.json({ error: "User not found" }, { status: 400 });
+    }
     const userBalances = await prisma.available_balance.findMany({
       where: { owner_id: userId },
     });

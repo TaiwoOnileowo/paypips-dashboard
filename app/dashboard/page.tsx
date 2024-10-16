@@ -25,7 +25,11 @@ const Page = async () => {
   return (
     <div className="p-6 ">
       {/* <ClientHome session={session} /> */}
-      {isClient ? <ClientHome session={session} /> : <EmployeeHome />}
+      {isClient ? (
+        <ClientHome session={session} />
+      ) : (
+        <EmployeeHome session={session} />
+      )}
     </div>
   );
 };

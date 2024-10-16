@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 
 import { Session } from "next-auth";
 
-import { useGetPayouts } from "@/hooks/reactQueryHooks";
+import { useGetPayouts } from "@/hooks/clientApiHooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TablePagination } from "@mui/material";
 import Error from "../../Error";

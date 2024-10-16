@@ -53,7 +53,13 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+    const user = await prisma.user_details.findFirst({
+      where: { owner_id: userId },
+    });
 
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
     // Construct date filter if startDate or endDate is provided
     let dateFilter = {};
     if (startDate || endDate) {
@@ -79,7 +85,6 @@ export const GET = async (req: NextRequest) => {
       ...(status && { status }),
       ...dateFilter,
     };
-    console.log(filters, maxAmount, minAmount);
 
     const userPayouts = await prisma.withdrawals.findMany({
       where: filters,
