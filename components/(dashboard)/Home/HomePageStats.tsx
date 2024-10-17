@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { homePageStats } from "@/lib/data/dashboarddata";
+import { homePageStats } from "@/lib/data/clientdata";
 
 import { Session } from "next-auth";
 import {

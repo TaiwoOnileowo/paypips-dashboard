@@ -2,7 +2,8 @@
 import React from "react";
 import hr from "@/assets/icons/hr.svg";
 import Image from "next/image";
-import { employeesidebar, clientsidebar } from "@/lib/data/dashboarddata";
+import { employeesidebar } from "@/lib/data/employeedata";
+import { clientsidebar } from "@/lib/data/clientdata";
 import { usePathname } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
 import { useAppContext } from "@/context";

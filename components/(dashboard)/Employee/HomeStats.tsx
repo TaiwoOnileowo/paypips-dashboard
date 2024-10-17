@@ -2,7 +2,7 @@
 import React from "react";
 import { Session } from "next-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { employeeStats } from "@/lib/data/dashboarddata";
+import { employeeStats } from "@/lib/data/employeedata";
 import { useGetClients, useGetRevenue } from "@/hooks/employeeApiHooks";
 const HomeStats = ({ session }: { session: Session }) => {
   const { data: clients } = useGetClients(session);
