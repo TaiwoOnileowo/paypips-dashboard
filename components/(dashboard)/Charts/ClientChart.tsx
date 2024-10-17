@@ -28,8 +28,15 @@ const chartConfig = {
 
 export default function ClientChart({ session }: { session: Session }) {
   const { data: clients, isLoading } = useGetClients(session);
-  const totalClients = clients?.total;
-  const chartData = [clients?.clientChartData];
+  const totalClients = clients ? clients.total : "0";
+  const chartData = clients
+    ? [clients.clientChartData]
+    : [
+        {
+          previous: 0,
+          new: 0,
+        },
+      ];
 
   return (
     <Card
