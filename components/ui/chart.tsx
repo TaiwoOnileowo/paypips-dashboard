@@ -189,7 +189,8 @@ const ChartTooltipContent = React.forwardRef<
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color || item.payload.fill || item.color;
-
+            const expensesChange = item.payload.expensesChange;
+            const revenueChange = item.payload.revenueChange;
             return (
               <div
                 key={item.dataKey}
@@ -240,7 +241,13 @@ const ChartTooltipContent = React.forwardRef<
                       </div>
                       {item.value && (
                         <span className="font-mono font-medium tabular-nums text-slate-950 dark:text-slate-50">
-                          {item.value.toLocaleString()}
+                          ${item.value.toLocaleString()}
+                        </span>
+                      )}
+                      {expensesChange && revenueChange && (
+                        <span className="font-mono font-medium tabular-nums text-slate-950 dark:text-slate-50">
+                          {index === 0 && `${expensesChange}%`}
+                          {index === 1 && `${revenueChange}%`}
                         </span>
                       )}
                     </div>

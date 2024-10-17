@@ -21,15 +21,24 @@ export interface SubscriptionStats {
     status: string;
   };
 }
-export interface ChartData {
+export interface AmountProcessedPerDayChartData {
   date: string;
-  amount: number;
+  amount: string;
+}
+export interface ExpenseRevenueChartData {
+  month: string;
+  revenue: number;
+  expenses: number;
+  revenueChange: string;
+  expensesChange: string;
 }
 export interface CompanyRevenue {
   totalAmountProcessed: string;
   todayAmountProcessedIncrease: string;
   monthAmountProcessedIncrease: string;
-  amountProcessedChart: ChartData[];
+  amountProcessedPerDayChart: AmountProcessedPerDayChartData[];
+  expenseRevenuePerMonthChart: ExpenseRevenueChartData[];
+  expenseRevenuePerWeekChart: ExpenseRevenueChartData[];
 }
 export interface CompanyClients {
   total: string;

@@ -22,7 +22,7 @@ import { useGetRevenue } from "@/hooks/employeeApiHooks";
 
 const chartConfig = {
   amountProcessed: {
-    label: "Amount Processed",
+    label: "Amount",
   },
   amount: {
     label: "Amount",
@@ -36,12 +36,7 @@ export default function AmountProcessedChart({
   session: Session;
 }) {
   const { data: revenue, isLoading } = useGetRevenue(session);
-  const chartData = revenue?.amountProcessedChart.sort((a, b) => {
-    return (
-      new Date(a.date.split("/").reverse().join("-")).getTime() -
-      new Date(b.date.split("/").reverse().join("-")).getTime()
-    );
-  });
+  const chartData = revenue?.amountProcessedPerDayChart;
 
   return (
     <Card
@@ -102,10 +97,7 @@ export default function AmountProcessedChart({
                 tickMargin={8}
                 minTickGap={32}
                 tickFormatter={(value) => {
-                  const [day, month, year] = value.split("/");
-                  const date = new Date(`${year}-${month}-${day}`);
-
-                  return date.toLocaleDateString("en-US", {
+                  return new Date(value).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                   });
@@ -114,15 +106,14 @@ export default function AmountProcessedChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
+                    style={{
+                      background:
+                        "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(10, 14, 35, 0.71) 91.2%)",
+                    }}
                     className="w-[150px]"
                     nameKey="amountProcessed"
-                    formatter={(value) => {
-                      return `Amount $${value}`;
-                    }}
                     labelFormatter={(value) => {
-                      const [day, month, year] = value.split("/");
-                      const date = new Date(`${year}-${month}-${day}`);
-                      return date.toLocaleDateString("en-US", {
+                      return new Date(value).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",
@@ -136,7 +127,7 @@ export default function AmountProcessedChart({
                 type="monotone"
                 stroke={`#0075FF`}
                 strokeWidth={2}
-                dot={false}
+                dot={true}
               />
             </LineChart>
           </ChartContainer>

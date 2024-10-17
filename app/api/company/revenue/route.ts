@@ -63,7 +63,9 @@ const convertToUSD = (amount: number, currency: string, exchangeRates: any) => {
   if (currency === "LTCT") {
     return amount * 71.44;
   }
-
+  if (currency === "USDT.ERC20") {
+    return amount * 0.009073;
+  }
   if (exchangeRates[currency]) {
     return amount * exchangeRates[currency];
   }
@@ -119,14 +121,23 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    const transactionsInUSD = transactions.map((transaction) => ({
-      ...transaction,
-      amount: convertToUSD(
-        transaction.received_amount,
-        transaction.currency_type,
-        exchangeRates
-      ),
-    }));
+    const transactionsInUSD = transactions
+      .map((transaction) => ({
+        ...transaction,
+        amount: convertToUSD(
+          transaction.received_amount,
+          transaction.currency_type,
+          exchangeRates
+        ),
+      }))
+      .sort((a, b) => {
+        if (a.created_at && b.created_at) {
+          return (
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+          );
+        }
+        return 0;
+      });
 
     // Calculate revenue
     const totalAmountProcessed = transactionsInUSD.reduce(
@@ -189,13 +200,67 @@ export const GET = async (req: NextRequest) => {
       monthAmountProcessed,
       previousMonthAmountProcessed
     );
-    const amountProcessedChart = Object.values(
-      groupDataByDate(transactionsInUSD)
+    const amountProcessedPerDayChart = Object.values(
+      groupDataByDate(transactionsInUSD, "YYYY-MM-DD")
     ).map((transaction) => ({
       ...transaction,
       amount: Number(transaction.amount.toFixed()),
     }));
-// const monthlyAmountProcessedChart 
+
+    const monthlyData = Object.values(
+      groupDataByDate(transactionsInUSD, "MMMM")
+    ).map((transaction, i) => ({
+      month: transaction.date,
+      revenue: Number(transaction.amount.toFixed()),
+      expenses: Number((transaction.amount - 5).toFixed()),
+    }));
+    const weeklyData = Object.values(groupDataByDate(transactionsInUSD, "dddd"))
+      .map((transaction) => ({
+        day: transaction.date,
+        revenue: Number(transaction.amount.toFixed()),
+        expenses: Number((transaction.amount - 5).toFixed()),
+      }))
+      .slice(0, 7);
+
+    const expenseRevenuePerMonthChart = monthlyData.map((transaction, i) => {
+      const expensesChange = calculatePercentageIncrease(
+        transaction.expenses,
+        monthlyData[i - 1] ? monthlyData[i - 1]?.expenses : 0
+      );
+      const revenueChange = calculatePercentageIncrease(
+        transaction.revenue,
+        monthlyData[i - 1] ? monthlyData[i - 1]?.revenue : 0
+      );
+      return {
+        ...transaction,
+        revenueChange: !revenueChange.includes("-")
+          ? `+${revenueChange}`
+          : revenueChange,
+        expensesChange: !expensesChange.includes("-")
+          ? `+${expensesChange}`
+          : expensesChange,
+      };
+    });
+    const expenseRevenuePerWeekChart = weeklyData.map((transaction, i) => {
+      const expensesChange = calculatePercentageIncrease(
+        transaction.expenses,
+        monthlyData[i - 1] ? monthlyData[i - 1]?.expenses : 0
+      );
+      const revenueChange = calculatePercentageIncrease(
+        transaction.revenue,
+        monthlyData[i - 1] ? monthlyData[i - 1]?.revenue : 0
+      );
+      return {
+        ...transaction,
+        revenueChange: !revenueChange.includes("-")
+          ? `+${revenueChange}`
+          : revenueChange,
+        expensesChange: !expensesChange.includes("-")
+          ? `+${expensesChange}`
+          : expensesChange,
+      };
+    });
+
     return NextResponse.json({
       totalAmountProcessed: `$${formatNumberWithK(totalAmountProcessed)}`,
       todayAmountProcessedIncrease:
@@ -206,7 +271,9 @@ export const GET = async (req: NextRequest) => {
         !monthAmountProcessedPercentageIncrease.includes("-")
           ? `+${monthAmountProcessedPercentageIncrease}`
           : monthAmountProcessedPercentageIncrease,
-      amountProcessedChart,
+      amountProcessedPerDayChart,
+      expenseRevenuePerMonthChart,
+      expenseRevenuePerWeekChart,
     });
   } catch (error) {
     console.log(error);

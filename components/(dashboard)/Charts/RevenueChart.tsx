@@ -25,21 +25,25 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
+import { Session } from "next-auth";
+import { useGetRevenue } from "@/hooks/employeeApiHooks";
 import { weeklyData, monthlyData } from "@/lib/data/chartData";
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "hsl(var(--chart-1))",
+    color: "#CB3CFF",
   },
   expenses: {
     label: "Expenses",
-    color: "hsl(var(--chart-2))",
+    color: "#57C3FF",
   },
 } satisfies ChartConfig;
 
-export default function RevenueChart() {
+export default function RevenueChart({ session }: { session: Session }) {
   const [timeRange, setTimeRange] = useState("90d");
-
+  const { data: revenue, isLoading } = useGetRevenue(session);
+  const monthlyData = revenue?.expenseRevenuePerMonthChart;
+  const weeklyData = revenue?.expenseRevenuePerWeekChart;
   const chartData = timeRange === "7d" ? weeklyData : monthlyData;
   return (
     <Card
@@ -95,10 +99,10 @@ export default function RevenueChart() {
           <AreaChart
             accessibilityLayer
             data={chartData}
-            margin={{
-              left: -10,
-              right: 12,
-            }}
+            // margin={{
+            //   left: 0,
+            //   right: 12,
+            // }}
           >
             <defs>
               <linearGradient id="colorRv" x1="0" y1="0" x2="0" y2="1">
@@ -128,24 +132,20 @@ export default function RevenueChart() {
               axisLine={false}
               tick={{ fill: "#94a3b8" }}
               tickFormatter={(value) => `$${value}`}
-              tickMargin={6}
+              tickMargin={8}
               tickCount={7}
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent />}
-              formatter={(value) => {
-                console.log(value);
-                return value;
-              }}
-            />
-            <Area
-              dataKey="expenses"
-              type="natural"
-              fillOpacity={0.4}
-              fill="url(#colorEx)"
-              stroke="#57C3FF"
-              stackId="a"
+              content={
+                <ChartTooltipContent
+                  className="w-[180px]"
+                  style={{
+                    background:
+                      "linear-gradient(127deg, rgba(6, 11, 40, 0.74) 28.26%, rgba(10, 14, 35, 0.71) 91.2%)",
+                  }}
+                />
+              }
             />
             <Area
               dataKey="revenue"
@@ -155,6 +155,15 @@ export default function RevenueChart() {
               stroke="#CB3CFF"
               stackId="a"
             />
+            <Area
+              dataKey="expenses"
+              type="natural"
+              fillOpacity={0.4}
+              fill="url(#colorEx)"
+              stroke="#57C3FF"
+              stackId="b"
+            />
+
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>

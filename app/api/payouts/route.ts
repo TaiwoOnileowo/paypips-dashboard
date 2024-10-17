@@ -112,7 +112,7 @@ export const GET = async (req: NextRequest) => {
             : formatNumberWithCommas(Number(payout.amount.toFixed(0))),
         currency: payout.currency,
         status: payout.status,
-        date: formatDate(payout.initiated_at),
+        date: formatDate(payout.initiated_at, "DD-MM-YYYY"),
         time: formatTo12HourTime(payout.initiated_at),
       };
     });

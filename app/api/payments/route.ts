@@ -73,7 +73,7 @@ export const GET = async (req: NextRequest) => {
       amount: formatNumberWithCommas(Number(payment.amount_usd!.toFixed(0))),
       plan: payment.groupname,
       method: payment.payment_method,
-      date: formatDate(payment.created_at),
+      date: formatDate(payment.created_at, "DD-MM-YYYY"),
       email: payment.email,
     }));
 

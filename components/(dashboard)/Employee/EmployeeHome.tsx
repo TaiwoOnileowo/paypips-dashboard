@@ -13,7 +13,7 @@ const EmployeeHome = ({ session }: { session: Session }) => {
       <HomeStats session={session} />
       <AmountProcessedChart session={session}/>
       <div className="grid grid-cols-12  gap-6 mt-6 ">
-        <RevenueChart />
+        <RevenueChart session={session}/>
         <ProfitChart />
       </div>
       <ExpensesTable />
