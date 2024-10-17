@@ -40,9 +40,15 @@ export interface CompanyRevenue {
   expenseRevenuePerMonthChart: ExpenseRevenueChartData[];
   expenseRevenuePerWeekChart: ExpenseRevenueChartData[];
 }
+export interface ClientChartData {
+  previous: number;
+  current: number;
+}
 export interface CompanyClients {
   total: string;
   increase: string;
+  clientChartData: ClientChartData;
+  percentageMonthlyIncrease: string;
 }
 export interface Pagination {
   totalItems: number;

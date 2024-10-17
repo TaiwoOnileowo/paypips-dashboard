@@ -12,24 +12,24 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
-
-export const description = "A radial chart with stacked sections";
-
-const chartData = [{ month: "january", desktop: 1260, mobile: 570 }];
+import { Session } from "next-auth";
+import { useGetClients } from "@/hooks/employeeApiHooks";
 
 const chartConfig = {
-  desktop: {
+  previous: {
     label: "Previous",
     color: "#0075FF",
   },
-  mobile: {
+  new: {
     label: "New",
     color: "#CB3CFF",
   },
 } satisfies ChartConfig;
 
-export default function ClientChart() {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
+export default function ClientChart({ session }: { session: Session }) {
+  const { data: clients, isLoading } = useGetClients(session);
+  const totalClients = clients?.total;
+  const chartData = [clients?.clientChartData];
 
   return (
     <Card
@@ -52,26 +52,15 @@ export default function ClientChart() {
           >
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />{" "}
-            <ChartLegend
-              content={<ChartLegendContent />}
-              payload={[
-                {
-                  value: chartConfig.desktop.label,
-                  type: "circle",
-                  color: chartConfig.desktop.color,
-                  dataKey: "desktop",
-                },
-                {
-                  value: chartConfig.mobile.label,
-                  type: "circle",
-                  color: chartConfig.mobile.color,
-                  dataKey: "mobile",
-                },
-              ]}
-              fill="white"
+              content={
+                <ChartTooltipContent
+                  hideLabel
+                  className="w-[150px]"
+                  showDollarSign={false}
+                />
+              }
             />
+            <ChartLegend content={<ChartLegendContent />} fill="white" />
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
@@ -83,7 +72,7 @@ export default function ClientChart() {
                           y={(viewBox.cy || 0) - 16}
                           className="fill-white text-2xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalClients?.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -99,15 +88,15 @@ export default function ClientChart() {
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="desktop"
+              dataKey="previous"
               stackId="a"
               cornerRadius={5}
-              fill={chartConfig.desktop.color}
+              fill={chartConfig.previous.color}
               className="stroke-transparent stroke-2"
             />
             <RadialBar
-              dataKey="mobile"
-              fill={chartConfig.mobile.color}
+              dataKey="new"
+              fill={chartConfig.new.color}
               stackId="a"
               cornerRadius={5}
               className="stroke-transparent stroke-2"
@@ -121,7 +110,7 @@ export default function ClientChart() {
           Active Clients <Activity className="h-4 w-4" />
         </div>
         <div className="leading-none text-xs text-slate-400">
-          +20.1% from last month
+          {clients?.percentageMonthlyIncrease || 0}% from last month
         </div>
       </CardFooter>
     </Card>

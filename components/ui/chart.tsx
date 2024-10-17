@@ -111,6 +111,7 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: "line" | "dot" | "dashed";
       nameKey?: string;
       labelKey?: string;
+      showDollarSign?: boolean;
     }
 >(
   (
@@ -128,6 +129,7 @@ const ChartTooltipContent = React.forwardRef<
       color,
       nameKey,
       labelKey,
+      showDollarSign = true,
     },
     ref
   ) => {
@@ -241,7 +243,8 @@ const ChartTooltipContent = React.forwardRef<
                       </div>
                       {item.value && (
                         <span className="font-mono font-medium tabular-nums text-slate-950 dark:text-slate-50">
-                          ${item.value.toLocaleString()}
+                          {showDollarSign && "$"}
+                          {item.value.toLocaleString()}
                         </span>
                       )}
                       {expensesChange && revenueChange && (

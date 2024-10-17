@@ -11,14 +11,14 @@ const EmployeeHome = ({ session }: { session: Session }) => {
   return (
     <div className="h-full">
       <HomeStats session={session} />
-      <AmountProcessedChart session={session}/>
+      <AmountProcessedChart session={session} />
       <div className="grid grid-cols-12  gap-6 mt-6 ">
-        <RevenueChart session={session}/>
+        <RevenueChart session={session} />
         <ProfitChart />
       </div>
       <ExpensesTable />
       <div className="grid grid-cols-12  gap-6 mt-6 ">
-        <ClientChart />
+        <ClientChart session={session} />
         <PlanChart />
       </div>
     </div>
