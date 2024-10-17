@@ -131,7 +131,14 @@ export default function RevenueChart() {
               tickMargin={6}
               tickCount={7}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent />}
+              formatter={(value) => {
+                console.log(value);
+                return value;
+              }}
+            />
             <Area
               dataKey="expenses"
               type="natural"

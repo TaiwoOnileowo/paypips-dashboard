@@ -195,7 +195,7 @@ export const GET = async (req: NextRequest) => {
       ...transaction,
       amount: Number(transaction.amount.toFixed()),
     }));
-
+// const monthlyAmountProcessedChart 
     return NextResponse.json({
       totalAmountProcessed: `$${formatNumberWithK(totalAmountProcessed)}`,
       todayAmountProcessedIncrease:

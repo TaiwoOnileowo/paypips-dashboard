@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import { payMethods } from "@/lib/data/clientdata";
-import edit from "@/assets/icons/edit.svg";
 import Image from "next/image";
 import { Session } from "next-auth";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,9 +8,9 @@ import trc from "@/assets/icons/trc.svg";
 
 import solana from "@/assets/icons/solana.svg";
 import btc from "@/assets/icons/btc.svg";
-import usdt from "@/assets/icons/usdt.svg";
+
 import eth from "@/assets/icons/eth.svg";
-import flutterwave from "@/assets/icons/flutterwave.png";
+
 import { useGetAccountDetails } from "@/hooks/clientApiHooks";
 import NotFound from "../../NotFound";
 import Parent from "./Parent";

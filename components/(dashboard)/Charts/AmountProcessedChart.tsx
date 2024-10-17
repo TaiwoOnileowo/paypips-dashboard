@@ -42,7 +42,6 @@ export default function AmountProcessedChart({
       new Date(b.date.split("/").reverse().join("-")).getTime()
     );
   });
-  console.log(chartData);
 
   return (
     <Card
