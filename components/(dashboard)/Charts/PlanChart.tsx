@@ -79,6 +79,11 @@ export default function PlanChart() {
                 />
               }
             />
+            <CartesianGrid
+              vertical={false}
+              stroke="#94a3b8"
+              strokeOpacity={0.2}
+            />
             <Line
               dataKey="visitors"
               type="natural"

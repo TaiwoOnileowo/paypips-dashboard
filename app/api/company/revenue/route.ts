@@ -1,34 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/prisma/prisma";
-import { formatNumberWithK } from "@/lib/utils";
+import { formatDate, formatNumberWithK, groupDataByDate } from "@/lib/utils";
+import axios from "axios";
 
 export const runtime = "nodejs";
-const appId = process.env.OPEN_EXCHANGE_RATES_ID;
 
-async function convertAmount({
-  amount,
-  currency,
-  toUSD = false,
-}: {
-  amount: number;
-  currency: string;
-  toUSD?: boolean;
-}): Promise<number> {
-  try {
-    const response = await fetch(
-      `https://openexchangerates.org/api/latest.json?app_id=${appId}&base=USD`
-    );
-    const data = await response.json();
-
-    const exchangeRate = data.rates[currency];
-    console.log(data.rates, exchangeRate);
-    return toUSD ? amount * exchangeRate : amount / exchangeRate;
-  } catch (error) {
-    console.error("Error fetching exchange rate:", error);
-    throw new Error("Failed to fetch exchange rate");
-  }
-}
+// Calculate percentage increase
 const calculatePercentageIncrease = (
   currentValue: number,
   previousValue: number
@@ -40,6 +18,62 @@ const calculatePercentageIncrease = (
     .toFixed(0)
     .toString();
 };
+
+// Supported currencies
+const supportedCurrencies = ["BTC", "USDT", "NGN"];
+
+// Fetch exchange rates for each currency in the array
+const fetchExchangeRates = async () => {
+  const apiKey = process.env.COINMARKETCAP_API_KEY;
+  const exchangeRates: { [key: string]: number } = {};
+
+  // Iterate over supported currencies, fetching exchange rates one by one
+  await Promise.all(
+    supportedCurrencies.map(async (currency) => {
+      try {
+        const response = await axios.get(
+          `https://pro-api.coinmarketcap.com/v1/tools/price-conversion`,
+          {
+            headers: {
+              "X-CMC_PRO_API_KEY": apiKey,
+            },
+            params: {
+              symbol: currency,
+              convert: "USD",
+              amount: 1,
+            },
+          }
+        );
+
+        // Store the exchange rate for the current currency
+        const rate = response.data.data.quote.USD.price;
+        exchangeRates[currency] = rate;
+      } catch (error) {
+        console.error(`Error fetching exchange rate for ${currency}: `, error);
+      }
+    })
+  );
+
+  return exchangeRates;
+};
+const convertToUSD = (amount: number, currency: string, exchangeRates: any) => {
+  if (currency === "USD") {
+    return amount; // Already in USD
+  }
+  if (currency === "LTCT") {
+    return amount * 71.44;
+  }
+
+  if (exchangeRates[currency]) {
+    return amount * exchangeRates[currency];
+  }
+  if (currency === "USDT.TRC20") {
+    return amount * exchangeRates["USDT"];
+  }
+
+  throw new Error(`Unsupported currency: ${currency}`);
+};
+
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
@@ -75,69 +109,93 @@ export const GET = async (req: NextRequest) => {
         { status: 400 }
       );
     }
-    const today = new Date();
-    const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
-    const currentMonth = new Date(new Date().getMonth());
-    const previousMonth = new Date(
-      new Date(new Date().setMonth(new Date().getMonth() - 1)).getMonth()
-    );
 
-    const transactions = await prisma.transactions.findMany();
-    const todayTransactions = transactions.filter(
-      (transaction) => transaction.created_at === today
-    );
-    const yesterdayTransactions = transactions.filter(
-      (transaction) => transaction.created_at === yesterday
-    );
-    const currentMonthTransactions = transactions.filter(
-      (transaction) => transaction.created_at === currentMonth
-    );
-    const previousMonthTransactions = transactions.filter(
-      (transaction) => transaction.created_at === previousMonth
-    );
+    // Fetch exchange rates for supported currencies
+    const exchangeRates = await fetchExchangeRates();
 
-    // const transactionsInUSD = await Promise.all(
-    //   transactions.map(async (transaction) => {
-    //     const amountInUSD = await convertAmount({
-    //       amount: transaction.received_amount,
-    //       currency: transaction.currency_type,
-    //       toUSD: true,
-    //     });
-    //     return {
-    //       ...transaction,
-    //       amountInUSD,
-    //     };
-    //   })
-    // );
-    const totalAmountProcessed = transactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+    const transactions = await prisma.transactions.findMany({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+
+    const transactionsInUSD = transactions.map((transaction) => ({
+      ...transaction,
+      amount: convertToUSD(
+        transaction.received_amount,
+        transaction.currency_type,
+        exchangeRates
+      ),
+    }));
+
+    // Calculate revenue
+    const totalAmountProcessed = transactionsInUSD.reduce(
+      (acc, transaction) => acc + transaction.amount,
       0
+    );
+
+    const today = new Date().toDateString();
+    const yesterday = new Date(
+      new Date().setDate(new Date().getDate() - 1)
+    ).toDateString();
+
+    const currentMonth = new Date().getMonth();
+    const previousMonth = new Date(
+      new Date().setMonth(new Date().getMonth() - 1)
+    ).getMonth();
+
+    const todayTransactions = transactionsInUSD.filter((transaction) =>
+      transaction.created_at
+        ? transaction.created_at.toDateString() === today
+        : false
+    );
+
+    const yesterdayTransactions = transactionsInUSD.filter((transaction) =>
+      transaction.created_at
+        ? transaction.created_at.toDateString() === yesterday
+        : false
+    );
+    const currentMonthTransactions = transactionsInUSD.filter((transaction) =>
+      transaction.created_at
+        ? transaction.created_at.getMonth() === currentMonth
+        : false
+    );
+    const previousMonthTransactions = transactionsInUSD.filter(
+      (transaction) => transaction.created_at?.getMonth() === previousMonth
     );
 
     const todayAmountProcessed = todayTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+      (acc, transaction) => acc + transaction.amount,
       0
     );
     const yesterdayAmountProcessed = yesterdayTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+      (acc, transaction) => acc + transaction.amount,
       0
     );
     const todayAmountProcessedPercentageIncrease = calculatePercentageIncrease(
       todayAmountProcessed,
       yesterdayAmountProcessed
     );
+
     const monthAmountProcessed = currentMonthTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+      (acc, transaction) => acc + transaction.amount,
       0
     );
     const previousMonthAmountProcessed = previousMonthTransactions.reduce(
-      (acc, transaction) => acc + transaction.received_amount,
+      (acc, transaction) => acc + transaction.amount,
       0
     );
     const monthAmountProcessedPercentageIncrease = calculatePercentageIncrease(
       monthAmountProcessed,
       previousMonthAmountProcessed
     );
+    const amountProcessedChart = Object.values(
+      groupDataByDate(transactionsInUSD)
+    ).map((transaction) => ({
+      ...transaction,
+      amount: Number(transaction.amount.toFixed()),
+    }));
+
     return NextResponse.json({
       totalAmountProcessed: `$${formatNumberWithK(totalAmountProcessed)}`,
       todayAmountProcessedIncrease:
@@ -148,6 +206,7 @@ export const GET = async (req: NextRequest) => {
         !monthAmountProcessedPercentageIncrease.includes("-")
           ? `+${monthAmountProcessedPercentageIncrease}`
           : monthAmountProcessedPercentageIncrease,
+      amountProcessedChart,
     });
   } catch (error) {
     console.log(error);

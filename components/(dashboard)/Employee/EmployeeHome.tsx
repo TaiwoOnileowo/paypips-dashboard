@@ -6,16 +6,17 @@ import ClientChart from "../Charts/ClientChart";
 import PlanChart from "../Charts/PlanChart";
 import { Session } from "next-auth";
 import ExpensesTable from "../Tables/ExpensesTable";
+import AmountProcessedChart from "../Charts/AmountProcessedChart";
 const EmployeeHome = ({ session }: { session: Session }) => {
   return (
     <div className="h-full">
       <HomeStats session={session} />
+      <AmountProcessedChart session={session}/>
       <div className="grid grid-cols-12  gap-6 mt-6 ">
         <RevenueChart />
         <ProfitChart />
       </div>
       <ExpensesTable />
-
       <div className="grid grid-cols-12  gap-6 mt-6 ">
         <ClientChart />
         <PlanChart />

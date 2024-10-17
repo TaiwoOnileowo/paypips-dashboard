@@ -275,7 +275,6 @@ const ChartLegendContent = React.forwardRef<
     if (!payload?.length) {
       return null;
     }
-    console.log(payload, "pay");
     return (
       <div
         ref={ref}

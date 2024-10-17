@@ -102,6 +102,11 @@ export default function ProfitChart() {
               top: 20,
             }}
           >
+            <CartesianGrid
+              vertical={false}
+              stroke="#94a3b8"
+              strokeOpacity={0.2}
+            />
             <XAxis
               dataKey="month"
               tickLine={false}

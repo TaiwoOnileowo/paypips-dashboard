@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-import { Area, AreaChart, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, XAxis, YAxis, CartesianGrid } from "recharts";
 import {
   Select,
   SelectContent,
@@ -16,17 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  DollarSign,
-  Menu,
-  Package2,
-  Search,
-  Users,
-} from "lucide-react";
+import { CreditCard } from "lucide-react";
 import {
   ChartConfig,
   ChartContainer,
@@ -120,7 +110,11 @@ export default function RevenueChart() {
                 <stop offset="95%" stopColor="#57C3FF" stopOpacity={0} />
               </linearGradient>
             </defs>
-
+            <CartesianGrid
+              vertical={false}
+              stroke="#94a3b8"
+              strokeOpacity={0.2}
+            />
             <XAxis
               dataKey={timeRange === "7d" ? "day" : "month"}
               tickLine={false}

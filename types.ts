@@ -21,10 +21,15 @@ export interface SubscriptionStats {
     status: string;
   };
 }
+export interface ChartData {
+  date: string;
+  amount: number;
+}
 export interface CompanyRevenue {
   totalAmountProcessed: string;
   todayAmountProcessedIncrease: string;
   monthAmountProcessedIncrease: string;
+  amountProcessedChart: ChartData[];
 }
 export interface CompanyClients {
   total: string;

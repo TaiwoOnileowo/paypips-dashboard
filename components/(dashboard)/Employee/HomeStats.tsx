@@ -27,7 +27,7 @@ const HomeStats = ({ session }: { session: Session }) => {
           return {
             ...stat,
             value: revenue.totalAmountProcessed,
-            percent: `${revenue.monthAmountProcessedIncrease}% from yesterday`,
+            percent: `${revenue.monthAmountProcessedIncrease}% since last month`,
           };
         default:
           return stat;

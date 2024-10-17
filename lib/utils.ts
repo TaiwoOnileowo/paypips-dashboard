@@ -60,6 +60,33 @@ export const convertCurrencyToName = (currency: string) => {
       return currency;
   }
 };
+export const groupDataByDate = (
+  data: {
+    amount: number;
+    created_at: Date | null;
+  }[]
+) => {
+  const groupedData = data.reduce(
+    (
+      acc: { [date: string]: { date: string; amount: number } },
+      { amount, created_at }
+    ) => {
+      // Extract the date part (YYYY-MM-DD)
+      const date = formatDate(created_at);
+      // Check if the date already exists in the accumulator
+      if (!acc[date]) {
+        // If not, create a new entry
+        acc[date] = { date, amount: 0 };
+      }
+
+      acc[date].amount += amount;
+
+      return acc;
+    },
+    {}
+  );
+  return groupedData;
+};
 export function formatDate(dateString: Date | string | null) {
   if (!dateString) return "";
   const date = new Date(dateString);
