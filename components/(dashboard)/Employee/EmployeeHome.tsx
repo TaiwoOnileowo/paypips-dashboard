@@ -19,7 +19,7 @@ const EmployeeHome = ({ session }: { session: Session }) => {
       <ExpensesTable />
       <div className="grid grid-cols-12  gap-6 mt-6 ">
         <ClientChart session={session} />
-        <PlanChart />
+        <PlanChart session={session}/>
       </div>
     </div>
   );

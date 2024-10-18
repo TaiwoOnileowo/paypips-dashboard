@@ -40,9 +40,23 @@ export interface CompanyRevenue {
   expenseRevenuePerMonthChart: ExpenseRevenueChartData[];
   expenseRevenuePerWeekChart: ExpenseRevenueChartData[];
 }
+export interface CompanySubscriptions {
+  subscriptionsChartData: {
+    [key: string]: {
+      plan: string;
+      value: number;
+      increase: string;
+    };
+  }[];
+  mostIncreasedPlan: {
+    plan: string;
+    increase: string;
+  };
+}
 export interface ClientChartData {
   previous: number;
-  current: number;
+  new: number;
+  pending: number;
 }
 export interface CompanyClients {
   total: string;

@@ -90,6 +90,67 @@ export const groupDataByDate = (
   );
   return groupedData;
 };
+export const groupData = (
+  data: { item: string | null; value: number | null }[]
+) => {
+  const groupedData = data.reduce(
+    (
+      acc: { [item: string]: { item: string; value: number } },
+      { item, value }
+    ) => {
+      if (item && !acc[item]) {
+        acc[item] = { item, value: 0 };
+      }
+      acc[item ? item : 0].value += 1;
+      return acc;
+    },
+    {}
+  );
+  return groupedData;
+};
+export const groupDataByMonth = (
+  data: {
+    sub_plan_name: string | null;
+    status: string | null;
+    start_date: Date | null;
+  }[]
+) => {
+  // Group subscriptions by plan name and month
+  const groupedData: { [plan: string]: any } = {};
+
+  data.forEach(({ sub_plan_name, status, start_date }) => {
+    if (!sub_plan_name || !status) return;
+
+    const monthYear = `${start_date?.getFullYear()}-${
+      start_date && start_date.getMonth() + 1
+    }`;
+
+    if (!groupedData[sub_plan_name]) {
+      groupedData[sub_plan_name] = {
+        currentMonthValue: 0,
+        previousMonthValue: 0,
+      };
+    }
+
+    if (status.toLowerCase() !== "pending") {
+      // Assume you're checking for the current month
+      const currentMonth = new Date().getMonth() + 1;
+      const currentYear = new Date().getFullYear();
+      const currentMonthYear = `${currentYear}-${currentMonth}`;
+
+      if (monthYear === currentMonthYear) {
+        groupedData[sub_plan_name].currentMonthValue += 1;
+      } else {
+        groupedData[sub_plan_name].previousMonthValue += 1;
+      }
+    }
+  });
+
+  return Object.keys(groupedData).map((plan) => ({
+    plan,
+    ...groupedData[plan],
+  }));
+};
 
 export function formatDate(dateString: Date | string | null, format: string) {
   if (!dateString) return "";

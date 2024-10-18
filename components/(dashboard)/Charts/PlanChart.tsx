@@ -6,7 +6,6 @@ import { CartesianGrid, LabelList, Line, LineChart } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -17,31 +16,28 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-export const description = "A line chart with a custom label";
-
-const chartData = [
-  { browser: "Professional", visitors: 275, fill: "#CB3CFF" },
-  { browser: "Growth", visitors: 200, fill: "#0075FF" },
-  { browser: "Basic", visitors: 187, fill: "#57C3FF" },
-];
+import { Session } from "next-auth";
+import { useGetSubscriptions } from "@/hooks/employeeApiHooks";
 
 const chartConfig = {
-  visitors: {
+  professional: {
     label: "Professional",
     color: "#CB3CFF",
   },
-  chrome: {
+  growth: {
     label: "Growth",
     color: "#0075FF",
   },
-  safari: {
+  basic: {
     label: "Basic",
     color: "#57C3FF",
   },
 } satisfies ChartConfig;
 
-export default function PlanChart() {
+export default function PlanChart({ session }: { session: Session }) {
+  const { data: subscriptions, isLoading } = useGetSubscriptions(session);
+  const chartData = subscriptions?.subscriptionsChartData;
+  const mostIncreasedPlan = subscriptions?.mostIncreasedPlan;
   return (
     <Card
       className="border-none rounded-3xl col-span-4"
@@ -64,9 +60,10 @@ export default function PlanChart() {
             accessibilityLayer
             data={chartData}
             margin={{
-              top: 24,
+              // top: 24,
               left: 36,
-              right: 24,
+              right: 48,
+              bottom:30
             }}
           >
             <ChartTooltip
@@ -74,8 +71,9 @@ export default function PlanChart() {
               content={
                 <ChartTooltipContent
                   indicator="line"
-                  nameKey="visitors"
+                  nameKey="plan"
                   hideLabel
+                  showDollarSign={false}
                 />
               }
             />
@@ -85,12 +83,12 @@ export default function PlanChart() {
               strokeOpacity={0.2}
             />
             <Line
-              dataKey="visitors"
+              dataKey="value"
               type="natural"
-              stroke="var(--color-visitors)"
+              stroke="#CB3CFF"
               strokeWidth={2}
               dot={{
-                fill: "var(--color-visitors)",
+                fill: "white",
               }}
               activeDot={{
                 r: 6,
@@ -101,7 +99,7 @@ export default function PlanChart() {
                 offset={12}
                 className="fill-white"
                 fontSize={12}
-                dataKey="browser"
+                dataKey="plan"
                 // formatter={(value: keyof typeof chartConfig) =>
                 //   chartConfig[value]?.label
                 // }
@@ -110,15 +108,17 @@ export default function PlanChart() {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Professional Plan is up by 5% this month{" "}
-          <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total users by plan for the last 6 months
-        </div>
-      </CardFooter>
+      {mostIncreasedPlan && (
+        <CardFooter className="flex-col items-center gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none">
+            {mostIncreasedPlan.plan} is up by {mostIncreasedPlan.increase}% this
+            month <TrendingUp className="h-4 w-4" />
+          </div>
+          <div className="leading-none text-muted-foreground">
+            Showing total users by plan
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 }

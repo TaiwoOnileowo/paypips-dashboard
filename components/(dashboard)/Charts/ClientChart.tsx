@@ -20,6 +20,10 @@ const chartConfig = {
     label: "Previous",
     color: "#0075FF",
   },
+  pending: {
+    label: "Pending",
+    color: "#ef4444",
+  },
   new: {
     label: "New",
     color: "#CB3CFF",
@@ -35,12 +39,13 @@ export default function ClientChart({ session }: { session: Session }) {
         {
           previous: 0,
           new: 0,
+          pending: 0,
         },
       ];
 
   return (
     <Card
-      className="flex flex-col col-span-4 rounded-3xl border-none"
+      className="flex  flex-col col-span-4 rounded-3xl border-none"
       style={{
         background:
           "linear-gradient(127deg, rgba(6, 11, 38, 0.74) 28.26%, rgba(26, 31, 55, 0.50) 91.2%)",
@@ -102,6 +107,13 @@ export default function ClientChart({ session }: { session: Session }) {
               className="stroke-transparent stroke-2"
             />
             <RadialBar
+              dataKey="pending"
+              fill={chartConfig.pending.color}
+              stackId="a"
+              cornerRadius={5}
+              className="stroke-transparent stroke-2"
+            />
+            <RadialBar
               dataKey="new"
               fill={chartConfig.new.color}
               stackId="a"
@@ -114,7 +126,7 @@ export default function ClientChart({ session }: { session: Session }) {
 
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Active Clients <Activity className="h-4 w-4" />
+          Total Clients <Activity className="h-4 w-4" />
         </div>
         <div className="leading-none text-xs text-slate-400">
           {clients?.percentageMonthlyIncrease || 0}% from last month
